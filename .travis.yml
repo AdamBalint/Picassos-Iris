@@ -5,6 +5,6 @@
   "script": "py.test --cov=./",
   "group": "stable",
   "dist": "precise",
-  "os": "linux"
-  "slack":"snzY3aMQConrGEoxnOD1R066"
+  "os": "linux",
+  "slack":"Travis CI":"snzY3aMQConrGEoxnOD1R066"
 }
