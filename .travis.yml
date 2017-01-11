@@ -2,9 +2,10 @@
   "language": "python",
   "python": "3.5",
   "install": "pip install -r requirements.txt",
-  "script": "py.test --cov=./ --fail-under=101",
+  "script": "py.test --cov=./",
   "group": "stable",
   "dist": "precise",
   "os": "linux",
-  "slack":"snzY3aMQConrGEoxnOD1R066"
+  "slack":"snzY3aMQConrGEoxnOD1R066",
+  "after_success":"- bash <(curl -s https://codecov.io/bash) -t 0baa3306-4fd8-47e3-8bba-0fad3d1760c9"
 }
