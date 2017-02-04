@@ -20,6 +20,8 @@ arr_str_layers = (
     "relu5_3", "conv5_4", "relu5_4"
 )
 
+CONTENT_WEIGHT = 0.5
+
 str_weights_path = "imagenet-vgg-verydeep-19.mat"
 
 def create_network(tf_placeholder_input):
@@ -97,21 +99,17 @@ def get_style_features(img_style):
 def get_content_features(str_content_img_dir):
     cont_features = {}
     with tf.Graph().as_default(), tf.device("/cpu:0"), tf.Session() as sess:
-
-        '''
-        tf_placeholder_img = tf.placeholder(tf.float32, shape=(1,)+img_style.shape, name="style_image")
-        # pre-process may be added here
+        # Need to resize training images to 256x256
+        tf_placeholder_img = tf.placeholder(tf.float32, shape=(1,256,256,3), name="content_image")
         net = create_network(tf_placeholder_img)
+        # May have to do tf_placeholder_img/255 for img representation
+        # int_content_size = _tensor_size(cont_features["relu4_2"])
+        # TODO: Find appropriate content weight
+        content_loss = CONTENT_WEIGHT * tf.nn.l2_loss(net["relu4_2"] - cont_features["relu4_2"])
+        # "relu4_2" represents the content layer of net
 
-        img_np_style = np.array([img_style])
 
-        for layer in ("relu1_1", "relu2_1", "relu3_1", "relu4_1", "relu5_1"):
-            layer_feature = net[layer].eval(feed_dict={tf_placeholder_img:img_np_style})
-            layer_feature = np.reshape(layer_feature, (-1, layer_feature.shape[3]))
-            gram_mat = np.matmul(layer_feature.T, layer_feature)/layer_feature.size
-            style_features[layer] = gram_mat
-        '''
-        return style_features
+    return cont_features
 
 
 
