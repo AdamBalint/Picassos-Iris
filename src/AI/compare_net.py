@@ -4,6 +4,7 @@ import scipy.io
 import numpy as np
 import tensorflow as tf
 
+# Comparison network VGG
 
 arr_str_layers = (
     "conv1_1", "relu1_1", "conv1_2", "relu1_2", "pool1",
@@ -26,7 +27,7 @@ str_weights_path = "imagenet-vgg-verydeep-19.mat"
 
 def create_network(tf_placeholder_input):
     # make the compare network. -> vgg
-    print ("tmp")
+    #print ("tmp")
     # load weights from file
     data = scipy.io.loadmat(str_weights_path)
     # returns all of the layer information for all layers
@@ -102,6 +103,7 @@ def get_content_features(str_content_img_dir):
         # Need to resize training images to 256x256
         tf_placeholder_img = tf.placeholder(tf.float32, shape=(1,256,256,3), name="content_image")
         net = create_network(tf_placeholder_img)
+        cont_features["relu4_2"] = net["relu4_2"]
         # May have to do tf_placeholder_img/255 for img representation
         # int_content_size = _tensor_size(cont_features["relu4_2"])
         # TODO: Find appropriate content weight
