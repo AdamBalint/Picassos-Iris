@@ -2,3 +2,6 @@ Pillow
 scipy
 tensorflow
 pytest-cov
+pyobjc
+pywebview[cocoa]
+flask
