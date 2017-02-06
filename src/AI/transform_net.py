@@ -28,7 +28,7 @@ def conv_tr(net, int_filters, int_filter_size, int_strides):
 
     shape = tf.pack([int_batch_size, int_rows * int_strides, int_cols * int_strides, int_filter_size])
     strides = [1, int_strides, int_strides, 1]
-    net = tf.nn.conv2d_transpose(net, weights, strides, shape, padding = "SAME")
+    net = tf.nn.conv2d_transpose(net, weights, shape, strides, padding = "SAME")
     net = normalize(net)
     return tf.nn.relu(net)
 
