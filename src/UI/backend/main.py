@@ -24,7 +24,7 @@ def url_ok(url, port):
         r = conn.getresponse()
         return r.status == 200
     except:
-        logger.exception("Server not sstarted")
+        logger.exception("Server not started")
         return False
 
 
@@ -33,10 +33,6 @@ if __name__ == '__main__':
     t = Thread(target=run_server)
     t.daemon = True
     t.start()
-    logger.debug("Checking server")
-
-    while not url_ok("127.0.0.1", 23948):
-        sleep(0.1)
 
     logger.debug("Server started")
-    webview.create_window("My first pywebview application","http://127.0.0.1:23948", min_size=(640, 480))
+    webview.create_window("Picasso's Iris", "http://127.0.0.1:23948", width=800, height=650, resizable=False)

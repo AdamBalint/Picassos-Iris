@@ -3,5 +3,5 @@ scipy
 tensorflow
 pytest-cov
 pyobjc
-pywebview[cocoa]
 flask
+py2app

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="34px" height="34px" viewBox="0 0 34 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch -->
+    <title>arrow-left</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Iris-Style-Step-2" transform="translate(-28.000000, -38.000000)" fill="#616161">
+            <g id="Icon-Arrow-Left" transform="translate(28.000000, 38.000000)">
+                <path d="M17,33.93 C7.665,33.93 0.07,26.335 0.07,17 C0.07,7.665 7.665,0.07 17,0.07 C26.335,0.07 33.93,7.665 33.93,17 C33.93,26.335 26.335,33.93 17,33.93 L17,33.93 Z M17,1.93 C8.69,1.93 1.93,8.69 1.93,17 C1.93,25.31 8.69,32.07 17,32.07 C25.31,32.07 32.07,25.31 32.07,17 C32.07,8.69 25.31,1.93 17,1.93 L17,1.93 Z" id="Fill-25"></path>
+                <polyline id="Fill-26" points="17.342 26.658 7.685 17 17.342 7.342 18.658 8.658 10.315 17 18.658 25.342 17.342 26.658"></polyline>
+                <polygon id="Fill-27" points="9 16 26 16 26 18 9 18"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

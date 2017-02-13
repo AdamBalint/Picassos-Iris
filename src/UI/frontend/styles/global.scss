@@ -1,0 +1,76 @@
+@import './variables.scss';
+
+/**
+ * This stylesheet contains global styles for things such as:
+ * - Animation/hover effects
+ * - Base styling for UI components
+ */
+
+* {
+  font-family: $gothamMedium;
+}
+
+
+.dim {
+    opacity: 1;
+    transition: opacity .15s ease-in;
+}
+
+.dim:hover, .dim:focus {
+    opacity: .5;
+    transition: opacity .15s ease-in;
+}
+
+.dim:active {
+    opacity: .8;
+    transition: opacity .15s ease-out;
+}
+
+
+.hover-white:hover {
+    color: #e3e0e0;
+}
+
+.hover-white:focus {
+    color: #e3e0e0;
+}
+
+.hover-bg-black:hover {
+    background-color: #000;
+}
+
+.hover-bg-black:focus {
+    background-color: #000;
+}
+
+.bg-animate, .bg-animate:hover, .bg-animate:focus {
+    transition: background-color .25s ease-in-out;
+}
+
+.grow {
+    -moz-osx-font-smoothing: grayscale;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    transition: transform .25s ease-out;
+}
+
+.grow:hover, .grow:focus {
+    transform: scale(1.1);
+}
+
+.grow:active {
+    transform: scale(.9);
+}
+
+
+.btn {
+  text-align: center;
+  border-radius: 99px;
+  padding-top: 21px;
+  padding-bottom: 21px;
+  background: #FFF;
+  padding-left: 112px;
+  padding-right: 112px;
+  border: 1px solid #000;
+  font-weight: bold;
+}
