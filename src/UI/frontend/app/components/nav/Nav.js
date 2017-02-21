@@ -3,10 +3,6 @@ import { irisLogo, cartIcon } from '../../util/Icons';
 
 require('./nav.scss');
 
-/**
- * This component represents the nav bar
- */
-
 export default class Nav extends Component {
   render() {
     return (

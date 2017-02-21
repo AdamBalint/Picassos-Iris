@@ -10,6 +10,11 @@
   font-family: $gothamMedium;
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 
 .dim {
     opacity: 1;
@@ -28,11 +33,11 @@
 
 
 .hover-white:hover {
-    color: #e3e0e0;
+    color: #fff;
 }
 
 .hover-white:focus {
-    color: #e3e0e0;
+    color: #fff;
 }
 
 .hover-bg-black:hover {
