@@ -1,5 +1,5 @@
 import { PICK_FILE } from '../actions/filepicker';
-import Image from '../model/Image';
+import Image from '../models/Image';
 
 export const INITIAL_STATE = {
   isFileSelected: false,

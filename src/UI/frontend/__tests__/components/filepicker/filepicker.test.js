@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { Filepicker } from '../../../app/components/filepicker/Filepicker';
-import Image from '../../../app/model/Image';
+import Image from '../../../app/models/Image';
 
 let WITH_IMAGE_SELECTOR = '.filepicker--with-image';
 let TEXT_SELECTOR = '.filepicker__text';

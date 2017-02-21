@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import Image from '../../model/Image';
+import Image from '../../models/Image';
 import { cameraIcon } from '../../util/Icons';
 import { pickFile } from '../../actions/filepicker';
 
