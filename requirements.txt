@@ -2,6 +2,4 @@ Pillow
 scipy
 tensorflow
 pytest-cov
-pyobjc
 flask
-py2app
