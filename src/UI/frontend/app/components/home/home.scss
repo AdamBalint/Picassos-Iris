@@ -7,38 +7,6 @@
   text-align: center;
 }
 
-.filepicker {
-  width: 622px;
-  height: 288px;
-  background-color: #F5F5F5;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  border-color: #979797;
-  border-width: 0.2px;
-  border-style: solid;
-}
-
-.filepicker:hover {
-  cursor: pointer;
-}
-
-.filepicker__text {
-  font-size: 20px;
-  color: #918F92;
-  text-align: center;
-  align-self: center;
-  width: 100%;
-}
-
-.filepicker__camera-img {
-  width: 47px;
-  height: 38px;
-  margin-top: 33px;
-}
-
 .btn--continue {
   margin-top: 100px;
 }

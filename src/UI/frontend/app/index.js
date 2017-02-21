@@ -1,11 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Router, browserHistory } from 'react-router';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import ReduxPromise from 'redux-promise';
+
 
 require('../assets/vendor/normalize.min.css');
 require('../assets/fonts/font-Gotham/gotham.scss');
 
 import Nav from './components/nav/Nav';
-import Home from './components/home/Home';
+
+import Routes from './routes';
+import Reducers from './reducers';
 
 
 /**
@@ -13,19 +20,18 @@ import Home from './components/home/Home';
  * It is the entry point for the front-end and webpack
  */
 
+const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 
 /**
  * Root component to be rendered
  */
-const App = function() {
+const Root = function() {
   return (
-    <div>
-      <Nav/>
-      <Home/>
-    </div>
-  )
+    <Provider store={createStoreWithMiddleware(Reducers)}>
+      <Router history={browserHistory} routes={Routes}/>
+    </Provider>
+  );
 }
 
-
 const root = document.getElementById('root');
-ReactDOM.render(<App/>, root);
+ReactDOM.render(<Root/>, root);
