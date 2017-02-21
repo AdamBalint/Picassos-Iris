@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Filepicker from '../filepicker/filepicker.js';
+import Filepicker from '../filepicker/Filepicker';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 

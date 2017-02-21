@@ -1,11 +1,12 @@
 {
   "language": "python",
   "python": "3.5",
+  "before_install": "wget https://raw.githubusercontent.com/creationix/nvm/v0.31.0/nvm.sh -O ~/.nvm/nvm.sh && source ~/.nvm/nvm.sh && nvm install 5 && npm install --prefix src/UI/frontend",
   "install": "pip install -r requirements.txt",
-  "script": "py.test --cov=./",
+  "script": "cd src/UI/frontend/ && npm run test && cd ../../../ && py.test --cov=src/AI/ src/AI/tests/",
   "group": "stable",
   "dist": "precise",
   "os": "linux",
-  "slack":"snzY3aMQConrGEoxnOD1R066",
-  "after_success":"- bash <(curl -s https://codecov.io/bash) -t 0baa3306-4fd8-47e3-8bba-0fad3d1760c9"
+  "slack": "snzY3aMQConrGEoxnOD1R066",
+  "after_success": "- bash <(curl -s https://codecov.io/bash) -t 0baa3306-4fd8-47e3-8bba-0fad3d1760c9"
 }
