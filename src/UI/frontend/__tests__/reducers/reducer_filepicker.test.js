@@ -1,6 +1,6 @@
 import React from 'react';
 import reducer, { INITIAL_STATE } from '../../app/reducers/reducer_filepicker';
-import Image from '../../app/model/Image';
+import Image from '../../app/models/Image';
 import { PICK_FILE } from '../../app/actions/filepicker';
 
 
