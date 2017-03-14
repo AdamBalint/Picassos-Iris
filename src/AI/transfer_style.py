@@ -19,7 +19,7 @@ def feedNetwork(img_in, str_path_out, str_check_dir):
             save_img(str_paths_out, _preds[0])
 
 
-def buildParser:
+def buildParser():
     parMain = ArgumentParser()
 
     parMain.add_argument('--in-path', type=str,
@@ -56,3 +56,6 @@ def main()
         ##build image from in path and then call feedfoward network
         imgMain = get_img(argsMain.str_path_in)
         feedNetwork(imgMain, argsMain.str_path_out, str_check_dir)
+
+if __name__ == "__main__":
+    main()

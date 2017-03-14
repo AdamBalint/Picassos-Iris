@@ -21,8 +21,6 @@ arr_str_layers = (
     "relu5_3", "conv5_4", "relu5_4"
 )
 
-CONTENT_WEIGHT = 0.5
-
 str_weights_path = "imagenet-vgg-verydeep-19.mat"
 
 def create_network(tf_placeholder_input):
@@ -73,12 +71,12 @@ def create_network(tf_placeholder_input):
 
 
 
+STYLE_WEIGHT, CONTENT_WEIGHT = 1e2, 7.5
+TOTVAR_WEIGHT = 2e2
 
 
-
-
-def get_style_features(img_style):
-    style_features = {}
+def get_style_loss(img_style):
+    #style_features = {}
     with tf.Graph().as_default(), tf.device("/cpu:0"), tf.Session() as sess:
 
         tf_placeholder_img = tf.placeholder(tf.float32, shape=(1,)+img_style.shape, name="style_image")
@@ -87,31 +85,49 @@ def get_style_features(img_style):
 
         img_np_style = np.array([img_style])
 
+        style_loss = []
         for layer in ("relu1_1", "relu2_1", "relu3_1", "relu4_1", "relu5_1"):
             layer_feature = net[layer].eval(feed_dict={tf_placeholder_img:img_np_style})
             layer_feature = np.reshape(layer_feature, (-1, layer_feature.shape[3]))
             gram_mat = np.matmul(layer_feature.T, layer_feature)/layer_feature.size
-            style_features[layer] = gram_mat
-        return style_features
+            #style_features[layer] = gram_mat
+
+            net_layer = net[layer]
+            batch, h, w, filters = map(lambda i : i.value, net_layer.get_shape())
+            size = w*h*filters
+            features = tf.reshape(layer, (batch, w*h, filters))
+            grams = tf.batch_matmul(tf.transpose(features, perm=[0,2,1]), features)
+            #style_gram = style_features
+            style_loss.append(2*tf.nn.l2_loss(grams-gram_mat)/gram_mat.size)
+
+        style_loss = STYLE_WEIGHT * reduce(tf.add, style_loss)
+
+        return style_loss
     print("tmp")
 
 
 
-def get_content_features(str_content_img_dir):
+def get_content_loss():
     cont_features = {}
-    with tf.Graph().as_default(), tf.device("/cpu:0"), tf.Session() as sess:
-        # Need to resize training images to 256x256
-        tf_placeholder_img = tf.placeholder(tf.float32, shape=(1,256,256,3), name="content_image")
-        net = create_network(tf_placeholder_img)
-        cont_features["relu4_2"] = net["relu4_2"]
-        # May have to do tf_placeholder_img/255 for img representation
-        # int_content_size = _tensor_size(cont_features["relu4_2"])
-        # TODO: Find appropriate content weight
-        content_loss = CONTENT_WEIGHT * tf.nn.l2_loss(net["relu4_2"] - cont_features["relu4_2"])
-        # "relu4_2" represents the content layer of net
+    # Need to resize training images to 256x256
+    tf_placeholder_img = tf.placeholder(tf.float32, shape=(1,256,256,3), name="content_image")
+    pred = transform_net.create_network(tf_placeholder_img)
+    net = create_network(pred)
+    cont_features["relu4_2"] = net["relu4_2"]
+    # May have to do tf_placeholder_img/255 for img representation
+    
+    # int_content_size = _tensor_size(cont_features["relu4_2"])
+    # TODO: Find appropriate content weight
+
+    cont_size = _tensor_size(cont_features["relu4_2"])
+
+    # May need to add assert similar to line 90 of optimize
+
+    cont_loss = CONTENT_WEIGHT * tf.nn.l2_loss(net["relu4_2"] - cont_features["relu4_2"])/cont_size
+    # "relu4_2" represents the content layer of net
 
 
-    return cont_features
+    return pred, cont_loss
 
 
 
@@ -120,14 +136,74 @@ def get_content_features(str_content_img_dir):
 
 
 
+def get_images_list(loc):
+    from os import listdir
+    from os.path import isfile, join
+    all_files = [f for f in listdir(loc) if isfile(join(loc, f))]
+    return all_files
+
+def get_img(loc):
+    img = scipy.misc.imread(loc, mode="RGB")
+    if len(img.shape) != 3 or img.shape[2] != 3:
+        img = np.dstack((img, img, img))
+    img = scipy.misc.imresize(img,(256,256,3))
+    return img
 
 def train_nn(img_style, str_content_img_dir):
-
+    cont_img_name_list = get_images_list(str_content_img_dir)
     # create convolutional NN
     # get style and content features
     # build network per Session
 
-    yield(0,1,2,3,4,False)
-    #get_style_features()
-    #get_content_features()
+    #yield(0,1,2,3,4,False)
+    style_loss = get_style_features(img_style)
+    
+    with tf.Graph().as_default(), tf.Session() as sess:
+        preds, cont_loss = get_content_features()
+
+        totvar_x_size = _tensor_size(preds[:,:,1:,:])
+        totvar_y_size = _tensor_size(preds[:,1:,:,:])
+        x_totvar = tf.nn.l2_loss(preds[:,:,1:,:] - preds[:,:,:255,:])
+        y_totvar = tf.nn.l2_loss(preds[:,:,1:,:] - preds[:,:255,:,:])
+        totvar_loss = TOTVAR_WEIGHT *2*(x_totvar/totvar_x_size + y_totvar/totvar_y_size)
+
+        total_loss = cont_loss + style_loss + totvar_loss
+
+        # auto defaults to 0.001 as the learning rate
+        train_step = tf.train.AdamOptimizer().minimize(loss)
+        sess.run(tf.initialize_all_variables())
+        for epoch in range(100000):
+            num_examples = len(cont_img_name_list)
+            iteration = 0
+            # could be swapped to for loop
+            while iteration < num_examples:
+                start = time.time()
+                step = iteration+1
+                X = get_img(cont_img_name_list[iteration]).astype(np.float32)
+
+                iteration += 1
+
+                feed_dict = {x_content:X}
+                train_step.run(feed_dict=feed_dict)
+                end = time.time()
+                delta_time = end-start
+
+                if (epoch == 100000-1 and iteration >= num_examples) or (epoch % 10000 == 0 and iteration >= num_examples):
+                    to_get = [style_loss, cont_loss, tv_loss, loss, preds]
+                    test_feed_dict = {
+                       X_content:X
+                    }
+                    tup = sess.run(to_get, feed_dict=test_feed_dict)
+                    saver = tf.train.Saver()
+                    res = saver.save(sess, "saves/save"+str(epoch)+".ckpt")
+                    yield(tup[-1], tup[1:-1], iteration, epoch)
+
+
+
     #tf_net = create_network()
+
+
+
+def _tensor_size(tensor):
+    from operator import mul
+    return reduce(mul, (d.value for d in tensor.get_shape()[1:]), 1)
