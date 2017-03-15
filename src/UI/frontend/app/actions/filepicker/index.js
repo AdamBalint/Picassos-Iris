@@ -8,6 +8,6 @@ export function pickFile() {
   const response = axios.get(`${API}`);
   return {
     type: PICK_FILE,
-    payload: response
+    payload: response,
   };
 }
