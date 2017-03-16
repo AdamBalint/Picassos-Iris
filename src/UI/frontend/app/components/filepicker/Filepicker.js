@@ -22,12 +22,7 @@ export class Filepicker extends Component {
 
   getFilePickerClassName(props) {
     const { NO_IMAGE, IMAGE } = FILEPICKER_STYLES;
-
-    if (props.isFileSelected) {
-      return IMAGE;
-    }
-
-    return NO_IMAGE;
+    return props.isFileSelected ? IMAGE : NO_IMAGE;
   }
 
   getFilePickerStyle(props) {

@@ -1,4 +1,4 @@
-import { SELECT_STYLE, STYLIZE_IMAGE } from '../actions/stylize';
+import { cache, SELECT_STYLE, STYLIZE_IMAGE } from '../actions/stylize';
 import Image from '../models/Image';
 
 export const INITIAL_STATE = {
@@ -16,6 +16,9 @@ export default function(state = INITIAL_STATE, action) {
     }
 
     case STYLIZE_IMAGE: {
+      // Cache the base64 string for the associated style
+      cache.put(state.selectedStyle, action.payload.data.styled_base_64);
+
       return {
         selectedStyle: state.selectedStyle,
         styledPreview: new Image(action.payload.data.styled_base_64, 'png'),

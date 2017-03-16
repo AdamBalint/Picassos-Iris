@@ -29,14 +29,17 @@ export class Stylize extends Component {
       return (
         <div>
         </div>
-      )
+      );
     }
   }
 
   render() {
     return (
       <div className="stylize">
-        <StylePreview image={this.props.imageFile} styledPreview={this.props.styledPreview}/>
+        <StylePreview 
+        image={this.props.imageFile} 
+        styledPreview={this.props.styledPreview}/>
+
         <StyleList data={this.state.styles}/>
         { this.renderContinueButton(this.props) }
       </div>

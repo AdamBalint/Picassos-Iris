@@ -47,6 +47,7 @@
     "eslint-plugin-prefer-object-spread": "^1.1.0",
     "eslint-plugin-react": "^5.2.2",
     "extract-text-webpack-plugin": "^2.0.0-beta.4",
+    "felix": "^0.1.0",
     "image-webpack-loader": "^3.2.0",
     "jest": "^18.1.0",
     "node-sass": "^4.5.0",
