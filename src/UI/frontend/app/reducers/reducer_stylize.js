@@ -4,6 +4,7 @@ import Image from '../models/Image';
 export const INITIAL_STATE = {
   selectedStyle: -1,
   styledPreview: '',
+  loading: false,
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -12,6 +13,7 @@ export default function(state = INITIAL_STATE, action) {
       return {
         selectedStyle: action.payload.id,
         styledPreview: state.styledPreview,
+        loading: true,
       };
     }
 
@@ -22,6 +24,7 @@ export default function(state = INITIAL_STATE, action) {
       return {
         selectedStyle: state.selectedStyle,
         styledPreview: new Image(action.payload.data.styled_base_64, 'png'),
+        loading: false,
       };
     }
 

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 
+require('./circle-loader.scss');
 require('./stylepreview.scss');
 
 export default class StylePreview extends Component {
   constructor(props) {
     super(props);
+    this.renderSpinner = this.renderSpinner.bind(this);
     this.renderStylePreview = this.renderStylePreview.bind(this);
     this.showSlider = this.showSlider.bind(this);
     this.hideSlider = this.hideSlider.bind(this);
@@ -30,13 +32,10 @@ export default class StylePreview extends Component {
     return style;
   }
 
-  renderStylePreview() {
-    if (this.props.styledPreview) {
+  renderSpinner() {
+    if (this.props.loading) {
       return (
-        <div className="image--style"
-        style={this.getStyledImage(this.props.styledPreview)}
-        onMouseEnter={this.showSlider}
-        onMouseLeave={this.hideSlider}>
+        <div className="stylepreview__loader circles-loader">
         </div>
       );
     }
@@ -55,9 +54,22 @@ export default class StylePreview extends Component {
       hovering: false,
     });
   }
+  
+  renderStylePreview() {
+    if (this.props.styledPreview) {
+      return (
+        <div className="image--style"
+        style={this.getStyledImage(this.props.styledPreview)}
+        onMouseEnter={this.showSlider}
+        onMouseLeave={this.hideSlider}>
+        </div>
+      );
+    }
+
+    return '';
+  }
 
   setOpacity(e) {
-    console.log(e.target.value);
     this.setState({
       opacity: e.target.value,
     });
@@ -66,6 +78,7 @@ export default class StylePreview extends Component {
   render() {
     return (
       <div className="stylepreview">
+        { this.renderSpinner() }
         <div className="image--no-style" style={this.getImage(this.props.image)}></div>
         <div className={this.state.hovering ? 'slider fade-in' : 'slider hide'}
           onMouseEnter={this.showSlider}

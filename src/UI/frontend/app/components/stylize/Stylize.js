@@ -12,7 +12,9 @@ export class Stylize extends Component {
     super(props);
     this.state = {
       styles: [],
+      fadeIn: ' fade-in-right',
     };
+    this.renderContinueButton = this.renderContinueButton.bind(this);
   }
 
   componentDidMount(props) {
@@ -25,10 +27,16 @@ export class Stylize extends Component {
     if (selectedStyle == -1) {
       return '';
     } else {
-      // TODO: Implement
       return (
-        <div>
-        </div>
+        <button 
+        className={'stylize__continue' + this.state.fadeIn} 
+        onMouseLeave={(e) => { 
+          this.setState({
+            fadeIn: '',
+          });
+        }}>
+          <span id="stylize__continue__icon">></span>
+        </button>
       );
     }
   }
@@ -37,11 +45,12 @@ export class Stylize extends Component {
     return (
       <div className="stylize">
         <StylePreview 
-        image={this.props.imageFile} 
+        image={this.props.imageFile}
+        selectedStyle={this.props.selectedStyle} 
+        loading={this.props.loading}
         styledPreview={this.props.styledPreview}/>
-
-        <StyleList data={this.state.styles}/>
         { this.renderContinueButton(this.props) }
+        <StyleList data={this.state.styles}/>
       </div>
     );
   }
@@ -53,6 +62,7 @@ function mapStateToProps({filepicker, stylize}) {
     imageFile: filepicker.imageFile,
     selectedStyle: stylize.selectedStyle,
     styledPreview: stylize.styledPreview,
+    loading: stylize.loading,
   };
 }
 
