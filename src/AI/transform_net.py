@@ -1,4 +1,4 @@
-# preprocess  transform of acontent image
+#preprocess  transform of acontent image
 import tensorflow as tf
 def create_network(img_content):
     net = conv_layer(img_content, 32, 9, 1, True)
@@ -26,7 +26,7 @@ def conv_tr(net, int_filters, int_filter_size, int_strides):
     weights = init_weights(net, int_filters, int_filter_size, True)
     int_batch_size, int_rows, int_cols, int_channels = [i.value for i in net.get_shape()]
 
-    shape = tf.pack([int_batch_size, int_rows * int_strides, int_cols * int_strides, int_filter_size])
+    shape = tf.stack([int_batch_size, int_rows * int_strides, int_cols * int_strides, int_filter_size])
     strides = [1, int_strides, int_strides, 1]
     net = tf.nn.conv2d_transpose(net, weights, shape, strides, padding = "SAME")
     net = normalize(net)
