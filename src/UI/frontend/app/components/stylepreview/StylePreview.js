@@ -35,7 +35,8 @@ export default class StylePreview extends Component {
   renderSpinner() {
     if (this.props.loading) {
       return (
-        <div className="stylepreview__loader circles-loader">
+        <div className="stylepreview__loader">
+          <div className="loader"></div>
         </div>
       );
     }

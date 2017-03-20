@@ -1,73 +1,42 @@
-@-moz-keyframes circles-loader {
-  0% {
-    -moz-transform: rotate(-720deg);
-    transform: rotate(-720deg);
-  }
-  50% {
-    -moz-transform: rotate(720deg);
-    transform: rotate(720deg);
-  }
+.loader,
+.loader:after {
+  border-radius: 50%;
+  width: 10em;
+  height: 10em;
 }
 
-@-webkit-keyframes circles-loader {
-  0% {
-    -webkit-transform: rotate(-720deg);
-    transform: rotate(-720deg);
-  }
-  50% {
-    -webkit-transform: rotate(720deg);
-    transform: rotate(720deg);
-  }
-}
-
-@keyframes circles-loader {
-  0% {
-    -moz-transform: rotate(-720deg);
-    -ms-transform: rotate(-720deg);
-    -webkit-transform: rotate(-720deg);
-    transform: rotate(-720deg);
-  }
-  50% {
-    -moz-transform: rotate(720deg);
-    -ms-transform: rotate(720deg);
-    -webkit-transform: rotate(720deg);
-    transform: rotate(720deg);
-  }
-}
-
-.circles-loader:not(:required) {
+.loader {
+  margin: 60px auto;
+  font-size: 10px;
   position: relative;
-  text-indent: -9999px;
-  display: inline-block;
-  width: 25px;
-  height: 25px;
-  background: rgba(255, 204, 51, 0.9);
-  border-radius: 100%;
-  -moz-animation: circles-loader 3s infinite ease-in-out;
-  -webkit-animation: circles-loader 3s infinite ease-in-out;
-  animation: circles-loader 3s infinite ease-in-out;
-  -moz-transform-origin: 50% 100%;
-  -ms-transform-origin: 50% 100%;
-  -webkit-transform-origin: 50% 100%;
-  transform-origin: 50% 100%;
+  text-indent: -9999em;
+  border-top: 1.1em solid rgba(255, 255, 255, 0.2);
+  border-right: 1.1em solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);
+  border-left: 1.1em solid #ffffff;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: load 1.1s infinite linear;
+  animation: load 1.1s infinite linear;
 }
-.circles-loader:not(:required)::before {
-  background: rgba(255, 102, 0, 0.6);
-  border-radius: 100%;
-  content: '';
-  position: absolute;
-  width: 25px;
-  height: 25px;
-  top: 18.75px;
-  left: -10.82532px;
+@-webkit-keyframes load {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
-.circles-loader:not(:required)::after {
-  background: rgba(255, 51, 0, 0.4);
-  border-radius: 100%;
-  content: '';
-  position: absolute;
-  width: 25px;
-  height: 25px;
-  top: 18.75px;
-  left: 10.82532px;
+@keyframes load {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }

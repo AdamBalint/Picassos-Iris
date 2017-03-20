@@ -50,6 +50,7 @@ We use a variety of open-source technologies, **all credits and thanks to origin
   - [React as a frontend library to build an SPA](https://facebook.github.io/react/)
   - [Webpack 2 for bundling app/modules](https://webpack.github.io/)
   - [SCSS/Sass, for CSS with superpowers](http://sass-lang.com/)
+  - [Single-element CSS loaders](https://github.com/lukehaas/css-loaders)
 
 - Deployment
   - [py2app for deployment on OSX](https://pythonhosted.org/py2app/)
