@@ -146,7 +146,13 @@ def get_images_list(loc):
     all_files = [join(loc, f) for f in listdir(loc) if isfile(join(loc, f))]
     return all_files
 
+def get_img(loc):
+    img = imread(loc, mode="RGB")
+    if len(img.shape) != 3 or img.shape[2] != 3:
+        img = np.dstack((img, img, img))
+    img = imresize(img,(256,256,3))
 
+    return img
 
 def train_nn(img_style, str_content_img_dir):
     cont_img_name_list = get_images_list(str_content_img_dir)
@@ -173,7 +179,7 @@ def train_nn(img_style, str_content_img_dir):
         train_time = time.time()
 
         #saver = tf.train.Saver()
-        for epoch in range(3):
+        for epoch in range(20):
             epoch_time = time.time()
 
             num_examples = len(cont_img_name_list)
