@@ -1,22 +1,25 @@
 import tensorflow as tf
 from argparse import ArgumentParser
-from utils import save_img, get_img, exists, list_files
+from scipy.misc import imsave, imread, imresize
+import numpy as np
+import transform_net
 
-DEVICE = '/gpu:0'
+#DEVICE = '/gpu:0'
 
-def feedNetwork(img_in, str_path_out, str_check_dir):
+def feedNetwork(img_in, str_path_out, str_check_dir=None):
 
-        shape_in = img_in.shape()
+        shape_in = (1,)+(img_in.shape)
+        img_in = np.expand_dims(img_in.astype(np.float32),  axis = 0).astype(np.float32)
+        soft_config = tf.ConfigProto(allow_soft_placement=True)
+        soft_config.gpu_options.allow_growth = True
         graphMain = tf.Graph()
-        with graphMain.as_default(), graphMain.device(DEVICE), \
-            tf.Session(config=soft_config) as sessMain:
-            img_placeholder = tf.placeholder(tf.float32, shape=img_shape,
-                                         name='img_placeholder')
-            predMain = transform.net(img_placeholder)
-            tfSaver = tf.train.Saver()
-            tfSaver.restore(sessMain, checkpoint_dir)
-            _preds = sessMain.run(predMain, feed_dict={img_placeholder:X})
-            save_img(str_paths_out, _preds[0])
+        with graphMain.as_default() , tf.Session(config=soft_config) as sessMain:
+            img_placeholder = tf.placeholder(tf.float32, shape=shape_in, name='img_placeholder')
+            predMain = transform_net.create_network(img_placeholder)
+            sessMain.run(tf.global_variables_initializer())
+            tf.saved_model.loader.load(sessMain, ["iris"], "checks")
+            _preds = sessMain.run(predMain, feed_dict={img_placeholder:img_in})
+            imsave(str_path_out, _preds[0])
 
 
 def buildParser():
@@ -33,7 +36,7 @@ def buildParser():
     parMain.add_argument('--checkpoint', type=str,
                         dest='str_check_dir',
                         help='dir to load checkpoint from',
-                        metavar='CHECKPOINT', required=True)
+                        metavar='CHECKPOINT', required=False)
 
     ##parMain.add_argument('--device', type=str,
     ##                    dest='str_device',help='device to perform compute on',
@@ -49,13 +52,21 @@ def buildParser():
 
     return parMain
 
-def main()
-    parMain = buildParer()
+def get_img(loc):
+    img = imread(loc, mode="RGB")
+    if len(img.shape) != 3 or img.shape[2] != 3:
+        img = np.dstack((img, img, img))
+    img = imresize(img,(256,256,3))
+
+    return img
+
+def main():
+    parMain = buildParser()
     argsMain = parMain.parse_args() ##get arguements
-    if exists(argsMain.str_path_in):
+    #exists(argsMain.str_path_in, "No in path exists")
         ##build image from in path and then call feedfoward network
-        imgMain = get_img(argsMain.str_path_in)
-        feedNetwork(imgMain, argsMain.str_path_out, str_check_dir)
+    imgMain = get_img(argsMain.str_path_in)
+    feedNetwork(imgMain, argsMain.str_path_out)
 
 if __name__ == "__main__":
     main()

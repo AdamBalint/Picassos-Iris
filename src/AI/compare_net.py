@@ -5,6 +5,7 @@ import numpy as np
 import tensorflow as tf
 from functools import reduce
 import transform_net as tn
+import time
 
 # Comparison network VGG
 
@@ -80,7 +81,7 @@ TOTVAR_WEIGHT = 2e2
 def get_style_loss(img_style):
     #style_features = {}
     #with tf.Graph().as_default(), tf.device("/cpu:0"), tf.Session() as sess:
-
+    img_style = scipy.misc.imresize(img_style,(256,256))
     tf_placeholder_img = tf.placeholder(tf.float32, shape=(1,)+img_style.shape, name="style_image")
     # pre-process may be added here
     net = create_network(tf_placeholder_img)
@@ -130,7 +131,7 @@ def get_content_loss():
     # "relu4_2" represents the content layer of net
 
 
-    return pred, cont_loss
+    return pred, cont_loss, tf_placeholder_img
 
 
 
@@ -142,15 +143,10 @@ def get_content_loss():
 def get_images_list(loc):
     from os import listdir
     from os.path import isfile, join
-    all_files = [f for f in listdir(loc) if isfile(join(loc, f))]
+    all_files = [join(loc, f) for f in listdir(loc) if isfile(join(loc, f))]
     return all_files
 
-def get_img(loc):
-    img = scipy.misc.imread(loc, mode="RGB")
-    if len(img.shape) != 3 or img.shape[2] != 3:
-        img = np.dstack((img, img, img))
-    img = scipy.misc.imresize(img,(256,256,3))
-    return img
+
 
 def train_nn(img_style, str_content_img_dir):
     cont_img_name_list = get_images_list(str_content_img_dir)
@@ -159,49 +155,57 @@ def train_nn(img_style, str_content_img_dir):
     # build network per Session
 
     #yield(0,1,2,3,4,False)
+    builder = tf.saved_model.builder.SavedModelBuilder("checks")
     with tf.Graph().as_default(), tf.Session() as sess:
         style_loss = get_style_loss(img_style)
-        preds, cont_loss = get_content_loss()
+        preds, cont_loss, x_content = get_content_loss()
         totvar_x_size = _tensor_size(preds[:,:,1:,:])
         totvar_y_size = _tensor_size(preds[:,1:,:,:])
         x_totvar = tf.nn.l2_loss(preds[:,:,1:,:] - preds[:,:,:255,:])
         y_totvar = tf.nn.l2_loss(preds[:,1:,:,:] - preds[:,:255,:,:])
         totvar_loss = TOTVAR_WEIGHT *2*(x_totvar/totvar_x_size + y_totvar/totvar_y_size)
-        print()
         total_loss = cont_loss + style_loss + totvar_loss
 
+
         # auto defaults to 0.001 as the learning rate
-        train_step = tf.train.AdamOptimizer().minimize(loss)
-        sess.run(tf.initialize_all_variables())
-        for epoch in range(100000):
+        train_step = tf.train.AdamOptimizer().minimize(total_loss)
+        sess.run(tf.global_variables_initializer())
+        train_time = time.time()
+
+        #saver = tf.train.Saver()
+        for epoch in range(3):
+            epoch_time = time.time()
+
             num_examples = len(cont_img_name_list)
             iteration = 0
             # could be swapped to for loop
             while iteration < num_examples:
-                start = time.time()
                 step = iteration+1
-                X = get_img(cont_img_name_list[iteration]).astype(np.float32)
+                X = np.expand_dims(get_img(cont_img_name_list[iteration]).astype(np.float32),  axis = 0).astype(np.float32)
 
                 iteration += 1
 
                 feed_dict = {x_content:X}
                 train_step.run(feed_dict=feed_dict)
-                end = time.time()
-                delta_time = end-start
 
-                # if (epoch == 100000-1 and iteration >= num_examples) or (epoch % 10000 == 0 and iteration >= num_examples):
-                #     to_get = [style_loss, cont_loss, tv_loss, loss, preds]
-                #     test_feed_dict = {
-                #        X_content:X
-                #     }
-                #     tup = sess.run(to_get, feed_dict=test_feed_dict)
-                #     saver = tf.train.Saver()
-                #     res = saver.save(sess, "saves/save"+str(epoch)+".ckpt")
-                #     yield(tup[-1], tup[1:-1], iteration, epoch)
+                #  if (epoch == 100000-1 and iteration >= num_examples) or (epoch % 10000 == 0 and iteration >= num_examples):
+                if  (epoch >= 0 and iteration >= num_examples):
+                    to_get = [style_loss, cont_loss, totvar_loss, total_loss, preds]
+                    test_feed_dict = {
+                       x_content:X
+                    }
+                    tup = [0,0,0,0,0]
+                    #saver.save(sess, "saves/iris-model.ckpt")
+                    #tup = sess.run(to_get, feed_dict=test_feed_dict)
+                    yield(tup[-1], tup[1:-1], iteration, epoch, sess, False)
 
 
+            print("time for epoch: ", epoch, "is",(time.time()-epoch_time) )
+        builder.add_meta_graph_and_variables(sess, ["iris"])
 
     #tf_net = create_network()
+    builder.save()
+    print("time to train:",(time.time()-train_time))
 
 
 
