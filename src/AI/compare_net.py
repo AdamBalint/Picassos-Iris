@@ -147,10 +147,10 @@ def get_images_list(loc):
     return all_files
 
 def get_img(loc):
-    img = imread(loc, mode="RGB")
+    img = scipy.misc.imread(loc, mode="RGB")
     if len(img.shape) != 3 or img.shape[2] != 3:
         img = np.dstack((img, img, img))
-    img = imresize(img,(256,256,3))
+    img = scipy.misc.imresize(img,(256,256,3))
 
     return img
 
