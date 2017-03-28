@@ -21,15 +21,15 @@ def feed_network(img_in, str_path_out):
 
 
 def build_parser():
-    par_pain = ArgumentParser()
-    par_pain.add_argument('--in-path', type=str,
+    par_main = ArgumentParser()
+    par_main.add_argument('--in-path', type=str,
                         dest='str_path_in',help='Image to transform',
                         metavar='IN_PATH', required=True)
 
-    par_pain.add_argument('--out-path', type=str,
-                        dest='str_path_out', help='destination directory of transformed image',
+    par_main.add_argument('--out-path', type=str,
+                        dest='str_path_out', help='Destination directory for transformed image',
                         metavar='OUT_PATH', required=True)
-    return par_pain
+    return par_main
 
 def get_img(loc):
     img = imread(loc, mode="RGB")
@@ -39,8 +39,8 @@ def get_img(loc):
     return img
 
 def main():
-    par_pain = buildParser()
-    args_main = par_pain.parse_args() ##get arguements
+    par_main = buildParser()
+    args_main = par_main.parse_args()
     img_main = get_img(args_main.str_path_in)
     feed_network(img_main, args_main.str_path_out)
 
