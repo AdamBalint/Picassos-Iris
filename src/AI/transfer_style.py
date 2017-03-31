@@ -39,7 +39,7 @@ def get_img(loc):
     return img
 
 def main():
-    par_main = buildParser()
+    par_main = build_parser()
     args_main = par_main.parse_args()
     img_main = get_img(args_main.str_path_in)
     feed_network(img_main, args_main.str_path_out)
