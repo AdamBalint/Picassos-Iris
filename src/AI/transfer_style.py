@@ -10,8 +10,8 @@ def feed_network(img_in, str_path_out):
         img_in = np.expand_dims(img_in.astype(np.float32),  axis = 0).astype(np.float32)
         soft_config = tf.ConfigProto(allow_soft_placement=True)
         soft_config.gpu_options.allow_growth = True
-        graphMain = tf.Graph()
-        with graphMain.as_default() , tf.Session(config=soft_config) as sess_main:
+        graph_main = tf.Graph()
+        with graph_main.as_default() , tf.Session(config=soft_config) as sess_main:
             img_placeholder = tf.placeholder(tf.float32, shape=shape_in, name='img_placeholder')
             pred_main = transform_net.create_network(img_placeholder)
             sess_main.run(tf.global_variables_initializer())
