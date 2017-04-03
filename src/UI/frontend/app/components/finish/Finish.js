@@ -27,8 +27,8 @@ export class Finish extends Component {
     return (
         <button
           className="btn btn--save bg-green grow"
-          onClick={this.handleSave}>
-          Save
+          onClick={(e) => { this.handleSave(e); }}>
+            Save
         </button>
       );
   }

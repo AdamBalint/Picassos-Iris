@@ -11,7 +11,6 @@ export const FINAL_STYLIZE = 'FINAL_STYLIZE';
 const API = '/stylize';
 
 export function selectStyle(id, quotes) {
-  console.log(quotes);
   return {
     type: SELECT_STYLE,
     payload: { id, quotes },

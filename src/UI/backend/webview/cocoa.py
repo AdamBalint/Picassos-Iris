@@ -142,10 +142,8 @@ class BrowserView:
 
             if dialog_type == SAVE_DIALOG:
                 save_filename = args[2]
-
                 save_dlg = AppKit.NSSavePanel.savePanel()
-                save_dlg.setTitle_(localization["global.saveFile"])
-
+                save_dlg.setTitle_("Save file")
                 if directory:  # set initial directory
                     save_dlg.setDirectoryURL_(Foundation.NSURL.fileURLWithPath_(directory))
 
