@@ -35,4 +35,4 @@ if __name__ == '__main__':
     t.start()
 
     logger.debug("Server started")
-    webview.create_window("Picasso's Iris", "http://127.0.0.1:23948", width=900, height=650, resizable=False)
+    webview.create_window("Picasso's Iris", "http://127.0.0.1:3000", width=900, height=650, resizable=False)

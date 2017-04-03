@@ -39,6 +39,7 @@ test('Reducer returns correct state on STYLIZE_IMAGE', () => {
   const expectedResponse = {
     selectedStyle: -1,
     styledPreview: new Image(requestPayload.data.styled_base_64, 'png'),
+    quotes: [],
     loading: false,
   };
 

@@ -55,7 +55,7 @@ export default class StylePreview extends Component {
       hovering: false,
     });
   }
-  
+
   renderStylePreview() {
     if (this.props.styledPreview) {
       return (

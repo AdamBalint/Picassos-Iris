@@ -26,9 +26,22 @@ SUPPORTED_FILE_TYPES = [
 ]
 
 STYLES = [
-    ('persistence_of_memory', '.png'),
-    ('starry_night', '.jpg'),
-    ('wave', '.jpg')
+    ('persistence_of_memory', '.png',
+    [
+      'How time flows when you are having fun ⌛🎉',
+      "Curling Dali's mustache 😲"
+    ]),
+    ('starry_night', '.jpg',
+    [
+      "Finding Van Gogh's missing ear 👀👂",
+      "Gogh-ing to get the artist ✌ 🔜"
+    ]),
+    ('wave', '.jpg',
+    [
+      'Waving it up, dude 🌊🌊🌊',
+      'Note: Art generated is not suitable for surfing 😖❗❗',
+      'These waves are more dangerous than an iceberg! ❄'
+    ])
 ]
 
 
@@ -72,6 +85,7 @@ def fetch_styles():
     for style in STYLES:
         img = Image(STYLES_DIR+"/"+style[0]+style[1])
         img.name = style[0]
+        img_quotes = style[2]
         response["styles"].append({
             "status":"ok",
             "ext": "image/"+img.ext[1:],
@@ -79,6 +93,7 @@ def fetch_styles():
             "width": img.width,
             "height": img.height,
             "file_path": img.file_path,
+            "quotes": img_quotes,
             "img_base64": img.base_64.decode("utf-8")
         })
 
@@ -93,7 +108,7 @@ def stylize():
     data = request.get_json(cache=True)
 
     # not implemented yet
-    
+
     # response = {
     #     "styled_base_64": util.get_styled_image(data["file_path"], (data["width"], data["height"])).decode("utf-8")
     # }
@@ -145,7 +160,7 @@ def run_server():
     """
     Starts server, entry point
     """
-    server.run(host="127.0.0.1", port=23948, threaded=True)
+    server.run(host="127.0.0.1", port=3000, threaded=True)
 
 
 if __name__ == "__main__":

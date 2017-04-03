@@ -6,15 +6,16 @@ export const cache = felix.create('cache');
 
 export const SELECT_STYLE = 'SELECT_STYLE';
 export const STYLIZE_IMAGE = 'STYLIZE_IMAGE';
+export const FINAL_STYLIZE = 'FINAL_STYLIZE';
 
 const API = '/stylize';
 
-export function selectStyle(id) {
+export function selectStyle(id, quotes) {
+  console.log(quotes);
   return {
     type: SELECT_STYLE,
-    payload: { id },
+    payload: { id, quotes },
   };
-
 }
 
 export function stylize(styleId, targetImagePath, width, height) {
@@ -22,7 +23,7 @@ export function stylize(styleId, targetImagePath, width, height) {
   if (cache.get(styleId)) {
     return {
       type: STYLIZE_IMAGE,
-      payload: { 
+      payload: {
         data: {
           styled_base_64: cache.get(styleId),
         },

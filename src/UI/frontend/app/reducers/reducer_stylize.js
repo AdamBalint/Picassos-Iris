@@ -4,6 +4,7 @@ import Image from '../models/Image';
 export const INITIAL_STATE = {
   selectedStyle: -1,
   styledPreview: '',
+  quotes: [],
   loading: false,
 };
 
@@ -13,6 +14,7 @@ export default function(state = INITIAL_STATE, action) {
       return {
         selectedStyle: action.payload.id,
         styledPreview: state.styledPreview,
+        quotes: action.payload.quotes,
         loading: true,
       };
     }
@@ -24,6 +26,7 @@ export default function(state = INITIAL_STATE, action) {
       return {
         selectedStyle: state.selectedStyle,
         styledPreview: new Image(action.payload.data.styled_base_64, 'png'),
+        quotes: state.quotes,
         loading: false,
       };
     }

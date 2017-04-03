@@ -22,7 +22,7 @@ export class StyleItem extends Component {
 
   selectStyle(props) {
     if (props.selectedStyle != props.id) {
-      props.selectStyle(props.id);
+      props.selectStyle(props.id, props.style.quotes);
       props.stylize(props.id, props.imagePath, 415, 377);
     }
   }

@@ -13,15 +13,15 @@ export default function(state = INITIAL_STATE, action) {
       if (action.payload && action.payload.data) {
         let { status } = action.payload.data;
         if (status === 'ok') {
-          let { file_path, img_base64, ext } = action.payload.data;
+          let { file_path, img_base64, ext, width, height } = action.payload.data;
           return {
             isFileSelected: true,
             selectedFilePath: file_path,
-            imageFile: new Image(img_base64, ext),
+            imageFile: new Image(img_base64, ext, width, height),
           };
         }
       }
-      
+
       return state;
     }
 

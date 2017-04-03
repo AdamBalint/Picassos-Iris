@@ -38,6 +38,8 @@
     "css-loader": "^0.26.1",
     "enzyme": "^2.7.1",
     "eslint": "^3.16.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-config-airbnb-base": "^11.1.2",
     "eslint-config-fbjs": "^1.1.1",
     "eslint-plugin-babel": "^3.3.0",
     "eslint-plugin-flowtype": "^2.30.0",
