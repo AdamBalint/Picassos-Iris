@@ -1,0 +1,24 @@
+.styleitem {
+    width: 63px;
+    height: 80px;
+    background-size: cover;
+    border: 1px #979797 solid;
+    margin-top: 13px;
+    margin-bottom: 12px;
+    transition: 0.3s all ease-in-out;
+}
+
+.styleitem:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.styleitem--clicked {
+    transform: scale(1.5);
+    width: 63px;
+    height: 80px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    background-size: cover;
+    border: 1px black solid;
+}

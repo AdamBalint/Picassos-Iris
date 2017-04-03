@@ -1,8 +1,10 @@
 export default class Image {
 
-  constructor(img_base64, fileExt) {
+  constructor(img_base64, fileExt, width, height) {
       this.img_base64 = img_base64;
       this.fileExt = fileExt;
+      this.width = width;
+      this.height = height;
   }
 
   getDataImageUri() {

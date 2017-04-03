@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import Image from '../../models/Image';
 import { cameraIcon } from '../../util/Icons';
 import { pickFile } from '../../actions/filepicker';
 
@@ -12,31 +11,28 @@ export const FILEPICKER_STYLES = {
   IMAGE: 'filepicker--with-image dim',
   TEXT: 'filepicker__text',
   CAM: 'filepicker__camera-img',
-  HIDDEN: 'filepicker__hidden-text-icon'
-}
+  HIDDEN: 'filepicker__hidden-text-icon',
+};
 
 export class Filepicker extends Component {
 
   constructor(props) {
     super(props);
-    this._filepickerClass = this._filepickerClass.bind(this);
-    this._setFilePickerBackgroundFromProps = this._setFilePickerBackgroundFromProps.bind(this);
   }
 
-  _filepickerClass() {
-    let { NO_IMAGE, IMAGE } = FILEPICKER_STYLES;
+  getFilePickerClassName(props) {
+    const { NO_IMAGE, IMAGE } = FILEPICKER_STYLES;
+    return props.isFileSelected ? IMAGE : NO_IMAGE;
+  }
 
-    if (this.props.isFileSelected) {
-      this._setFilePickerBackgroundFromProps();
-      return IMAGE;
+  getFilePickerStyle(props) {
+    if (props.isFileSelected) {
+      return {
+        backgroundImage: props.imageFile.getCSSImageUrl(),
+      };
     }
 
-    return NO_IMAGE;
-  }
-
-  _setFilePickerBackgroundFromProps() {
-    let { imageFile } = this.props;
-    this.refs.filepicker.style.backgroundImage = imageFile.getCSSImageUrl();
+    return {};
   }
 
   render() {
@@ -45,15 +41,15 @@ export class Filepicker extends Component {
     return (
       <div
         ref="filepicker"
-        className={this._filepickerClass()}
-        onClick={this.props.pickFile}>
-          <div
-            className={!this.props.isFileSelected ? TEXT : HIDDEN}>
+        className={ this.getFilePickerClassName(this.props) }
+        style={ this.getFilePickerStyle(this.props) }
+        onClick={ this.props.pickFile }>
+          <div className={ this.props.isFileSelected ? HIDDEN : TEXT }>
               Click here to select a photo to style!
           </div>
           <img
-            className={!this.props.isFileSelected ? CAM : HIDDEN}
-            src={cameraIcon}/>
+            className={ this.props.isFileSelected ? HIDDEN : CAM }
+            src={ cameraIcon }/>
       </div>
     );
   }
@@ -62,8 +58,8 @@ export class Filepicker extends Component {
 function mapStateToProps(state) {
   return {
     isFileSelected: state.filepicker.isFileSelected,
-    imageFile: state.filepicker.imageFile
-  }
+    imageFile: state.filepicker.imageFile,
+  };
 }
 
-export default connect(mapStateToProps, {pickFile})(Filepicker);
+export default connect(mapStateToProps, { pickFile })(Filepicker);

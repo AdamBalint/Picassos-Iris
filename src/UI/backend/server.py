@@ -1,24 +1,47 @@
 import os
-from flask import Flask, url_for, render_template, jsonify, request, make_response, send_file
-from shutil import copyfile
-import webview
-import app
 import base64
-from PIL import Image
+import webview
+import util
+from models.image import Image
+from flask import Flask, render_template, jsonify, request
 
-frontend_dir = os.path.join(os.getcwd(), "../frontend")  # development path
-if not os.path.exists(frontend_dir):  # frozen executable path
-    frontend_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-        "../frontend")
+FRONTEND_DIR = os.path.join(os.getcwd(), "../frontend")  # development path
+if not os.path.exists(FRONTEND_DIR):  # frozen executable path
+    FRONTEND_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                "../frontend")
 
-server = Flask(__name__, static_folder=frontend_dir, template_folder=frontend_dir)
+STYLES_DIR = os.path.join(os.getcwd(), "../../Resources/styles")
+if not os.path.exists(STYLES_DIR):
+    STYLES_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../Resources/styles")
+
+
+server = Flask(__name__, static_folder=FRONTEND_DIR, template_folder=FRONTEND_DIR)
 server.config["SEND_FILE_MAX_AGE_DEFAULT"] = 1  # disable caching
 
-supported_file_types = [
+SUPPORTED_FILE_TYPES = [
     'png',
     'jpg',
     'jpeg',
     'tiff'
+]
+
+STYLES = [
+    ('persistence_of_memory', '.png',
+    [
+      'How time flows when you are having fun ⌛🎉',
+      "Curling Dali's mustache 😲"
+    ]),
+    ('starry_night', '.jpg',
+    [
+      "Finding Van Gogh's missing ear 👀👂",
+      "Gogh-ing to get the artist ✌ 🔜"
+    ]),
+    ('wave', '.jpg',
+    [
+      'Waving it up, dude 🌊🌊🌊',
+      'Note: Art generated is not suitable for surfing 😖❗❗',
+      'These waves are more dangerous than an iceberg! ❄'
+    ])
 ]
 
 
@@ -46,8 +69,54 @@ def initialize():
     Perform heavy-lifting initialization asynchronously.
     :return:
     """
-    can_start = app.initialize()
-    response = {"status": "ok"} if can_start else {"status": "error"}
+    response = {"status": "ok"}
+    return jsonify(response)
+
+@server.route("/styles")
+def fetch_styles():
+    """
+    Route to fetch all styles supported by Picasso's Iris
+    """
+
+    response = {
+        "styles": []
+    }
+
+    for style in STYLES:
+        img = Image(STYLES_DIR+"/"+style[0]+style[1])
+        img.name = style[0]
+        img_quotes = style[2]
+        response["styles"].append({
+            "status":"ok",
+            "ext": "image/"+img.ext[1:],
+            "name": img.name,
+            "width": img.width,
+            "height": img.height,
+            "file_path": img.file_path,
+            "quotes": img_quotes,
+            "img_base64": img.base_64.decode("utf-8")
+        })
+
+    return jsonify(response)
+
+@server.route("/stylize", methods=['POST'])
+def stylize():
+    """
+    Route to stylize image.
+    Returns base_64 of styled image
+    """
+    data = request.get_json(cache=True)
+
+    # not implemented yet
+
+    # response = {
+    #     "styled_base_64": util.get_styled_image(data["file_path"], (data["width"], data["height"])).decode("utf-8")
+    # }
+
+    response = {
+        "status": "cancel"
+    }
+
     return jsonify(response)
 
 
@@ -55,30 +124,31 @@ def initialize():
 def open_file():
     """
     Invoke a file selection dialog here
-    :return:
+    :return: json response:
+    {
+        "status": "ok or "cancel"
+        "ext": "file extension",
+        "width": "image width",
+        "height": "image height",
+        "file_path": "absolute_file_path",
+        "img_base64": "base 64 string representation"
+    }
     """
-    image_file_filter = webview.create_file_filter(supported_file_types)
+    image_file_filter = webview.create_file_filter(SUPPORTED_FILE_TYPES)
 
     dirs = webview.create_file_dialog(webview.OPEN_DIALOG, allow_multiple=False,
-        file_filter=image_file_filter)
+                                      file_filter=image_file_filter)
 
     if dirs and len(dirs) > 0:
-        selected_file = dirs[0]
-        filename, file_extension = os.path.splitext(selected_file)
-
-        with Image.open(selected_file) as im:
-            width, height = im.size
-
-        with open(selected_file, "rb") as image_file:
-            encoded_string = base64.b64encode(image_file.read())
-
+        selected_file_path = dirs[0]
+        img = Image(selected_file_path)
         response = {
             "status": "ok",
-            "ext": "image/"+file_extension[1:],
-            "width": width,
-            "height": height,
-            "file_path": selected_file,
-            "img_base64": encoded_string.decode("utf-8")
+            "ext": "image/"+img.ext,
+            "width": img.width,
+            "height": img.height,
+            "file_path": img.file_path,
+            "img_base64": img.base_64.decode("utf-8")
         }
     else:
         response = {"status": "cancel"}
@@ -87,7 +157,10 @@ def open_file():
 
 
 def run_server():
-    server.run(host="127.0.0.1", port=23948, threaded=True)
+    """
+    Starts server, entry point
+    """
+    server.run(host="127.0.0.1", port=3000, threaded=True)
 
 
 if __name__ == "__main__":

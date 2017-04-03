@@ -15,6 +15,6 @@ export default class Nav extends Component {
           </div>
           <img className="nav__cart dim" src={cartIcon}></img>
       </nav>
-    )
+    );
   }
 }

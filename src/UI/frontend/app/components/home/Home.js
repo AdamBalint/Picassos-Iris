@@ -9,35 +9,36 @@ export class Home extends Component {
 
   constructor(props) {
     super(props);
-    this._renderContinueButton = this._renderContinueButton.bind(this);
+    this.renderContinueButton = this.renderContinueButton.bind(this);
   }
 
-  _renderContinueButton() {
+  renderContinueButton() {
     if (this.props.isFileSelected) {
       return (
           <button className="btn btn--continue bg-animate hover-bg-black hover-white grow">
-            <Link to='/stylize'>Continue</Link>
+            <Link to="/stylize">Continue</Link>
           </button>
       );
     }
+
+    return '';
   }
 
   render() {
     return (
       <div className="container">
           <Filepicker/>
-          {this._renderContinueButton()}
+          { this.renderContinueButton() }
       </div>
-    )
+    );
   }
 
 }
 
-function mapStateToProps(state) {
+function mapStateToProps({filepicker}) {
   return {
-    isFileSelected: state.filepicker.isFileSelected,
-  }
+    isFileSelected: filepicker.isFileSelected,
+  };
 }
-
 
 export default connect(mapStateToProps)(Home);

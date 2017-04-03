@@ -17,7 +17,7 @@ test('Continue button only shows when image is selected', () => {
 
   const homeWithoutFileSelected = shallow(
     <Home/>
-  )
+  );
 
   expect(homeWithFileSelected.find('.btn--continue').length).toBe(1);
   expect(homeWithoutFileSelected.find('.btn--continue').length).toBe(0);

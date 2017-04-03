@@ -8,8 +8,6 @@ let TEXT_SELECTOR = '.filepicker__text';
 let ICON_SELECTOR = '.filepicker__camera-img';
 let HIDDEN_SELECTOR = '.filepicker__hidden-text-icon';
 
-
-
 test('Filepicker renders without errors', () => {
   const filepicker = shallow(
     <Filepicker/>
@@ -28,7 +26,7 @@ test('Filepicker sets background if file is picked', () => {
   expect(filepicker.find(WITH_IMAGE_SELECTOR).length).toEqual(0);
 
   // Set image
-  filepicker.setProps({isFileSelected: true, imageFile: fakeImageProp});
+  filepicker.setProps({ isFileSelected: true, imageFile: fakeImageProp });
 
   expect(filepicker.find(WITH_IMAGE_SELECTOR).length).toEqual(1);
 });
@@ -44,7 +42,7 @@ test('Filepicker text and icon hide if file is picked', () => {
   expect(filepicker.find(ICON_SELECTOR).length).toEqual(1);
 
   // Set image
-  filepicker.setProps({isFileSelected: true, imageFile: fakeImageProp});
+  filepicker.setProps({ isFileSelected: true, imageFile: fakeImageProp });
 
   // Both text and icon classes shouldn't be there, but there should be 2 hidden classes.
   expect(filepicker.find(TEXT_SELECTOR).length).toEqual(0);

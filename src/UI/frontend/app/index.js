@@ -5,15 +5,11 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxPromise from 'redux-promise';
 
-
 require('../assets/vendor/normalize.min.css');
 require('../assets/fonts/font-Gotham/gotham.scss');
 
-import Nav from './components/nav/Nav';
-
 import Routes from './routes';
 import Reducers from './reducers';
-
 
 /**
  * This file is meant to render the application onto the webview
@@ -31,7 +27,7 @@ const Root = function() {
       <Router history={browserHistory} routes={Routes}/>
     </Provider>
   );
-}
+};
 
 const root = document.getElementById('root');
 ReactDOM.render(<Root/>, root);
