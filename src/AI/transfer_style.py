@@ -18,7 +18,7 @@ def feed_network(img_in, str_path_out):
             sess_main.run(tf.global_variables_initializer())
             tf.saved_model.loader.load(sess_main, ["iris"], "checks")
             _preds = sess_main.run(pred_main, feed_dict={img_placeholder:img_in})
-            imsave(str_path_out, np.clip(cn.unprocess(_preds[0]), 0, 255).astype(np.uint8))
+            imsave(str_path_out, cn.unprocess(_preds[0]).astype(np.uint8))
 
 
 def build_parser():

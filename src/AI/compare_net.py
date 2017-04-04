@@ -83,7 +83,7 @@ def get_style_loss(img_style):
     style_features = {}
     #with tf.Graph().as_default(), tf.device("/cpu:0"), tf.Session() as sess:
     img_style = scipy.misc.imresize(img_style,(256,256))
-    tf_placeholder_img = tf.placeholder(tf.float32, shape=(1,)+img_style.shape, name="style_image")
+    tf_placeholder_img = preprocess(tf.placeholder(tf.float32, shape=(1,)+img_style.shape, name="style_image"))
     # pre-process may be added here
     net = create_network(tf_placeholder_img)
 
@@ -190,7 +190,7 @@ def train_nn(img_style, str_content_img_dir):
         train_time = time.time()
 
         #saver = tf.train.Saver()
-        for epoch in range(1):
+        for epoch in range(2):
             epoch_time = time.time()
 
             num_examples = len(cont_img_name_list)
