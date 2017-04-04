@@ -3,6 +3,7 @@ from argparse import ArgumentParser
 from scipy.misc import imsave, imread, imresize
 import numpy as np
 import transform_net
+import compare_net as cn
 
 def feed_network(img_in, str_path_out):
 
@@ -17,7 +18,7 @@ def feed_network(img_in, str_path_out):
             sess_main.run(tf.global_variables_initializer())
             tf.saved_model.loader.load(sess_main, ["iris"], "checks")
             _preds = sess_main.run(pred_main, feed_dict={img_placeholder:img_in})
-            imsave(str_path_out, _preds[0])
+            imsave(str_path_out, np.clip(cn.unprocess(_preds[0]), 0, 255).astype(np.uint8))
 
 
 def build_parser():
@@ -35,7 +36,7 @@ def get_img(loc):
     img = imread(loc, mode="RGB")
     if len(img.shape) != 3 or img.shape[2] != 3:
         img = np.dstack((img, img, img))
-    img = imresize(img,(256,256,3))
+    #img = imresize(img,(256,256,3))
     return img
 
 def main():

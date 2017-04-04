@@ -1,4 +1,4 @@
-#MEAN_PIXEL = np.array([ 123.68 ,  116.779,  103.939])
+
 
 import scipy.io
 import numpy as np
@@ -7,6 +7,7 @@ from functools import reduce
 import transform_net as tn
 import time
 
+MEAN_PIXEL = np.array([ 123.68 ,  116.779,  103.939])
 # Comparison network VGG
 
 arr_str_layers = (
@@ -35,7 +36,7 @@ def create_network(tf_placeholder_input):
     all_layers = data["layers"][0]
     # returns the list of means
     #normalization = data["normalization"][0][0][0]
-
+    #mean_pixel = np.mean(normalization, axis=(0, 1))
 
 
     #print(data.keys())
@@ -79,7 +80,7 @@ TOTVAR_WEIGHT = 2e2
 
 
 def get_style_loss(img_style):
-    #style_features = {}
+    style_features = {}
     #with tf.Graph().as_default(), tf.device("/cpu:0"), tf.Session() as sess:
     img_style = scipy.misc.imresize(img_style,(256,256))
     tf_placeholder_img = tf.placeholder(tf.float32, shape=(1,)+img_style.shape, name="style_image")
@@ -88,25 +89,15 @@ def get_style_loss(img_style):
 
     img_np_style = np.array([img_style])
 
-    style_loss = []
+    #style_loss = []
     for layer in ("relu1_1", "relu2_1", "relu3_1", "relu4_1", "relu5_1"):
         layer_feature = net[layer].eval(feed_dict={tf_placeholder_img:img_np_style})
         layer_feature = np.reshape(layer_feature, (-1, layer_feature.shape[3]))
         gram_mat = np.matmul(layer_feature.T, layer_feature)/layer_feature.size
-        #style_features[layer] = gram_mat
+        style_features[layer] = gram_mat
 
-        net_layer = net[layer]
-        batch, h, w, filters = map(lambda i : i.value, net_layer.get_shape())
-        size = w*h*filters
-        print(net_layer, batch, w, h, filters)
-        features = tf.reshape(net_layer, (batch, w*h, filters))
-        grams = tf.matmul(tf.transpose(features, perm=[0,2,1]), features)
-        #style_gram = style_features
-        style_loss.append(2*tf.nn.l2_loss(grams-gram_mat)/gram_mat.size)
-
-    style_loss = STYLE_WEIGHT * reduce(tf.add, style_loss)
-
-    return style_loss
+    return style_features
+    #return style_loss
 
 
 
@@ -115,7 +106,7 @@ def get_content_loss():
     cont_features = {}
     # Need to resize training images to 256x256
     tf_placeholder_img = tf.placeholder(tf.float32, shape=(1,256,256,3), name="content_image")
-    pred = tn.create_network(tf_placeholder_img)
+    pred = tn.create_network(preprocess(tf_placeholder_img/255.0))
     net = create_network(pred)
     cont_features["relu4_2"] = net["relu4_2"]
     # May have to do tf_placeholder_img/255 for img representation
@@ -131,7 +122,7 @@ def get_content_loss():
     # "relu4_2" represents the content layer of net
 
 
-    return pred, cont_loss, tf_placeholder_img
+    return pred, cont_loss, tf_placeholder_img, net
 
 
 
@@ -163,8 +154,28 @@ def train_nn(img_style, str_content_img_dir):
     #yield(0,1,2,3,4,False)
     builder = tf.saved_model.builder.SavedModelBuilder("checks")
     with tf.Graph().as_default(), tf.Session() as sess:
-        style_loss = get_style_loss(img_style)
-        preds, cont_loss, x_content = get_content_loss()
+        style_features = get_style_loss(img_style)
+
+    with tf.Graph().as_default(), tf.Session() as sess:
+        
+        preds, cont_loss, x_content, net = get_content_loss()
+        
+        
+        
+        style_loss = []
+        for layer in ("relu1_1", "relu2_1", "relu3_1", "relu4_1", "relu5_1"):
+            net_layer = net[layer]
+            batch, h, w, filters = map(lambda i : i.value, net_layer.get_shape())
+            size = w*h*filters
+            print(net_layer, batch, w, h, filters)
+            features = tf.reshape(net_layer, (batch, w*h, filters))
+            grams = tf.matmul(tf.transpose(features, perm=[0,2,1]), features)
+            gram_mat = style_features[layer]
+            style_loss.append(2*tf.nn.l2_loss(grams-gram_mat)/gram_mat.size)
+
+        style_loss = STYLE_WEIGHT * reduce(tf.add, style_loss)
+        
+        
         totvar_x_size = _tensor_size(preds[:,:,1:,:])
         totvar_y_size = _tensor_size(preds[:,1:,:,:])
         x_totvar = tf.nn.l2_loss(preds[:,:,1:,:] - preds[:,:,:255,:])
@@ -179,7 +190,7 @@ def train_nn(img_style, str_content_img_dir):
         train_time = time.time()
 
         #saver = tf.train.Saver()
-        for epoch in range(20):
+        for epoch in range(1):
             epoch_time = time.time()
 
             num_examples = len(cont_img_name_list)
@@ -218,3 +229,10 @@ def train_nn(img_style, str_content_img_dir):
 def _tensor_size(tensor):
     from operator import mul
     return reduce(mul, (d.value for d in tensor.get_shape()[1:]), 1)
+
+def preprocess(image):
+    return image - MEAN_PIXEL
+
+
+def unprocess(image):
+    return image + MEAN_PIXEL
