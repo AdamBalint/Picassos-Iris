@@ -82,10 +82,10 @@ TOTVAR_WEIGHT = 2e2
 def get_style_loss(img_style):
     style_features = {}
     #with tf.Graph().as_default(), tf.device("/cpu:0"), tf.Session() as sess:
-    img_style = scipy.misc.imresize(img_style,(256,256))
-    tf_placeholder_img = preprocess(tf.placeholder(tf.float32, shape=(1,)+img_style.shape, name="style_image"))
+    ##img_style = scipy.misc.imresize(img_style,(256,256))
+    tf_placeholder_img = tf.placeholder(tf.float32, shape=(1,)+img_style.shape, name="style_image")
     # pre-process may be added here
-    net = create_network(tf_placeholder_img)
+    net = create_network(preprocess(tf_placeholder_img))
 
     img_np_style = np.array([img_style])
 
@@ -106,19 +106,20 @@ def get_content_loss():
     cont_features = {}
     # Need to resize training images to 256x256
     tf_placeholder_img = tf.placeholder(tf.float32, shape=(1,256,256,3), name="content_image")
-    pred = tn.create_network(preprocess(tf_placeholder_img/255.0))
-    net = create_network(pred)
-    cont_features["relu4_2"] = net["relu4_2"]
-    # May have to do tf_placeholder_img/255 for img representation
 
+    cont_net = create_network(preprocess(tf_placeholder_img))
+    cont_features["relu4_2"] = cont_net["relu4_2"]
+    # May have to do tf_placeholder_img/255 for img representation
     # int_content_size = _tensor_size(cont_features["relu4_2"])
     # TODO: Find appropriate content weight
 
+    pred = preprocess(tn.create_network(tf_placeholder_img/255.0))
+    net = create_network(pred)
     cont_size = _tensor_size(cont_features["relu4_2"])
 
     # May need to add assert similar to line 90 of optimize
 
-    cont_loss = CONTENT_WEIGHT * tf.nn.l2_loss(net["relu4_2"] - cont_features["relu4_2"])/cont_size
+    cont_loss = CONTENT_WEIGHT * 2 * tf.nn.l2_loss(net["relu4_2"] - cont_features["relu4_2"])/cont_size
     # "relu4_2" represents the content layer of net
 
 
@@ -157,11 +158,11 @@ def train_nn(img_style, str_content_img_dir):
         style_features = get_style_loss(img_style)
 
     with tf.Graph().as_default(), tf.Session() as sess:
-        
+
         preds, cont_loss, x_content, net = get_content_loss()
-        
-        
-        
+
+
+
         style_loss = []
         for layer in ("relu1_1", "relu2_1", "relu3_1", "relu4_1", "relu5_1"):
             net_layer = net[layer]
@@ -169,13 +170,13 @@ def train_nn(img_style, str_content_img_dir):
             size = w*h*filters
             print(net_layer, batch, w, h, filters)
             features = tf.reshape(net_layer, (batch, w*h, filters))
-            grams = tf.matmul(tf.transpose(features, perm=[0,2,1]), features)
+            grams = tf.matmul(tf.transpose(features, perm=[0,2,1]), features)/size
             gram_mat = style_features[layer]
             style_loss.append(2*tf.nn.l2_loss(grams-gram_mat)/gram_mat.size)
 
         style_loss = STYLE_WEIGHT * reduce(tf.add, style_loss)
-        
-        
+##################
+
         totvar_x_size = _tensor_size(preds[:,:,1:,:])
         totvar_y_size = _tensor_size(preds[:,1:,:,:])
         x_totvar = tf.nn.l2_loss(preds[:,:,1:,:] - preds[:,:,:255,:])
@@ -190,7 +191,7 @@ def train_nn(img_style, str_content_img_dir):
         train_time = time.time()
 
         #saver = tf.train.Saver()
-        for epoch in range(2):
+        for epoch in range(10):
             epoch_time = time.time()
 
             num_examples = len(cont_img_name_list)
@@ -221,7 +222,7 @@ def train_nn(img_style, str_content_img_dir):
         builder.add_meta_graph_and_variables(sess, ["iris"])
 
     #tf_net = create_network()
-    builder.save()
+        builder.save()
     print("time to train:",(time.time()-train_time))
 
 
