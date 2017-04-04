@@ -10,6 +10,12 @@ export const FINAL_STYLIZE = 'FINAL_STYLIZE';
 
 const API = '/stylize';
 
+export function clearCache() {
+  if (cache) {
+    cache.clear();
+  }
+}
+
 export function selectStyle(id, quotes) {
   return {
     type: SELECT_STYLE,

@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { saveImage } from '../../actions/finish';
+import { saveImage, clearState } from '../../actions/finish';
 
 require('./finish.scss');
 
@@ -19,8 +19,8 @@ export class Finish extends Component {
   }
 
   handleNewImage(e) {
-    // TODO: Handle new image here,
-    // You'll have to clear the entire cache
+    this.context.router.push('/');
+    this.props.clearState();
   }
 
   renderSaveButton() {
@@ -66,4 +66,9 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { saveImage })(Finish);
+Finish.contextTypes = {
+  router: PropTypes.object,
+};
+
+
+export default connect(mapStateToProps, { saveImage, clearState })(Finish);

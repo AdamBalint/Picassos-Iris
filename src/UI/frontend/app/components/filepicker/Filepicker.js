@@ -32,7 +32,9 @@ export class Filepicker extends Component {
       };
     }
 
-    return {};
+    return {
+      backgroundImage: 'none',
+    };
   }
 
   render() {

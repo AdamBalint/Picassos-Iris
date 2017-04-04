@@ -1,4 +1,7 @@
 import axios from 'axios';
+import { clearCache } from '../stylize';
+import { CLEAR_STATE } from '../../reducers';
+
 export const FINAL_STYLIZE = 'FINAL_STYLIZE';
 export const SAVE_IMAGE = 'SAVE_IMAGE';
 
@@ -26,5 +29,15 @@ export function saveImage(styledResult) {
   return {
     type: SAVE_IMAGE,
     payload: response,
+  };
+}
+
+export function clearState() {
+
+  clearCache();
+
+  return {
+    type: CLEAR_STATE,
+    payload: {},
   };
 }
