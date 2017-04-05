@@ -13,10 +13,13 @@ def feed_network(img_in, str_path_out):
         soft_config.gpu_options.allow_growth = True
         graph_main = tf.Graph()
         with graph_main.as_default() , tf.Session(config=soft_config) as sess_main:
+            
             img_placeholder = tf.placeholder(tf.float32, shape=shape_in, name='img_placeholder')
             pred_main = transform_net.create_network(img_placeholder)
-            sess_main.run(tf.global_variables_initializer())
-            tf.saved_model.loader.load(sess_main, ["iris"], "checks")
+            #sess_main.run(tf.global_variables_initializer())
+            #tf.saved_model.loader.load(sess_main, ["iris"], "checks")
+            new_saver = tf.train.import_meta_graph("checks/iris-model.ckpt.meta")
+            new_saver.restore(sess_main, tf.train.latest_checkpoint('checks/'))
             _preds = sess_main.run(pred_main, feed_dict={img_placeholder:img_in})
             imsave(str_path_out, np.clip(cn.unprocess(_preds[0]), 0, 255).astype(np.uint8))
 

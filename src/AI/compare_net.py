@@ -82,8 +82,8 @@ TOTVAR_WEIGHT = 2e2
 def get_style_loss(img_style):
     style_features = {}
     #with tf.Graph().as_default(), tf.device("/cpu:0"), tf.Session() as sess:
-    img_style = scipy.misc.imresize(img_style,(256,256))
-    tf_placeholder_img = tf.placeholder(tf.float32, shape=(1,)+img_style.shape, name="style_image")
+    ######img_style = scipy.misc.imresize(img_style,(256,256))
+    tf_placeholder_img = preprocess(tf.placeholder(tf.float32, shape=(1,)+img_style.shape, name="style_image"))
     # pre-process may be added here
     net = create_network(tf_placeholder_img)
 
@@ -152,7 +152,8 @@ def train_nn(img_style, str_content_img_dir):
     # build network per Session
 
     #yield(0,1,2,3,4,False)
-    builder = tf.saved_model.builder.SavedModelBuilder("checks")
+    #builder = tf.saved_model.builder.SavedModelBuilder("checks")
+    
     with tf.Graph().as_default(), tf.Session() as sess:
         style_features = get_style_loss(img_style)
 
@@ -186,11 +187,12 @@ def train_nn(img_style, str_content_img_dir):
 
         # auto defaults to 0.001 as the learning rate
         train_step = tf.train.AdamOptimizer().minimize(total_loss)
+        
         sess.run(tf.global_variables_initializer())
         train_time = time.time()
 
-        #saver = tf.train.Saver()
-        for epoch in range(1):
+        
+        for epoch in range(2):
             epoch_time = time.time()
 
             num_examples = len(cont_img_name_list)
@@ -212,16 +214,17 @@ def train_nn(img_style, str_content_img_dir):
                        x_content:X
                     }
                     tup = [0,0,0,0,0]
-                    #saver.save(sess, "saves/iris-model.ckpt")
+                    saver = tf.train.Saver(tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES))
+                    model = saver.save(sess, "checks/iris-model.ckpt")
                     #tup = sess.run(to_get, feed_dict=test_feed_dict)
                     yield(tup[-1], tup[1:-1], iteration, epoch, sess, False)
 
 
             print("time for epoch: ", epoch, "is",(time.time()-epoch_time) )
-        builder.add_meta_graph_and_variables(sess, ["iris"])
+        #builder.add_meta_graph_and_variables(sess, ["iris"])
 
     #tf_net = create_network()
-    builder.save()
+    #builder.save()
     print("time to train:",(time.time()-train_time))
 
 
