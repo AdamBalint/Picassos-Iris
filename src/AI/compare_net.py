@@ -154,7 +154,7 @@ def train_nn(img_style, str_content_img_dir):
 
     #yield(0,1,2,3,4,False)
     #builder = tf.saved_model.builder.SavedModelBuilder("checks")
-    
+
     with tf.Graph().as_default(), tf.Session() as sess:
         style_features = get_style_loss(img_style)
 
@@ -188,11 +188,11 @@ def train_nn(img_style, str_content_img_dir):
 
         # auto defaults to 0.001 as the learning rate
         train_step = tf.train.AdamOptimizer().minimize(total_loss)
-        
+
         sess.run(tf.global_variables_initializer())
         train_time = time.time()
 
-        
+        saver = tf.train.Saver(tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES))
         for epoch in range(2):
 
             epoch_time = time.time()
@@ -216,13 +216,13 @@ def train_nn(img_style, str_content_img_dir):
                        x_content:X
                     }
                     tup = [0,0,0,0,0]
-                    saver = tf.train.Saver(tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES))
-                    model = saver.save(sess, "checks/iris-model.ckpt")
                     #tup = sess.run(to_get, feed_dict=test_feed_dict)
                     yield(tup[-1], tup[1:-1], iteration, epoch, sess, False)
+            #saver = tf.train.Saver(tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES))
+            print("time for epoch: ", epoch, "is", (time.time()-epoch_time))
 
 
-            print("time for epoch: ", epoch, "is",(time.time()-epoch_time) )
+        model = saver.save(sess, "checks/iris-model.ckpt")
         #builder.add_meta_graph_and_variables(sess, ["iris"])
     print("time to train:",(time.time()-train_time))
 
