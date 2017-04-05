@@ -8,6 +8,7 @@ import transform_net as tn
 import time
 
 MEAN_PIXEL = np.array([ 123.68 ,  116.779,  103.939])
+BATCH_SIZE = 1
 # Comparison network VGG
 
 arr_str_layers = (
@@ -105,7 +106,7 @@ def get_style_loss(img_style):
 def get_content_loss():
     cont_features = {}
     # Need to resize training images to 256x256
-    tf_placeholder_img = tf.placeholder(tf.float32, shape=(1,256,256,3), name="content_image")
+    tf_placeholder_img = tf.placeholder(tf.float32, shape=(BATCH_SIZE, 256, 256, 3), name="content_image")
 
     cont_net = create_network(preprocess(tf_placeholder_img))
     cont_features["relu4_2"] = cont_net["relu4_2"]
@@ -175,14 +176,14 @@ def train_nn(img_style, str_content_img_dir):
             gram_mat = style_features[layer]
             style_loss.append(2*tf.nn.l2_loss(grams-gram_mat)/gram_mat.size)
 
-        style_loss = STYLE_WEIGHT * reduce(tf.add, style_loss)
+        style_loss = STYLE_WEIGHT * reduce(tf.add, style_loss)/BATCH_SIZE
 ##################
 
         totvar_x_size = _tensor_size(preds[:,:,1:,:])
         totvar_y_size = _tensor_size(preds[:,1:,:,:])
         x_totvar = tf.nn.l2_loss(preds[:,:,1:,:] - preds[:,:,:255,:])
         y_totvar = tf.nn.l2_loss(preds[:,1:,:,:] - preds[:,:255,:,:])
-        totvar_loss = TOTVAR_WEIGHT *2*(x_totvar/totvar_x_size + y_totvar/totvar_y_size)
+        totvar_loss = TOTVAR_WEIGHT *2*(x_totvar/totvar_x_size + y_totvar/totvar_y_size)/BATCH_SIZE
         total_loss = cont_loss + style_loss + totvar_loss
 
 
@@ -200,11 +201,20 @@ def train_nn(img_style, str_content_img_dir):
             num_examples = len(cont_img_name_list)
             iteration = 0
             # could be swapped to for loop
+            count = 0
             while iteration < num_examples:
                 step = iteration+1
-                X = np.expand_dims(get_img(cont_img_name_list[iteration]).astype(np.float32),  axis = 0).astype(np.float32)
+                #X = np.expand_dims(get_img(cont_img_name_list[iteration]).astype(np.float32),  axis = 0).astype(np.float32)
+                count += 1
 
-                iteration += 1
+                X = []
+                for i in range(BATCH_SIZE):
+                    if iteration+i+1 >= num_examples:
+                        X.append(np.zeros((256,256,3), dtype=np.float32))
+                    else:
+                        X.append(get_img(cont_img_name_list[iteration+i]).astype(np.float32))
+                iteration += BATCH_SIZE
+
 
                 feed_dict = {x_content:X}
                 train_step.run(feed_dict=feed_dict)
@@ -220,7 +230,7 @@ def train_nn(img_style, str_content_img_dir):
                     yield(tup[-1], tup[1:-1], iteration, epoch, sess, False)
             #saver = tf.train.Saver(tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES))
             print("time for epoch: ", epoch, "is", (time.time()-epoch_time))
-
+            print ("Count", count)
 
         model = saver.save(sess, "checks/iris-model.ckpt")
         #builder.add_meta_graph_and_variables(sess, ["iris"])
