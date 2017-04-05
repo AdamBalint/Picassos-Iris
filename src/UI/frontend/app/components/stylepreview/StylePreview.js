@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { showModal } from '../../actions/stylize';
+import { zoomIcon } from '../../util/Icons';
 
 require('./circle-loader.scss');
 require('./stylepreview.scss');
@@ -8,8 +10,8 @@ export default class StylePreview extends Component {
     super(props);
     this.renderSpinner = this.renderSpinner.bind(this);
     this.renderStylePreview = this.renderStylePreview.bind(this);
-    this.showSlider = this.showSlider.bind(this);
-    this.hideSlider = this.hideSlider.bind(this);
+    this.showControls = this.showControls.bind(this);
+    this.hideControls = this.hideControls.bind(this);
     this.getStyledImage = this.getStyledImage.bind(this);
     this.setOpacity = this.setOpacity.bind(this);
 
@@ -44,13 +46,13 @@ export default class StylePreview extends Component {
     return '';
   }
 
-  showSlider() {
+  showControls() {
     this.setState({
       hovering: true,
     });
   }
 
-  hideSlider() {
+  hideControls() {
     this.setState({
       hovering: false,
     });
@@ -61,8 +63,8 @@ export default class StylePreview extends Component {
       return (
         <div className="image--style"
         style={this.getStyledImage(this.props.styledPreview)}
-        onMouseEnter={this.showSlider}
-        onMouseLeave={this.hideSlider}>
+        onMouseEnter={this.showControls}
+        onMouseLeave={this.hideControls}>
         </div>
       );
     }
@@ -82,9 +84,14 @@ export default class StylePreview extends Component {
         { this.renderSpinner() }
         <div className="image--no-style" style={this.getImage(this.props.image)}></div>
         <div className={this.state.hovering ? 'slider fade-in' : 'slider hide'}
-          onMouseEnter={this.showSlider}
-          onMouseLeave={this.hideSlider}>
+          onMouseEnter={this.showControls}
+          onMouseLeave={this.hideControls}>
           <input type="range" onChange={this.setOpacity} value={this.state.opacity}></input>
+        </div>
+        <div className={this.state.hovering ? 'zoom-controls fade-in' : 'zoom-controls hide'}
+          onMouseEnter={this.showControls}
+          onMouseLeave={this.hideControls}>
+          <img className="zoom-icon grow dim" src={zoomIcon} onClick={(e) => { this.props.showModal(); }}/>
         </div>
         { this.renderStylePreview() }
       </div>
