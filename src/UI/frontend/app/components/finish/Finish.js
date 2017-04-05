@@ -18,6 +18,7 @@ export class Finish extends Component {
     this.hideControls = this.hideControls.bind(this);
     this.showControls = this.showControls.bind(this);
     this.renderNewImageButton = this.renderNewImageButton.bind(this);
+    this.getBackgroundImage = this.getBackgroundImage.bind(this);
 
     this.state = {
       hovering: false,
@@ -97,12 +98,20 @@ export class Finish extends Component {
     });
   }
 
+  getBackgroundImage({styledResult}) {
+    if (styledResult) {
+      return styledResult.getCSSImageUrl();
+    } else {
+      this.context.router.push('/loading-result');
+    }
+  }
+
   render() {
     return (
       <div className="finish">
         <div className="finish__result-container"
         style={{
-          backgroundImage: this.props.styledResult.getCSSImageUrl(),
+          backgroundImage: this.getBackgroundImage(this.props),
           backgroundRepeat: 'none',
         }}
         onMouseLeave={this.hideControls}
