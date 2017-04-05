@@ -6,6 +6,7 @@ export const cache = felix.create('cache');
 
 export const SELECT_STYLE = 'SELECT_STYLE';
 export const STYLIZE_IMAGE = 'STYLIZE_IMAGE';
+export const RESET_STYLIZE = 'RESET_STYLIZE';
 export const FINAL_STYLIZE = 'FINAL_STYLIZE';
 
 const API = '/stylize';
@@ -20,6 +21,13 @@ export function selectStyle(id, quotes) {
   return {
     type: SELECT_STYLE,
     payload: { id, quotes },
+  };
+}
+
+export function resetStylize() {
+  return {
+    type: RESET_STYLIZE,
+    payload: {},
   };
 }
 

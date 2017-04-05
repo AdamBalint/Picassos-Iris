@@ -1,4 +1,4 @@
-import { cache, SELECT_STYLE, STYLIZE_IMAGE } from '../actions/stylize';
+import { cache, SELECT_STYLE, STYLIZE_IMAGE, RESET_STYLIZE } from '../actions/stylize';
 import Image from '../models/Image';
 
 export const INITIAL_STATE = {
@@ -30,6 +30,10 @@ export default function(state = INITIAL_STATE, action) {
         quotes: state.quotes,
         loading: false,
       };
+    }
+
+    case RESET_STYLIZE: {
+      return INITIAL_STATE;
     }
 
     default: {

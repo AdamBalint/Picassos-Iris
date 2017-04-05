@@ -4,9 +4,17 @@ import { CLEAR_STATE } from '../../reducers';
 
 export const FINAL_STYLIZE = 'FINAL_STYLIZE';
 export const SAVE_IMAGE = 'SAVE_IMAGE';
+export const RESET_FINISH = 'RESET_FINISH';
 
 const STYLIZE_RESULT_API = '/stylize';
 const SAVE_IMAGE_API = '/save-image';
+
+export function resetFinish() {
+  return {
+    type: RESET_FINISH,
+    payload: {},
+  };
+}
 
 export function stylizeResult(styleId, targetImagePath, width, height) {
   let response = axios.post(`${STYLIZE_RESULT_API}`, {

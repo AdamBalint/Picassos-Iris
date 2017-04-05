@@ -1,4 +1,4 @@
-import { FINAL_STYLIZE, SAVE_IMAGE } from '../actions/finish';
+import { FINAL_STYLIZE, SAVE_IMAGE, RESET_FINISH } from '../actions/finish';
 import Image from '../models/Image';
 
 export const INITIAL_STATE = {
@@ -26,6 +26,10 @@ export default function(state = INITIAL_STATE, action) {
       }
 
       return state;
+    }
+
+    case RESET_FINISH: {
+      return INITIAL_STATE;
     }
 
     default: {

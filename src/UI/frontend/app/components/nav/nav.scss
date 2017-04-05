@@ -25,13 +25,19 @@
   cursor: pointer;
 }
 
+.nav__back {
+  margin-right: auto;
+  margin-left: 38px;
+  justify-content: flex-start;
+}
+
 .nav__cart {
   margin-left: auto;
   margin-right: 38px;
   justify-content: flex-end;
 }
 
-.nav__cart:hover {
+.nav__back:hover, .nav__cart:hover {
   cursor: pointer;
 }
 

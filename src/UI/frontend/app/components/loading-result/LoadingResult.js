@@ -7,6 +7,8 @@ require('./loadingresult.scss');
 export class LoadingResult extends Component {
   constructor(props, context) {
     super(props, context);
+    props.isBackButtonVisible(false);
+    props.setCurrentPageIndex(2);
     this.getRandomQuote = this.getRandomQuote.bind(this);
   }
 

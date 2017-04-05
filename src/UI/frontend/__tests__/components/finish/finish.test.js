@@ -4,7 +4,10 @@ import { Finish } from '../../../app/components/finish/Finish';
 
 test('Finish renders without errors', () => {
   const finish = shallow(
-    <Finish styledResult={{
+    <Finish isBackButtonVisible={() => false}
+    setCurrentPageIndex={() => 1}
+    setBackLink={() => false}
+    styledResult={{
       getCSSImageUrl: () => {
         return 'fakeCSSImageUrl';
       },

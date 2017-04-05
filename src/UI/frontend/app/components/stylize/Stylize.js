@@ -5,7 +5,7 @@ import ImageModal from '../imagemodal/ImageModal';
 import StyleList from '../stylelist/StyleList';
 import StylePreview from '../stylepreview/StylePreview';
 import fetchStyles from '../../util/FetchStyles';
-import { stylizeResult } from '../../actions/finish';
+import { resetFinish, stylizeResult } from '../../actions/finish';
 
 require('./stylize.scss');
 
@@ -20,6 +20,9 @@ export class Stylize extends Component {
 
   constructor(props) {
     super(props);
+    props.setCurrentPageIndex(1);
+    props.isBackButtonVisible(true);
+    props.setBackLink('/');
     this.state = {
       styles: [],
       fadeIn: ' fade-in-right',
@@ -40,6 +43,7 @@ export class Stylize extends Component {
   handleContinueButtonClick(e, props) {
     e.preventDefault();
     this.context.router.push('/loading-result');
+    props.resetFinish();
     props.stylizeResult(props.selectedStyle, props.selectedFilePath,
       props.imageFile.width, props.imageFile.height);
   }
@@ -101,7 +105,7 @@ export class Stylize extends Component {
         loading={this.props.loading}
         showModal={this.showModal}
         styledPreview={this.props.styledPreview}/>
-        { this.renderModal(this.state, this.props) }
+        { this.props.styledPreview ? this.renderModal(this.state, this.props) : ''}
         { this.renderContinueButton(this.props) }
         <StyleList data={this.state.styles}/>
       </div>
@@ -124,4 +128,4 @@ Stylize.contextTypes = {
   router: PropTypes.object,
 }
 
-export default connect(mapStateToProps, { stylizeResult } )(Stylize);
+export default connect(mapStateToProps, { stylizeResult, resetFinish } )(Stylize);

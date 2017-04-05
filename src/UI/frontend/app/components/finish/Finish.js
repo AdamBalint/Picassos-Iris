@@ -9,16 +9,20 @@ require('./finish.scss');
 export class Finish extends Component {
   constructor(props, context) {
     super(props, context);
+    props.isBackButtonVisible(true);
+    props.setCurrentPageIndex(2);
+    props.setBackLink('/stylize');
     this.handleSave = this.handleSave.bind(this);
     this.handleNewImage = this.handleNewImage.bind(this);
     this.renderSaveButton = this.renderSaveButton.bind(this);
     this.hideControls = this.hideControls.bind(this);
     this.showControls = this.showControls.bind(this);
     this.renderNewImageButton = this.renderNewImageButton.bind(this);
+
     this.state = {
       hovering: false,
       isModalOpen: false,
-    }
+    };
   }
 
   handleSave(e) {
