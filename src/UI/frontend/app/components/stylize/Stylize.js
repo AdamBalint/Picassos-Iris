@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
 import StyleList from '../stylelist/StyleList';
 import StylePreview from '../stylepreview/StylePreview';
 import fetchStyles from '../../util/FetchStyles';

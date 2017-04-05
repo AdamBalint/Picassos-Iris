@@ -99,6 +99,40 @@ def fetch_styles():
 
     return jsonify(response)
 
+@server.route("/save-image", methods=['POST'])
+def save_image():
+  """
+  Route to save image
+
+  POST Parameters:
+  {
+    img_base64: base64 representation of image to save
+  }
+
+  :return: json response
+  {
+    "status": "ok or fail"
+  }
+  """
+
+  data = request.get_json(cache=False)
+
+  file_name = webview.create_file_dialog(webview.SAVE_DIALOG, allow_multiple=False, file_filter=None, save_filename="file")
+
+  response = {
+    "status": "cancel"
+  }
+
+  if file_name and len(file_name) > 0:
+    with open(file_name[0]+".png", "wb") as fh:
+        img_data = base64.b64decode(data["img_base64"])
+        fh.write(img_data)
+    response = {
+      "status": "ok"
+    }
+
+  return jsonify(response)
+
 @server.route("/stylize", methods=['POST'])
 def stylize():
     """
@@ -118,7 +152,6 @@ def stylize():
     }
 
     return jsonify(response)
-
 
 @server.route("/open/file")
 def open_file():

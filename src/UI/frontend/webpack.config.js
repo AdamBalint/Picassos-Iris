@@ -44,7 +44,10 @@ var config = {
             loader: 'url-loader',
             options: { limit: 40000}
           },
-          'image-webpack-loader'
+          {
+            loader: 'image-webpack-loader',
+            options: {}
+          }
         ]
       }
     ]
