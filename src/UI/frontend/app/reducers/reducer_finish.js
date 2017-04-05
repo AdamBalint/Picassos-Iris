@@ -10,17 +10,22 @@ export const INITIAL_STATE = {
 export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
     case FINAL_STYLIZE: {
-      return {
-        styledResult: new Image(action.payload.data.styled_base_64, 'png', 0, 0),
-        loading: false,
-      };
+      if (action.payload.data.styled_base_64) {
+        return {
+          styledResult: new Image(action.payload.data.styled_base_64, 'png', 0, 0),
+          loading: false,
+          saved: state.saved,
+        };
+      }
+
+      return state;
     }
 
     case SAVE_IMAGE: {
       if (action.payload.data.status === 'ok') {
         return {
           styledResult: state.styledResult,
-          loading: state.loading,
+          loading: false,
           saved: true,
         };
       }

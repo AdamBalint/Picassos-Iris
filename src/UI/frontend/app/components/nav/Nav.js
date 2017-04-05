@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { backIcon, irisLogo, cartIcon } from '../../util/Icons';
 
 require('./nav.scss');
 
-export default class Nav extends Component {
+export class Nav extends Component {
   renderBackButton(props) {
     return (
       <Link to={props.backLink}>
@@ -30,3 +30,11 @@ export default class Nav extends Component {
     );
   }
 }
+
+Nav.propTypes = {
+  backLink: PropTypes.string.isRequired,
+  isBackButtonVisible: PropTypes.bool.isRequired,
+};
+
+export default Nav;
+

@@ -21,7 +21,6 @@ export class LoadingResult extends Component {
   }
 
   renderSpinner({quotes, loading}) {
-    console.log(quotes);
     if (loading) {
       return (
         <div className="loadingResult__container">
