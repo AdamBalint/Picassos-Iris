@@ -1,13 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import ReactModal from 'react-modal';
 
+import ImageModal from '../imagemodal/ImageModal';
 import StyleList from '../stylelist/StyleList';
 import StylePreview from '../stylepreview/StylePreview';
 import fetchStyles from '../../util/FetchStyles';
 import { stylizeResult } from '../../actions/finish';
-
-import { closeIcon } from '../../util/Icons';
 
 require('./stylize.scss');
 
@@ -79,28 +77,18 @@ export class Stylize extends Component {
 
   renderModal(state, props) {
     return (
-      <ReactModal
-        isOpen={state.isModalOpen}
-        contentLabel="styledImage"
+      <ImageModal
+        isModalOpen={state.isModalOpen}
         onRequestClose={() => {
           this.setState({
             isModalOpen: false,
-          })
+          });
         }}
-        shouldCloseOnOverlayClick={true}
-        style={{
-          overlay: OVERLAY_STYLES,
-          content: {
-            backgroundImage: props.styledPreview ? props.styledPreview.getCSSImageUrl() : '',
-            backgroundSize: 'cover',
-            zIndex: 5000,
-          },
+        Image={props.styledPreview}
+        onCloseClick={() => {
+          this.hideModal();
         }}
-      >
-        <div className="closeIcon-container dim grow" onClick={(e) => { this.hideModal(); }}>
-          <img src={closeIcon} alt="Close Modal"/>
-        </div>
-      </ReactModal>
+      />
     );
   }
 

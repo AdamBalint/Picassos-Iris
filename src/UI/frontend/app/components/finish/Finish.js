@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { zoomIcon } from '../../util/Icons';
 import { saveImage, clearState } from '../../actions/finish';
+import { ImageModal } from '../imagemodal/ImageModal';
 
 require('./finish.scss');
 
@@ -10,7 +12,13 @@ export class Finish extends Component {
     this.handleSave = this.handleSave.bind(this);
     this.handleNewImage = this.handleNewImage.bind(this);
     this.renderSaveButton = this.renderSaveButton.bind(this);
+    this.hideControls = this.hideControls.bind(this);
+    this.showControls = this.showControls.bind(this);
     this.renderNewImageButton = this.renderNewImageButton.bind(this);
+    this.state = {
+      hovering: false,
+      isModalOpen: false,
+    }
   }
 
   handleSave(e) {
@@ -22,6 +30,36 @@ export class Finish extends Component {
     this.context.router.push('/');
     this.props.clearState();
   }
+
+  showModal() {
+    this.setState({
+      isModalOpen: true,
+    });
+  }
+
+  hideModal() {
+    this.setState({
+      isModalOpen: false,
+    });
+  }
+
+  renderModal(state, props) {
+    return (
+      <ImageModal
+        isModalOpen={state.isModalOpen}
+        onRequestClose={() => {
+          this.setState({
+            isModalOpen: false,
+          });
+        }}
+        Image={props.styledResult}
+        onCloseClick={() => {
+          this.hideModal();
+        }}
+      />
+    );
+  }
+
 
   renderSaveButton() {
     return (
@@ -43,13 +81,35 @@ export class Finish extends Component {
       );
   }
 
+  hideControls() {
+    this.setState({
+      hovering: false,
+    })
+  }
+
+  showControls() {
+    this.setState({
+      hovering: true,
+    });
+  }
+
   render() {
     return (
       <div className="finish">
-        <div className="finish__result-container" style={{
+        <div className="finish__result-container"
+        style={{
           backgroundImage: this.props.styledResult.getCSSImageUrl(),
           backgroundRepeat: 'none',
-        }}>
+        }}
+        onMouseLeave={this.hideControls}
+        onMouseEnter={this.showControls}
+        >
+          <div className={this.state.hovering ? 'zoom-result fade-in' : 'zoom-result hide'}
+            onMouseEnter={this.showControls}
+            onMouseLeave={this.hideControls}>
+            <img className="zoom-icon grow dim" src={zoomIcon} onClick={(e) => { this.showModal(); }} />
+          </div>
+          {this.renderModal(this.state, this.props)}
         </div>
         <div className="finish__buttons-container">
           {this.renderNewImageButton()}
