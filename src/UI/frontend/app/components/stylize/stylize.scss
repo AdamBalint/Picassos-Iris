@@ -37,6 +37,20 @@
     border-bottom: none;
 }
 
+.closeIcon-container {
+  background:black;
+  border-radius: 99px;
+  width: 30px;
+  height: 30px;
+  margin-right: 20px;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  right: 0;
+  top: -5;
+}
+
 .stylize__continue:hover {
     font-size: 30px;
     animation: shadow-drop-left 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;

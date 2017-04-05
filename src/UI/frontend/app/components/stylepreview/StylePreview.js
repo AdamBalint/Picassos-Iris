@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { showModal } from '../../actions/stylize';
+import { zoomIcon } from '../../util/Icons';
 
 require('./circle-loader.scss');
 require('./stylepreview.scss');
@@ -85,6 +87,11 @@ export default class StylePreview extends Component {
           onMouseEnter={this.showSlider}
           onMouseLeave={this.hideSlider}>
           <input type="range" onChange={this.setOpacity} value={this.state.opacity}></input>
+        </div>
+        <div className={this.state.hovering ? 'zoom-controls fade-in' : 'zoom-controls hide'}
+          onMouseEnter={this.showSlider}
+          onMouseLeave={this.hideSlider}>
+          <img className="zoom-icon grow dim" src={zoomIcon} onClick={(e) => { this.props.showModal(); }}/>
         </div>
         { this.renderStylePreview() }
       </div>

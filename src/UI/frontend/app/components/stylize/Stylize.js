@@ -1,13 +1,22 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import ReactModal from 'react-modal';
+
 import StyleList from '../stylelist/StyleList';
 import StylePreview from '../stylepreview/StylePreview';
 import fetchStyles from '../../util/FetchStyles';
 import { stylizeResult } from '../../actions/finish';
 
+import { closeIcon } from '../../util/Icons';
+
 require('./stylize.scss');
 
 const CONTINUE_ICON = '>';
+
+const OVERLAY_STYLES = {
+  backgroundColor: 'rgba(0, 0, 0, 0.55)',
+  zIndex: 5000,
+};
 
 export class Stylize extends Component {
 
@@ -16,8 +25,11 @@ export class Stylize extends Component {
     this.state = {
       styles: [],
       fadeIn: ' fade-in-right',
+      isModalOpen: false,
     };
     this.renderContinueButton = this.renderContinueButton.bind(this);
+    this.renderModal = this.renderModal.bind(this);
+    this.showModal = this.showModal.bind(this);
     this.handleContinueButtonClick = this.handleContinueButtonClick.bind(this);
   }
 
@@ -53,6 +65,45 @@ export class Stylize extends Component {
     }
   }
 
+  showModal() {
+    this.setState({
+      isModalOpen: true,
+    });
+  }
+
+  hideModal() {
+    this.setState({
+      isModalOpen: false,
+    });
+  }
+
+  renderModal(state, props) {
+    return (
+      <ReactModal
+        isOpen={state.isModalOpen}
+        contentLabel="styledImage"
+        onRequestClose={() => {
+          this.setState({
+            isModalOpen: false,
+          })
+        }}
+        shouldCloseOnOverlayClick={true}
+        style={{
+          overlay: OVERLAY_STYLES,
+          content: {
+            backgroundImage: props.styledPreview ? props.styledPreview.getCSSImageUrl() : '',
+            backgroundSize: 'cover',
+            zIndex: 5000,
+          },
+        }}
+      >
+        <div className="closeIcon-container dim grow" onClick={(e) => { this.hideModal(); }}>
+          <img src={closeIcon} alt="Close Modal"/>
+        </div>
+      </ReactModal>
+    );
+  }
+
   render() {
     return (
       <div className="stylize">
@@ -60,7 +111,9 @@ export class Stylize extends Component {
         image={this.props.imageFile}
         selectedStyle={this.props.selectedStyle}
         loading={this.props.loading}
+        showModal={this.showModal}
         styledPreview={this.props.styledPreview}/>
+        { this.renderModal(this.state, this.props) }
         { this.renderContinueButton(this.props) }
         <StyleList data={this.state.styles}/>
       </div>
