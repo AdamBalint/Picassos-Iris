@@ -1,0 +1,49 @@
+@import '../../../global_styles/global.scss';
+
+.filepicker {
+  width: 622px;
+  height: 288px;
+  background-color: $filepicker-bg;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-color: $filepicker-border;
+  border-width: 0.2px;
+  border-style: solid;
+}
+
+.filepicker--with-image {
+  background-size: cover;
+  width: 622px;
+  margin: 0 auto;
+  height: 288px;
+  background-repeat: no-repeat;
+}
+
+.filepicker--with-image:hover {
+  cursor: pointer;
+}
+
+.filepicker:hover {
+  cursor: pointer;
+}
+
+.filepicker__text {
+  font-size: 20px;
+  color: $filepicker-text;
+  text-align: center;
+  align-self: center;
+  width: 100%;
+}
+
+.filepicker__camera-img {
+  width: 47px;
+  height: 38px;
+  margin-top: 33px;
+}
+
+.filepicker__hidden-text-icon {
+  display: none;
+}

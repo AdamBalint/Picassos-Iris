@@ -1,0 +1,43 @@
+.shopItem {
+  margin: 30px;
+}
+
+.shopItem__image {
+  margin-bottom: 15px;
+  width: 130px;
+  height: 130px;
+}
+
+.shopItem__button {
+  width: 130px;
+  height: 25px;
+  border-radius: 99px;
+  letter-spacing: -0.45px;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  border: none;
+}
+
+.shopItem__purchased {
+  background: #81C784;
+}
+
+.shopItem__buy {
+  background: #4A90E2;
+}
+
+.shopItem__price {
+  margin: 15px;
+  text-align: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.shopItem__price:hover {
+  cursor: inherit;
+}
+
+
