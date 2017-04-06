@@ -1,5 +1,5 @@
 Pillow
 scipy
-tensorflow
+tensorflow-gpu
 pytest-cov
 flask
