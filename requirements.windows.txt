@@ -1,0 +1,3 @@
+pywin32
+comtypes
+py2exe

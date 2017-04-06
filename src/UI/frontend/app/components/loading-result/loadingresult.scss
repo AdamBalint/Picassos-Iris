@@ -1,0 +1,23 @@
+.loadingResult {
+  display: flex;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  align-items: center;
+  height: 510px;
+  justify-content: center;
+}
+
+.loadingResult__container {
+  width: auto;
+}
+
+.loadingResult__container__loadingText {
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
+}
+
+
+

@@ -1,0 +1,50 @@
+@import '../../../global_styles/variables.scss';
+
+.nav {
+  height: 115px;
+  width: 100%;
+  border-bottom: 0.2px solid #979797;
+  display: flex;
+  align-items: center;
+}
+
+.nav__logo {
+  display: flex;
+  width: 99%;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav__logo-img {
+  width: 57px;
+  vertical-align: middle;
+  align-self: center;
+}
+
+.nav__logo-container:hover {
+  cursor: pointer;
+}
+
+.nav__back {
+  margin-right: auto;
+  margin-left: 38px;
+  justify-content: flex-start;
+}
+
+.nav__cart {
+  margin-left: auto;
+  margin-right: 38px;
+  justify-content: flex-end;
+}
+
+.nav__back:hover, .nav__cart:hover {
+  cursor: pointer;
+}
+
+.nav__text {
+  color: $accent;
+  font-size: 48px;
+  margin-left: 29px;
+  text-align: center;
+  vertical-align: middle;
+}
