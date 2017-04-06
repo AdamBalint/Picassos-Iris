@@ -6,6 +6,7 @@ import tensorflow as tf
 from functools import reduce
 import transform_net as tn
 import time
+import os
 
 MEAN_PIXEL = np.array([ 123.68 ,  116.779,  103.939])
 BATCH_SIZE = 1
@@ -147,8 +148,10 @@ def get_img(loc):
 
     return img
 
-def train_nn(img_style, str_content_img_dir):
+def train_nn(str_style_name, img_style, int_epoch, str_content_img_dir):
     cont_img_name_list = get_images_list(str_content_img_dir)
+    if not os.path.exists("checks/"+str_style_name):
+        os.makedirs("checks/"+str_style_name)
     # create convolutional NN
     # get style and content features
     # build network per Session
@@ -177,7 +180,6 @@ def train_nn(img_style, str_content_img_dir):
             style_loss.append(2*tf.nn.l2_loss(grams-gram_mat)/gram_mat.size)
 
         style_loss = STYLE_WEIGHT * reduce(tf.add, style_loss)/BATCH_SIZE
-##################
 
         totvar_x_size = _tensor_size(preds[:,:,1:,:])
         totvar_y_size = _tensor_size(preds[:,1:,:,:])
@@ -194,18 +196,16 @@ def train_nn(img_style, str_content_img_dir):
         train_time = time.time()
 
         saver = tf.train.Saver(tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES))
-        for epoch in range(2):
+        for epoch in range(int_epoch):
             print("Epoch ", epoch)
+
             epoch_time = time.time()
 
             num_examples = len(cont_img_name_list)
             iteration = 0
             # could be swapped to for loop
-            count = 0
             while iteration < num_examples:
-                step = iteration+1
                 #X = np.expand_dims(get_img(cont_img_name_list[iteration]).astype(np.float32),  axis = 0).astype(np.float32)
-                count += 1
                 if iteration % 10000 == 0:
                     print("\t", iteration//10000, "images done")
 
@@ -232,9 +232,8 @@ def train_nn(img_style, str_content_img_dir):
                     yield(tup[-1], tup[1:-1], iteration, epoch, sess, False)
             #saver = tf.train.Saver(tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES))
             print("time for epoch: ", epoch, "is", (time.time()-epoch_time))
-            #print ("Count", count)
 
-        model = saver.save(sess, "checks/iris-model.ckpt")
+        model = saver.save(sess, "checks/"+str_style_name+"/iris-model.ckpt")
         #builder.add_meta_graph_and_variables(sess, ["iris"])
     print("time to train:",(time.time()-train_time))
 
