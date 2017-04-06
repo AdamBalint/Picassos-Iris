@@ -17,9 +17,9 @@ def tree(src):
             for (root, dirs, files) in os.walk(os.path.normpath(src))]
 
 
-ENTRY_POINT = ['backend/main.py']
+ENTRY_POINT = ['src/UI/backend/main.py']
 
-DATA_FILES = tree('backend') + tree('frontend')
+DATA_FILES = tree('src/UI/backend') + tree('src/UI/frontend')
 OPTIONS = {'argv_emulation': False,
            'strip': True,
            'iconfile': 'icon.icns',
