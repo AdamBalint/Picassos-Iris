@@ -195,7 +195,7 @@ def train_nn(img_style, str_content_img_dir):
 
         saver = tf.train.Saver(tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES))
         for epoch in range(2):
-
+            print("Epoch ", epoch)
             epoch_time = time.time()
 
             num_examples = len(cont_img_name_list)
@@ -206,6 +206,8 @@ def train_nn(img_style, str_content_img_dir):
                 step = iteration+1
                 #X = np.expand_dims(get_img(cont_img_name_list[iteration]).astype(np.float32),  axis = 0).astype(np.float32)
                 count += 1
+                if iteration % 10000 == 0:
+                    print("\t", iteration//10000, "images done")
 
                 X = []
                 for i in range(BATCH_SIZE):
@@ -230,7 +232,7 @@ def train_nn(img_style, str_content_img_dir):
                     yield(tup[-1], tup[1:-1], iteration, epoch, sess, False)
             #saver = tf.train.Saver(tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES))
             print("time for epoch: ", epoch, "is", (time.time()-epoch_time))
-            print ("Count", count)
+            #print ("Count", count)
 
         model = saver.save(sess, "checks/iris-model.ckpt")
         #builder.add_meta_graph_and_variables(sess, ["iris"])
