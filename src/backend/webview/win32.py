@@ -202,7 +202,9 @@ class BrowserView(object):
     def load_html(self, content):
         raise NotImplementedError("load_html not implemented for Win32. Use Windows Forms implementation")
 
-    def create_file_dialog(self, dialog_type, directory, allow_multiple, save_filename):
+    def create_file_dialog(self, dialog_type, directory, allow_multiple, save_filename, file_filter):
+        print('win32 version!')
+        
         if not directory:
             directory = os.environ['temp']
 
@@ -214,8 +216,8 @@ class BrowserView(object):
                 file_path = (shell.SHGetPathFromIDList(pidl).decode("utf-8"),)
 
             elif dialog_type == OPEN_DIALOG:
-                file_filter = "adam sandler"
-                custom_filter = "adam sandler"
+                file_filter = localization["windows.fileFilter.allFiles"] + localization["windows.fileFilter.imageFiles"]
+                custom_filter = localization["windows.fileFilter.otherFiles"] + localization["windows.fileFilter.imageFiles"]
 
                 flags = win32con.OFN_EXPLORER
                 if allow_multiple:
