@@ -10,6 +10,9 @@ import os
 
 MEAN_PIXEL = np.array([ 123.68 ,  116.779,  103.939])
 BATCH_SIZE = 1
+STYLE_WEIGHT = 1e2
+CONTENT_WEIGHT = 7.5
+TOTVAR_WEIGHT = 2e2
 # Comparison network VGG
 
 arr_str_layers = (
@@ -77,26 +80,25 @@ def create_network(tf_placeholder_input):
 
 
 
-STYLE_WEIGHT, CONTENT_WEIGHT = 1e2, 7.5
-TOTVAR_WEIGHT = 2e2
 
 
 def get_style_loss(img_style):
     style_features = {}
     #with tf.Graph().as_default(), tf.device("/cpu:0"), tf.Session() as sess:
+    with tf.Graph().as_default(), tf.Session() as sess:
     ######img_style = scipy.misc.imresize(img_style,(256,256))
-    tf_placeholder_img = preprocess(tf.placeholder(tf.float32, shape=(1,)+img_style.shape, name="style_image"))
-    # pre-process may be added here
-    net = create_network(preprocess(tf_placeholder_img))
+        tf_placeholder_img = tf.placeholder(tf.float32, shape=(1,)+img_style.shape, name="style_image")
+        # pre-process may be added here
+        net = create_network(preprocess(tf_placeholder_img))
 
-    img_np_style = np.array([img_style])
+        img_np_style = np.array([img_style])
 
-    #style_loss = []
-    for layer in ("relu1_1", "relu2_1", "relu3_1", "relu4_1", "relu5_1"):
-        layer_feature = net[layer].eval(feed_dict={tf_placeholder_img:img_np_style})
-        layer_feature = np.reshape(layer_feature, (-1, layer_feature.shape[3]))
-        gram_mat = np.matmul(layer_feature.T, layer_feature)/layer_feature.size
-        style_features[layer] = gram_mat
+        #style_loss = []
+        for layer in ("relu1_1", "relu2_1", "relu3_1", "relu4_1", "relu5_1"):
+            layer_feature = net[layer].eval(feed_dict={tf_placeholder_img:img_np_style})
+            layer_feature = np.reshape(layer_feature, (-1, layer_feature.shape[3]))
+            gram_mat = np.matmul(layer_feature.T, layer_feature)/layer_feature.size
+            style_features[layer] = gram_mat
 
     return style_features
     #return style_loss
@@ -115,8 +117,8 @@ def get_content_loss():
     # int_content_size = _tensor_size(cont_features["relu4_2"])
     # TODO: Find appropriate content weight
 
-    pred = preprocess(tn.create_network(tf_placeholder_img/255.0))
-    net = create_network(pred)
+    pred = tn.create_network(tf_placeholder_img/255.0)
+    net = create_network(preprocess(pred))
     cont_size = _tensor_size(cont_features["relu4_2"])
 
     # May need to add assert similar to line 90 of optimize
@@ -159,14 +161,12 @@ def train_nn(str_style_name, img_style, int_epoch, str_content_img_dir):
     #yield(0,1,2,3,4,False)
     #builder = tf.saved_model.builder.SavedModelBuilder("checks")
 
-    with tf.Graph().as_default(), tf.Session() as sess:
-        style_features = get_style_loss(img_style)
+    #with tf.Graph().as_default(), tf.Session() as sess:
+    style_features = get_style_loss(img_style)
 
     with tf.Graph().as_default(), tf.Session() as sess:
 
         preds, cont_loss, x_content, net = get_content_loss()
-
-
 
         style_loss = []
         for layer in ("relu1_1", "relu2_1", "relu3_1", "relu4_1", "relu5_1"):
