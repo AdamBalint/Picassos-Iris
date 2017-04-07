@@ -124,7 +124,6 @@ export class Finish extends Component {
         <div className="finish__result-container"
           style={{
             backgroundImage: this.getBackgroundImage(this.props),
-            backgroundRepeat: 'none',
           }}
           onMouseLeave={this.hideControls}
           onMouseEnter={this.showControls}

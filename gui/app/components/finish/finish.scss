@@ -3,7 +3,6 @@
   50% { opacity: 1; }
 }
 
-
 .finish {
   display: flex;
   flex-direction: column;
@@ -16,11 +15,9 @@
   width: 416px;
   height: 377px;
   margin: 0 auto;
-  background-size: 'contain';
-  background-repeat: 'none';
-  background-position: 'center';
-  border-width: 0.2px;
-  border-style: solid;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .btn--another-image {
