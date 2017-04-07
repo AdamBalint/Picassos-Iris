@@ -6,3 +6,4 @@ build/
 *.pyc
 .coverage
 src/AI/imagenet-vgg-verydeep-19.mat
+src/AI/tests/testing.log
