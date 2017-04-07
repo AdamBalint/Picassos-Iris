@@ -24,6 +24,9 @@ export default class StylePreview extends Component {
   getImage(image) {
     return {
       backgroundImage: image.getCSSImageUrl(),
+      backgroundSize: 'contain',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
     };
   }
 

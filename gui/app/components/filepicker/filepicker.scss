@@ -15,11 +15,12 @@
 }
 
 .filepicker--with-image {
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
   width: 622px;
   margin: 0 auto;
   height: 288px;
-  background-repeat: no-repeat;
 }
 
 .filepicker--with-image:hover {
