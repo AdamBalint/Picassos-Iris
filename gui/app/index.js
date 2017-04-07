@@ -8,6 +8,15 @@ import ReduxPromise from 'redux-promise';
 require('../assets/vendor/normalize.min.css');
 require('../assets/fonts/font-Gotham/gotham.scss');
 
+
+// For IE11
+import Promise from 'promise-polyfill'; 
+
+// To add to window
+if (!window.Promise) {
+  window.Promise = Promise;
+}
+
 import Routes from './routes';
 import Reducers from './reducers';
 
