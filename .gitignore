@@ -2,6 +2,8 @@ __pycache__
 node_modules
 dist/
 build/
+py3env
 .DS_Store
 *.pyc
 .coverage
+src/backend/stylize

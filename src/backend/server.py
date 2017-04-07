@@ -5,14 +5,13 @@ import util
 from models.image import Image
 from flask import Flask, render_template, jsonify, request
 
-FRONTEND_DIR = os.path.join(os.getcwd(), "../frontend")  # development path
+FRONTEND_DIR = os.path.join(os.getcwd(), "gui")  # development path
 if not os.path.exists(FRONTEND_DIR):  # frozen executable path
-    FRONTEND_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                "../frontend")
+    FRONTEND_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "gui")
 
-STYLES_DIR = os.path.join(os.getcwd(), "../../Resources/styles")
+STYLES_DIR = os.path.join(os.getcwd(), "styles")
 if not os.path.exists(STYLES_DIR):
-    STYLES_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../Resources/styles")
+    STYLES_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "styles")
 
 
 server = Flask(__name__, static_folder=FRONTEND_DIR, template_folder=FRONTEND_DIR)
