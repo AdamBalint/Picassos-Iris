@@ -1,0 +1,6 @@
+{
+  "extends": "fbjs",
+  "ignore": [
+    "./node_modules"
+  ]
+}
