@@ -137,7 +137,10 @@ class BrowserView:
 
                 dialog.Multiselect = allow_multiple
                 dialog.InitialDirectory = directory
-                dialog.Filter = localization["windows.fileFilter.png"] + "|" + localization["windows.fileFilter.jpg"] + "|" +localization["windows.fileFilter.jpeg"] + "|" +localization["windows.fileFilter.tiff"]
+                png_filter = "PNG Files (*.png)|*.png"
+                jpg_filter = "JPG Files (*.jpg)|*.jpg"
+                tiff_filter = "TIFF files (*.tiff)|*.tiff"
+                dialog.Filter = png_filter+"|"+jpg_filter+"|"+tiff_filter
                 dialog.RestoreDirectory = True
 
                 result = dialog.ShowDialog(BrowserView.instance.browser)
@@ -148,7 +151,10 @@ class BrowserView:
 
             elif dialog_type == SAVE_DIALOG:
                 dialog = WinForms.SaveFileDialog()
-                dialog.Filter = localization["windows.fileFilter.png"] + localization["windows.fileFilter.jpeg"] + localization["windows.fileFilter.png"] + localization["windows.fileFilter.tiff"]
+                png_filter = "PNG Files (*.png)|*.png"
+                jpg_filter = "JPG Files (*.jpg)|*.jpg"
+                tiff_filter = "TIFF files (*.tiff)|*.tiff"
+                dialog.Filter = png_filter+"|"+jpg_filter+"|"+tiff_filter
                 dialog.InitialDirectory = directory
                 dialog.RestoreDirectory = True
                 dialog.FileName = save_filename

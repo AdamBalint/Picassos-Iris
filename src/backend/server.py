@@ -123,9 +123,9 @@ def save_image():
   }
 
   if file_name and len(file_name) > 0:
-    with open(file_name[0]+".png", "wb") as fh:
-        img_data = base64.b64decode(data["img_base64"])
-        fh.write(img_data)
+    img_file = open(file_name, "wb")
+    img_file.write(base64.b64decode(data["img_base64"]))
+    img_file.close()
     response = {
       "status": "ok"
     }

@@ -18,13 +18,15 @@ export class Home extends Component {
   renderContinueButton() {
     if (this.props.isFileSelected) {
       return (
-          <button className="btn btn--continue bg-animate hover-bg-black hover-white grow" onClick={(e) => {
-            if (this.props.styledPreview) {
-              this.props.resetStylize();
-            }
-          }}>
-            <Link to="/stylize">Continue</Link>
-          </button>
+          <Link to='/stylize'>
+            <button className="btn btn--continue bg-animate hover-bg-black hover-white grow" onClick={(e) => {
+                if (this.props.styledPreview) {
+                  this.props.resetStylize();
+                }
+            }}>
+              Continue
+            </button>
+          </Link>
       );
     }
 
