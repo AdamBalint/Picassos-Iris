@@ -33,14 +33,18 @@ export default class App extends Component {
     });
   }
 
-  render() {
-    const childrenWithProps = React.Children.map(this.props.children,
+  getChildrenWithProps(children) {
+    return children.map(this.props.children,
       (child) => React.cloneElement(child, {
         setCurrentPageIndex: this.setCurrentPageIndex,
         currentPageIndex: this.state.currentPageIndex,
         isBackButtonVisible: this.isBackButtonVisible,
         setBackLink: this.setBackLink,
       }));
+  }
+
+  render() {
+    const childrenWithProps = this.getChildrenWithProps(React.Children);
 
     return (
       <div>

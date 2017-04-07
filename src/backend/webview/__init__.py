@@ -46,38 +46,9 @@ def _initialize_imports():
                 import webview.cocoa as gui
             except ImportError:
                 import_error = True
+                raise Exception("Install pyobjc")
             else:
                 import_error = False
-
-            if import_error or config["USE_QT"]:
-                try:
-                    import webview.qt as gui
-                    logger.info("Using QT")
-                except ImportError as e:
-                    # Panic
-                    logger.exception("QT not found")
-                    raise Exception("You must have either PyObjC (for Cocoa support) or Qt with Python bindings installed in order to use this library.")
-        elif platform.system() == "Linux":
-            try:
-                #Try GTK first unless USE_QT flag is set
-                if not config["USE_QT"]:
-                    import webview.gtk as gui
-                    logger.info("Using GTK")
-            except ImportError as e:
-                logger.exception("GTK not found")
-                import_error = True
-            else:
-                import_error = False
-
-            if import_error or config["USE_QT"]:
-                try:
-                    # If GTK is not found, then try QT
-                    import webview.qt as gui
-                    logger.info("Using QT")
-                except ImportError as e:
-                    # Panic
-                    logger.exception("QT not found")
-                    raise Exception("You must have either QT or GTK with Python extensions installed in order to use this library.")
 
         elif platform.system() == "Windows":
 

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { clearCache } from '../stylize';
 
 export const FINAL_STYLIZE = 'FINAL_STYLIZE';
 export const SAVE_IMAGE = 'SAVE_IMAGE';
