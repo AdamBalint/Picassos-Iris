@@ -1,3 +1,9 @@
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0 }
+  50% { opacity: 1; }
+}
+
+
 .finish {
   display: flex;
   flex-direction: column;
@@ -10,8 +16,9 @@
   width: 416px;
   height: 377px;
   margin: 0 auto;
-  background-size: cover;
-  background-repeat: none;
+  background-size: 'contain';
+  background-repeat: 'none';
+  background-position: 'center';
   border-width: 0.2px;
   border-style: solid;
 }
@@ -23,7 +30,17 @@
 }
 
 .finish__result-container {
+  display: flex;
   position: relative;
+}
+
+.saved-circle {
+  width: 50px;
+  height: 50px;
+  fill: white;
+  align-self: center;
+  margin: auto;
+  animation: fadeInOut 2.5s ease-in-out forwards;
 }
 
 .btn--save {
@@ -44,3 +61,4 @@
   background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.00) 15%, #000000 100%);
   z-index: 3;
 }
+
