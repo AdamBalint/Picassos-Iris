@@ -13,11 +13,9 @@ export default class StylePreview extends Component {
     this.showControls = this.showControls.bind(this);
     this.hideControls = this.hideControls.bind(this);
     this.getStyledImage = this.getStyledImage.bind(this);
-    this.setOpacity = this.setOpacity.bind(this);
 
     this.state = {
       hovering: false,
-      opacity: 100,
     };
   }
 
@@ -33,7 +31,7 @@ export default class StylePreview extends Component {
   getStyledImage(styledImage) {
     let style = this.getImage(styledImage);
     // Divide the slider value by 100 to get the CSS opacity value
-    style.opacity = this.state.opacity / 100;
+    style.opacity = this.props.opacity / 100;
     return style;
   }
 
@@ -75,12 +73,6 @@ export default class StylePreview extends Component {
     return '';
   }
 
-  setOpacity(e) {
-    this.setState({
-      opacity: e.target.value,
-    });
-  }
-
   render() {
     return (
       <div className="stylepreview">
@@ -89,7 +81,7 @@ export default class StylePreview extends Component {
         <div className={this.state.hovering ? 'slider fade-in' : 'slider hide'}
           onMouseEnter={this.showControls}
           onMouseLeave={this.hideControls}>
-          <input type="range" onChange={this.setOpacity} value={this.state.opacity}></input>
+          <input type="range" onChange={this.props.setOpacity} value={this.props.opacity}></input>
         </div>
         <div className={this.state.hovering ? 'zoom-controls fade-in' : 'zoom-controls hide'}
           onMouseEnter={this.showControls}

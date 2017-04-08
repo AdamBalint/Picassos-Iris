@@ -1,13 +1,23 @@
+import os
 import tensorflow as tf
+import base64
 from argparse import ArgumentParser
 from scipy.misc import imsave, imread, imresize
+from io import BytesIO
+from PIL import Image
 import numpy as np
-import transform_net
-import compare_net as cn
+from stylize.AI import transform_net
+from stylize import img_utils
+
 
 MAX_WIDTH = MAX_HEIGHT = 2000
 
-def feed_network(img_in, str_path_out, style_name):
+CHECKPOINT_DIR = os.path.join(os.path.dirname(
+    os.path.abspath(__file__)), "checkpoints/")
+if not os.path.exists(CHECKPOINT_DIR):  # dev executable path
+    CHECKPOINT_DIR = os.path.join(os.getcwd(), "stylize/checkpoints/")
+
+def feed_network(img_in, str_path_out, style_name, base64=False):
     shape_orig = img_in.shape
     print (shape_orig)
     # double check to make sure that the association is right
@@ -20,13 +30,14 @@ def feed_network(img_in, str_path_out, style_name):
     soft_config.gpu_options.allow_growth = True
     graph_main = tf.Graph()
     with graph_main.as_default() , tf.Session(config=soft_config) as sess_main:
-
         img_placeholder = tf.placeholder(tf.float32, shape=shape_in, name='img_placeholder')
         pred_main = transform_net.create_network(img_placeholder)
         saver = tf.train.Saver(tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES))
-        saver.restore(sess_main, tf.train.latest_checkpoint('checks/'+style_name) )
+        saver.restore(sess_main, tf.train.latest_checkpoint(CHECKPOINT_DIR+style_name) )
         _preds = sess_main.run(pred_main, feed_dict={img_placeholder:img_in})[0]
         _preds = imresize(_preds, shape_orig)
+        if (base64):
+            return img_utils.save_img_base64(_preds)
         imsave(str_path_out, _preds.astype(np.uint8))
 
 
@@ -43,16 +54,10 @@ def build_parser():
                         metavar='STYLE_PATH', required=True)
     return par_main
 
-def get_img(loc):
-    img = imread(loc, mode="RGB")
-    if len(img.shape) != 3 or img.shape[2] != 3:
-        img = np.dstack((img, img, img))
-    return img
-
 def main():
     par_main = build_parser()
     args_main = par_main.parse_args()
-    img_main = get_img(args_main.str_path_in)
+    img_main = img_utils.get_img_from_path(args_main.str_path_in)
     style_name = args_main.str_style
     feed_network(img_main, args_main.str_path_out, style_name)
 
