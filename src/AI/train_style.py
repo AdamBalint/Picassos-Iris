@@ -17,6 +17,7 @@ def train(style_name, img_style, epochs, str_content_img_dir):
     for img_results, float_arr_losses, int_iteration, int_epoch, tf_session, bool_end in train_nn(style_name, img_style, epochs, str_content_img_dir):
         if ((int_iteration % 500) == 0):
             print ("Epoch", int_epoch, "int_iteration", int_iteration, "Losses", float_arr_losses)
+'''
         if ((int_iteration % 10000) == 0 and _bool_save_training):
             # save image
             imsave(img_results, "../training/img_results")
@@ -25,6 +26,7 @@ def train(style_name, img_style, epochs, str_content_img_dir):
             tf_weight_saver = tf.train.Saver()
             # tf_weight_saver.save(tf_session, str_output_dir)
     # train_nn(img_style, str_content_img_dir);
+'''
 
 def build_parser():
     par_main = ArgumentParser()
