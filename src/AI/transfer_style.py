@@ -5,15 +5,18 @@ import numpy as np
 import transform_net
 import compare_net as cn
 
-MAX_WIDTH = MAX_HEIGHT = 2000
+MAX_WIDTH, MAX_HEIGHT = 1920, 1080
 
-def feed_network(img_in, str_path_out, style_name):
+def feed_network(img_in, str_path_out, style_name, preview=False):
     shape_orig = img_in.shape
     print (shape_orig)
+
+    if not preview:
     # double check to make sure that the association is right
-    scale_x, scale_y = MAX_WIDTH/shape_orig[1], MAX_WIDTH/shape_orig[0]
-    img_scale = min(scale_x, scale_y)
-    img_in = imresize(img_in, (int(shape_orig[0]*img_scale), int(shape_orig[1]*img_scale), shape_orig[2]))
+        scale_x, scale_y = MAX_WIDTH/shape_orig[1], MAX_HEIGHT/shape_orig[0]
+        img_scale = min(scale_x, scale_y)
+        img_in = imresize(img_in, (int(shape_orig[0]*img_scale), int(shape_orig[1]*img_scale), shape_orig[2]))
+
     shape_in = (1,)+(img_in.shape)
     img_in = np.expand_dims(img_in.astype(np.float32),  axis = 0).astype(np.float32)
     soft_config = tf.ConfigProto(allow_soft_placement=True)
@@ -23,7 +26,7 @@ def feed_network(img_in, str_path_out, style_name):
 
         img_placeholder = tf.placeholder(tf.float32, shape=shape_in, name='img_placeholder')
         pred_main = transform_net.create_network(img_placeholder)
-        saver = tf.train.Saver(tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES))
+        saver = tf.train.Saver(tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES))#, write_version=tf.train.SaverDef.V1)
         saver.restore(sess_main, tf.train.latest_checkpoint('checks/'+style_name) )
         _preds = sess_main.run(pred_main, feed_dict={img_placeholder:img_in})[0]
         _preds = imresize(_preds, shape_orig)
