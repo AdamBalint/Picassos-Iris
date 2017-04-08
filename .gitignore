@@ -7,3 +7,17 @@ build/
 .coverage
 src/AI/imagenet-vgg-verydeep-19.mat
 src/AI/tests/testing.log
+src/AI/lisa.jpg
+*.jpg
+src/AI/checks/scream/iris-model.ckpt.index
+src/AI/checks/scream/iris-model.ckpt.meta
+src/AI/checks/scream/checkpoint
+src/AI/checks/scream/iris-model.ckpt.data-00000-of-00001
+src/AI/checks/lisa/iris-model.ckpt.meta
+src/AI/checks/lisa/iris-model.ckpt.data-00000-of-00001
+src/AI/checks/lisa/checkpoint
+src/AI/checks/lisa/iris-model.ckpt.index
+src/AI/checks/kiss/checkpoint
+*.data-00000-of-00001
+src/AI/checks/kiss/iris-model.ckpt.index
+*.meta

@@ -5,6 +5,7 @@ import numpy as np
 import transform_net
 import compare_net as cn
 
+MAX_WIDTH = MAX_HEIGHT = 2000
 
 def feed_network(img_in, str_path_out, style_name):
     shape_orig = img_in.shape
