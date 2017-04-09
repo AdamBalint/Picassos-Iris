@@ -118,7 +118,7 @@ def save_image():
 
     data = request.get_json(cache=False)
 
-    file_name = webview.create_file_dialog(webview.SAVE_DIALOG, allow_multiple=False, file_filter=None, save_filename="file")
+    file_name = webview.create_file_dialog(webview.SAVE_DIALOG, allow_multiple=False, file_filter=None, save_filename="file.png")
 
     response = {
       "status": "cancel"
@@ -126,7 +126,7 @@ def save_image():
 
 
     if file_name and len(file_name) > 0:
-        img_file = open(file_name, "wb")
+        img_file = open(file_name[0], "wb")
         img_file.write(base64.b64decode(data["img_base64"]))
         img_file.close()
         response = {
