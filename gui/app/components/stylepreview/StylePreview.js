@@ -81,7 +81,7 @@ export default class StylePreview extends Component {
         <div className={this.state.hovering ? 'slider fade-in' : 'slider hide'}
           onMouseEnter={this.showControls}
           onMouseLeave={this.hideControls}>
-          <input type="range" onChange={this.props.setOpacity} value={this.props.opacity}></input>
+          <input type="range" onMouseUp={this.props.setOpacity} onChange={this.props.setOpacity} value={this.props.opacity}></input>
         </div>
         <div className={this.state.hovering ? 'zoom-controls fade-in' : 'zoom-controls hide'}
           onMouseEnter={this.showControls}
