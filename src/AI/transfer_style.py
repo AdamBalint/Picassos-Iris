@@ -43,7 +43,7 @@ def build_parser():
                         metavar='OUT_PATH', required=True)
     par_main.add_argument('--style', type=str,
                         dest='str_style', help='Style applied to image',
-                        metavar='STYLE_PATH', required=True)
+                        metavar='STYLE_NAME', required=True)
     return par_main
 
 def get_img(loc):

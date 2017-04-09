@@ -32,16 +32,16 @@ def build_parser():
     par_main = ArgumentParser()
     par_main.add_argument('--style-name', type=str,
                         dest='str_style_name',help='name of style trained, che',
-                        metavar='IN_PATH', required=True)
+                        metavar='STYLE_NAME', required=True)
     par_main.add_argument('--style-path', type=str,
                         dest='str_path_style',help='Image to transform',
-                        metavar='IN_PATH', required=True)
+                        metavar='STYLE_PATH', required=True)
     par_main.add_argument('--epochs', type=int,
                         dest='int_epochs', help='epoch count for training corpus',
-                        metavar='INT_ARG', required=True)
+                        metavar='INT_EPOCHS', required=True)
     par_main.add_argument('--train-path', type=str,
                         dest='str_train_path', help='directory of training images',
-                        metavar='IN_ARG', required=True)
+                        metavar='TRAIN_PATH', required=True)
     # par_main.add_argument('--ckpt-path', type=str,
     #                     dest='str_ckpt_path', help='directory for saving checkpoints',
     #                     metavar='', required=True)
