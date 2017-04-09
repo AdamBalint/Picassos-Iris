@@ -6,4 +6,3 @@ py3env
 .DS_Store
 *.pyc
 .coverage
-src/backend/stylize

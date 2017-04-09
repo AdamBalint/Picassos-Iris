@@ -4,8 +4,7 @@ before_install: wget https://raw.githubusercontent.com/creationix/nvm/v0.31.0/nv
   -O ~/.nvm/nvm.sh && source ~/.nvm/nvm.sh && nvm install 5 && npm install --prefix
   gui
 install: pip install -r requirements.txt
-script: cd gui/ && npm run test && cd .. && py.test --cov=src/AI/
-  src/AI/tests/
+script: cd gui/ && npm run test && cd .. && py.test --cov=src/backend/stylize/AI/ src/backend/stylize/AI/tests
 group: stable
 dist: precise
 os: linux

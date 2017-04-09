@@ -26,11 +26,13 @@ export class Stylize extends Component {
     this.state = {
       styles: [],
       fadeIn: ' fade-in-right',
+      opacity: 100,
       isModalOpen: false,
     };
     this.renderContinueButton = this.renderContinueButton.bind(this);
     this.renderModal = this.renderModal.bind(this);
     this.showModal = this.showModal.bind(this);
+    this.setOpacity = this.setOpacity.bind(this);
     this.handleContinueButtonClick = this.handleContinueButtonClick.bind(this);
   }
 
@@ -45,7 +47,7 @@ export class Stylize extends Component {
     this.context.router.push('/loading-result');
     props.resetFinish();
     props.stylizeResult(props.selectedStyle, props.selectedFilePath,
-      props.imageFile.width, props.imageFile.height);
+      props.imageFile, this.state.opacity);
   }
 
   renderContinueButton({selectedStyle}) {
@@ -96,10 +98,18 @@ export class Stylize extends Component {
     );
   }
 
+  setOpacity(e) {
+    this.setState({
+      opacity: e.target.value,
+    });
+  }
+
   render() {
     return (
       <div className="stylize">
         <StylePreview
+        opacity={this.state.opacity}
+        setOpacity={this.setOpacity}
         image={this.props.imageFile}
         selectedStyle={this.props.selectedStyle}
         loading={this.props.loading}

@@ -9,7 +9,7 @@ export const STYLIZE_IMAGE = 'STYLIZE_IMAGE';
 export const RESET_STYLIZE = 'RESET_STYLIZE';
 export const FINAL_STYLIZE = 'FINAL_STYLIZE';
 
-const API = '/stylize';
+const API = '/stylize-preview';
 
 export function clearCache() {
   if (cache) {
@@ -45,6 +45,7 @@ export function stylize(styleId, targetImagePath, width, height) {
   }
 
   let response = axios.post(`${API}`, {
+    style_id: styleId,
     file_path: targetImagePath,
     width: width,
     height: height,

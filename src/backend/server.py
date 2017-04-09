@@ -2,6 +2,8 @@ import os
 import base64
 import webview
 import util
+from PIL import Image as im
+from io import BytesIO
 from models.image import Image
 from flask import Flask, render_template, jsonify, request
 
@@ -29,18 +31,18 @@ STYLES = [
     [
       'How time flows when you are having fun ⌛🎉',
       "Curling Dali's mustache 😲"
-    ]),
+    ], 'persistence_41K'),
     ('starry_night', '.jpg',
     [
       "Finding Van Gogh's missing ear 👀👂",
       "Gogh-ing to get the artist ✌ 🔜"
-    ]),
+    ], 'starry_night_41K'),
     ('wave', '.jpg',
     [
       'Waving it up, dude 🌊🌊🌊',
       'Note: Art generated is not suitable for surfing 😖❗❗',
       'These waves are more dangerous than an iceberg! ❄'
-    ])
+    ], 'waves_82K')
 ]
 
 
@@ -100,54 +102,95 @@ def fetch_styles():
 
 @server.route("/save-image", methods=['POST'])
 def save_image():
-  """
-  Route to save image
+    """
+    Route to save image
 
-  POST Parameters:
-  {
-    img_base64: base64 representation of image to save
-  }
-
-  :return: json response
-  {
-    "status": "ok or fail"
-  }
-  """
-
-  data = request.get_json(cache=False)
-
-  file_name = webview.create_file_dialog(webview.SAVE_DIALOG, allow_multiple=False, file_filter=None, save_filename="file")
-
-  response = {
-    "status": "cancel"
-  }
-
-  if file_name and len(file_name) > 0:
-    img_file = open(file_name, "wb")
-    img_file.write(base64.b64decode(data["img_base64"]))
-    img_file.close()
-    response = {
-      "status": "ok"
+    POST Parameters:
+    {
+      img_base64: base64 representation of image to save
     }
 
-  return jsonify(response)
+    :return: json response
+    {
+      "status": "ok or fail"
+    }
+    """
 
-@server.route("/stylize", methods=['POST'])
+    data = request.get_json(cache=False)
+
+    file_name = webview.create_file_dialog(webview.SAVE_DIALOG, allow_multiple=False, file_filter=None, save_filename="file")
+
+    if file_name and len(file_name) > 0:
+        img_file = open(file_name, "wb")
+        img_file.write(base64.b64decode(data["img_base64"]))
+        img_file.close()
+        response = {
+            "status": "ok"
+        }
+
+    return jsonify(response)
+
+
+@server.route("/stylize-preview", methods=['POST'])
+def stylize_preview():
+    """
+    Route to stylize image.
+    Returns base_64 of styled image
+    """
+    data = request.get_json(cache=True)
+    style_id = data["style_id"]
+    file_path = data["file_path"]
+    width = data["width"]
+    height = data["height"]
+
+    style_name = STYLES[style_id][3]
+
+    orig_img = im.open(file_path)
+    img = orig_img.resize((width, height), resample=im.NEAREST)
+    styled_base64 = util.get_styled_image(img, style_name)
+    styled_image = im.open(BytesIO(base64.b64decode(styled_base64)))
+    styled_image = styled_image.resize((orig_img.width, orig_img.height), resample=im.NEAREST)
+    buff = BytesIO()
+    styled_image.save(buff, format="JPEG")
+    styled_base64 = base64.b64encode(buff.getvalue()).decode("utf-8")
+    response = {
+        "styled_base_64": styled_base64
+    }
+
+    return jsonify(response)
+
+@server.route("/stylize-result", methods=['POST'])
 def stylize():
     """
     Route to stylize image.
     Returns base_64 of styled image
     """
     data = request.get_json(cache=True)
+    print(data)
 
-    # not implemented yet
+    # get variables from request
+    style_id = data["style_id"]
+    height = data["height"]
+    width = data["width"]
 
-    # response = {
-    #     "styled_base_64": util.get_styled_image(data["file_path"], (data["width"], data["height"])).decode("utf-8")
-    # }
+    style_name = STYLES[style_id][3]
 
+    opacity = float(str(data["opacity"]))
+    img_file_path = data["file_path"]
+    image_file = im.open(img_file_path)
+    styled_base64 = util.get_styled_image(image_file, style_name)
+    styled_image = im.open(BytesIO(base64.b64decode(styled_base64)))
+    image_file = image_file.convert("RGBA")
+    styled_image = styled_image.convert("RGBA")
+
+    # Apply the overlay on the background
+    # Where the overlay is the styled image
+    # and the background user selected image
+    new_img = im.blend(image_file, styled_image, opacity/100)
+
+    # Send back as a base64 string
     response = {
-        "status": "cancel"
+        "styled_base_64": util.get_base64_from_image(new_img).decode("utf-8")
     }
 
     return jsonify(response)
