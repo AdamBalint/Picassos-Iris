@@ -161,7 +161,7 @@ class BrowserView:
 
                 result = dialog.ShowDialog(BrowserView.instance.browser)
                 if result == WinForms.DialogResult.OK:
-                    file_path = dialog.FileName
+                    file_path = (dialog.FileName,)
                 else:
                     file_path = None
 
