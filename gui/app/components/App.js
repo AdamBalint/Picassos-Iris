@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Nav from './nav/Nav';
 
+require('./App.scss')
+
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -47,7 +49,7 @@ export default class App extends Component {
     const childrenWithProps = this.getChildrenWithProps(React.Children);
 
     return (
-      <div>
+      <div className="app">
         <Nav isBackButtonVisible={this.state.isBackButtonVisible} backLink={this.state.backLink}/>
         { childrenWithProps }
       </div>
