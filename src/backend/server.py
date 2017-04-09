@@ -120,6 +120,11 @@ def save_image():
 
     file_name = webview.create_file_dialog(webview.SAVE_DIALOG, allow_multiple=False, file_filter=None, save_filename="file")
 
+    response = {
+      "status": "cancel"
+    }
+
+
     if file_name and len(file_name) > 0:
         img_file = open(file_name, "wb")
         img_file.write(base64.b64decode(data["img_base64"]))
@@ -147,7 +152,7 @@ def stylize_preview():
 
     orig_img = im.open(file_path)
     img = orig_img.resize((width, height), resample=im.NEAREST)
-    styled_base64 = util.get_styled_image(img, style_name)
+    styled_base64 = util.get_styled_image(img, style_name, preview=True)
     styled_image = im.open(BytesIO(base64.b64decode(styled_base64)))
     styled_image = styled_image.resize((orig_img.width, orig_img.height), resample=im.NEAREST)
     buff = BytesIO()
@@ -178,7 +183,7 @@ def stylize():
     opacity = float(str(data["opacity"]))
     img_file_path = data["file_path"]
     image_file = im.open(img_file_path)
-    styled_base64 = util.get_styled_image(image_file, style_name)
+    styled_base64 = util.get_styled_image(image_file, style_name, preview=False)
     styled_image = im.open(BytesIO(base64.b64decode(styled_base64)))
     image_file = image_file.convert("RGBA")
     styled_image = styled_image.convert("RGBA")

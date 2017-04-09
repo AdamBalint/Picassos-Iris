@@ -2,9 +2,9 @@ from io import BytesIO
 import base64
 from stylize import transfer_style, img_utils
 
-def get_styled_image(img, style_name):
+def get_styled_image(img, style_name, preview=False):
     img = img_utils.get_scipy_img_from_img(img)
-    return transfer_style.feed_network(img, './', style_name, base64=True)
+    return transfer_style.feed_network(img, './', style_name, preview=preview, base64=True)
 
 
 def get_base64_from_image(img):
