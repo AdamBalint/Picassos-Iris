@@ -34,7 +34,7 @@ STYLES = [
     ], 'persistence_41K'),
     ('starry_night', '.jpg',
     [
-      "Finding Van Gogh's missing ear 👀👂",
+      "Gogh get some food - This might take a while 🍔 🍕",
       "Gogh-ing to get the artist ✌ 🔜"
     ], 'starry_night_41K'),
     ('wave', '.jpg',
