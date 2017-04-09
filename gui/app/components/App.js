@@ -49,7 +49,7 @@ export default class App extends Component {
     return (
       <div>
         <Nav isBackButtonVisible={this.state.isBackButtonVisible} backLink={this.state.backLink}/>
-        { childrenWithProps };
+        { childrenWithProps }
       </div>
     )
   }
