@@ -38,7 +38,8 @@ export class Stylize extends Component {
 
   componentDidMount(props) {
     fetchStyles((styles) => {
-      this.setState({ styles });
+      let unlockedStyles = styles.filter((style) => style.unlocked);
+      this.setState({ styles: unlockedStyles });
     });
   }
 

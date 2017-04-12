@@ -9,6 +9,8 @@ export default (cb) => {
           name: style.name,
           image: new Image(style.img_base64, style.ext),
           quotes: style.quotes,
+          unlocked: style.unlocked,
+          price: style.price,
         };
       });
 

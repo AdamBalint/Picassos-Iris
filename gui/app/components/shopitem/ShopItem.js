@@ -24,7 +24,9 @@ export class ShopItem extends Component {
   render() {
     return (
       <div className="shopItem">
-        <img className="shopItem__image" src={this.props.preview} alt="Style preview" />
+        <img className="shopItem__image" style={{
+          backgroundImage: this.props.preview,
+        }}/>
         <div className="shopItem__price" style={{
           color: this.state.purchased ? 'white' : 'black',
         }}>{`$${this.props.price} CAD`}</div>

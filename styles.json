@@ -7,7 +7,9 @@
         "How time flows when you are having fun ⌛🎉",
         "Curling Dali's mustache 😲"
       ],
-      "checkpoint_dir_name": "persistence_41k"
+      "checkpoint_dir_name": "persistence",
+      "unlocked": true,
+      "price": "0.00"
     },
     {
       "name": "starry_night",
@@ -16,7 +18,9 @@
         "Gogh get some food - This might take a while 🍔 🍕",
         "Gogh-ing to get the artist ✌ 🔜"
       ],
-      "checkpoint_dir_name": "starry_night_41K"
+      "checkpoint_dir_name": "starry_night",
+      "unlocked": true,
+      "price": "0.00"
     },
     {
       "name": "wave",
@@ -26,7 +30,37 @@
         "Note: Art generated is not suitable for surfing 😖❗❗",
         "These waves are more dangerous than an iceberg! ❄"
       ],
-      "checkpoint_dir_name": "waves_82K"
+      "checkpoint_dir_name": "waves",
+      "unlocked": true,
+      "price": "0.00"
+    },
+    {
+      "name": "lisa",
+      "style_extension": ".jpg",
+      "quotes": ["Someone should make a quote for me."],
+      "checkpoint_dir_name": "lisa",
+      "unlocked": true,
+      "price": "1.00"
+    },
+    {
+      "name": "kiss",
+      "style_extension": ".jpg",
+      "quotes": [
+        "Someone should make a quote for me."
+      ],
+      "checkpoint_dir_name": "kiss",
+      "unlocked": false,
+      "price": "1.00"
+    },
+    {
+      "name": "scream",
+      "style_extension": ".jpg",
+      "quotes": [
+        "Someone should make a quote for me."
+      ],
+      "checkpoint_dir_name": "scream",
+      "unlocked": false,
+      "price": "1.00"
     }
   ]
 }
