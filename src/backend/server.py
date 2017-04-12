@@ -194,6 +194,29 @@ def stylize():
 
     return jsonify(response)
 
+@server.route("/shop/purchase", methods=["POST"])
+def purchase_style():
+  """
+  Updates the JSON file when a purchase has been made
+  """
+
+  response = {
+    "status": "cancel"
+  }
+
+  data = request.get_json(cache=False)
+  style_purchased_index = data["id"]
+  JSON_DATA["styles"][style_purchased_index]["unlocked"] = True
+  with open(JSON_FILE_PATH, 'w') as outfile:
+        json.dump(JSON_DATA, outfile)
+        response = {
+            "status": "ok"
+        }
+
+  return jsonify(response)
+
+
+
 @server.route("/open/file")
 def open_file():
     """

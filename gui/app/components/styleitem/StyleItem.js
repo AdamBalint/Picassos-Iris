@@ -8,6 +8,7 @@ export class StyleItem extends Component {
 
   constructor(props) {
     super(props);
+    this.selectStyle = this.selectStyle.bind(this);
   }
 
   getClassName(props) {
@@ -20,18 +21,20 @@ export class StyleItem extends Component {
     };
   }
 
-  selectStyle(props) {
-    if (props.selectedStyle != props.id) {
-      props.selectStyle(props.id, props.style.quotes);
-      props.stylize(props.id, props.imagePath, 415, 377);
+  selectStyle(e) {
+    if (this.props.selectedStyle != this.props.id) {
+      this.props.selectStyle(this.props.id, this.props.style.quotes);
+      this.props.stylize(this.props.id, this.props.imagePath, 415, 377);
+      // Scroll to this styles position in the list
+      this.refs[`${this.props.id}-style`].scrollIntoView({block: 'end', behavior:'smooth'});
     }
   }
 
   render() {
     return (
-      <div className={this.getClassName(this.props)}
+      <div ref={`${this.props.id}-style`} className={this.getClassName(this.props)}
       style={this.getStyle(this.props)}
-      onClick={(e) => {this.selectStyle(this.props)}}>
+      onClick={this.selectStyle}>
       </div>
     );
   }

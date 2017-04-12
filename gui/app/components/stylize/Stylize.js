@@ -23,12 +23,14 @@ export class Stylize extends Component {
     props.setCurrentPageIndex(1);
     props.isBackButtonVisible(true);
     props.setBackLink('/');
+
     this.state = {
       styles: [],
       fadeIn: ' fade-in-right',
       opacity: 100,
       isModalOpen: false,
     };
+
     this.renderContinueButton = this.renderContinueButton.bind(this);
     this.renderModal = this.renderModal.bind(this);
     this.showModal = this.showModal.bind(this);
