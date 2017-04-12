@@ -1,0 +1,32 @@
+{
+  "styles": [
+    {
+      "name": "persistence_of_memory",
+      "style_extension": ".png",
+      "quotes": [
+        "How time flows when you are having fun ⌛🎉",
+        "Curling Dali's mustache 😲"
+      ],
+      "checkpoint_dir_name": "persistence_41k"
+    },
+    {
+      "name": "starry_night",
+      "style_extension": ".jpg",
+      "quotes": [
+        "Gogh get some food - This might take a while 🍔 🍕",
+        "Gogh-ing to get the artist ✌ 🔜"
+      ],
+      "checkpoint_dir_name": "starry_night_41K"
+    },
+    {
+      "name": "wave",
+      "style_extension": ".jpg",
+      "quotes": [
+        "Waving it up, dude 🌊🌊🌊",
+        "Note: Art generated is not suitable for surfing 😖❗❗",
+        "These waves are more dangerous than an iceberg! ❄"
+      ],
+      "checkpoint_dir_name": "waves_82K"
+    }
+  ]
+}
