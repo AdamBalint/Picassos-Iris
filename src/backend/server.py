@@ -208,7 +208,7 @@ def purchase_style():
   style_purchased_index = data["id"]
   JSON_DATA["styles"][style_purchased_index]["unlocked"] = True
   with open(JSON_FILE_PATH, 'w') as outfile:
-        json.dump(JSON_DATA, outfile)
+        json.dump(JSON_DATA, outfile, indent=4)
         response = {
             "status": "ok"
         }
