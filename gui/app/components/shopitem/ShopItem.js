@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 require('./shopitem.scss');
 
@@ -8,6 +9,7 @@ export class ShopItem extends Component {
     this.state = {
       purchased: false,
     };
+    this.onPurchaseClicked = this.onPurchaseClicked.bind(this);
   }
 
   getShopItemButtonStyle(state) {
@@ -21,14 +23,29 @@ export class ShopItem extends Component {
     })
   }
 
+  onPurchaseClicked() {
+    this.setPurchased();
+    axios.post('/shop/purchase', {
+      id: this.props.id,
+    })
+    .then((res) => {
+
+    })
+    .catch((err) => {
+
+    });
+  }
+
   render() {
     return (
       <div className="shopItem">
-        <img className="shopItem__image" src={this.props.preview} alt="Style preview" />
+        <img className="shopItem__image" style={{
+          backgroundImage: this.props.preview,
+        }}/>
         <div className="shopItem__price" style={{
           color: this.state.purchased ? 'white' : 'black',
         }}>{`$${this.props.price} CAD`}</div>
-        <button onClick={(e) => { this.setPurchased() }} className={this.getShopItemButtonStyle(this.state)}>
+        <button onClick={this.onPurchaseClicked} className={this.getShopItemButtonStyle(this.state)}>
           {this.state.purchased ? 'Purchased' : 'Buy'}
         </button>
       </div>

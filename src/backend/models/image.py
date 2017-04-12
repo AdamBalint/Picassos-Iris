@@ -9,9 +9,7 @@ class Image:
         self.height, self.width = [0, 0]
         self.ext = os.path.splitext(self.file_path)[1:][0]
         with Im.open(self.file_path) as image:
-            print("we got here")
             self.height, self.width = image.size
-            print("we didn't crash here")
         with open(self.file_path, "rb") as image_file:
             self.base_64 = base64.b64encode(image_file.read())
 

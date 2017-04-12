@@ -2,7 +2,6 @@ import { cache, SELECT_STYLE, STYLIZE_IMAGE, RESET_STYLIZE } from '../actions/st
 import Image from '../models/Image';
 
 export const INITIAL_STATE = {
-  isModalOpen: false,
   selectedStyle: -1,
   styledPreview: '',
   quotes: [],

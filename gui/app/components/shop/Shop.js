@@ -1,6 +1,9 @@
 import React from 'react';
-import MockItems from '../shopitemlist/Mockitems';
+import { connect } from 'react-redux';
 import ShopItemList from '../shopitemlist/ShopItemList';
+import Image from '../../models/Image';
+import axios from 'axios';
+import fetchStyles from '../../util/FetchStyles';
 
 require('./shop.scss');
 
@@ -25,14 +28,25 @@ export class Shop extends React.Component {
       }
     }
 
+    this.state = {
+      styles: [],
+    };
+
     props.isBackButtonVisible(true);
     props.setBackLink(backLink);
+  }
+
+  componentDidMount(props) {
+    fetchStyles((styles) => {
+      let unlockedStyles = styles.filter((style) => style.unlocked == false);
+      this.setState({ styles: unlockedStyles });
+    });
   }
 
   render() {
     return (
       <div className="shop">
-        <ShopItemList data={MockItems}/>
+        <ShopItemList data={this.state.styles} />
       </div>
     );
   }

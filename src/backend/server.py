@@ -1,6 +1,7 @@
 import os
 import base64
 import webview
+import json
 import util
 from PIL import Image as im
 from io import BytesIO
@@ -15,6 +16,10 @@ STYLES_DIR = os.path.join(os.getcwd(), "styles")
 if not os.path.exists(STYLES_DIR):
     STYLES_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "styles")
 
+JSON_FILE_PATH = os.path.join(os.getcwd(), "styles.json")
+if not os.path.exists(JSON_FILE_PATH):
+    JSON_FILE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "styles.json")
+
 
 server = Flask(__name__, static_folder=FRONTEND_DIR, template_folder=FRONTEND_DIR)
 server.config["SEND_FILE_MAX_AGE_DEFAULT"] = 1  # disable caching
@@ -26,24 +31,9 @@ SUPPORTED_FILE_TYPES = [
     'tiff'
 ]
 
-STYLES = [
-    ('persistence_of_memory', '.png',
-    [
-      'How time flows when you are having fun ⌛🎉',
-      "Curling Dali's mustache 😲"
-    ], 'persistence_41K'),
-    ('starry_night', '.jpg',
-    [
-      "Gogh get some food - This might take a while 🍔 🍕",
-      "Gogh-ing to get the artist ✌ 🔜"
-    ], 'starry_night_41K'),
-    ('wave', '.jpg',
-    [
-      'Waving it up, dude 🌊🌊🌊',
-      'Note: Art generated is not suitable for surfing 😖❗❗',
-      'These waves are more dangerous than an iceberg! ❄'
-    ], 'waves_82K')
-]
+JSON_DATA = {}
+with open(JSON_FILE_PATH) as json_file:
+  JSON_DATA = json.load(json_file)
 
 
 @server.after_request
@@ -83,10 +73,13 @@ def fetch_styles():
         "styles": []
     }
 
-    for style in STYLES:
-        img = Image(STYLES_DIR+"/"+style[0]+style[1])
-        img.name = style[0]
-        img_quotes = style[2]
+    for style in JSON_DATA["styles"]:
+        name = style["name"]
+        ext = style["style_extension"]
+        quotes = style["quotes"]
+        img = Image(STYLES_DIR+"/"+name+ext)
+        img.name = name
+        img_quotes = quotes
         response["styles"].append({
             "status":"ok",
             "ext": "image/"+img.ext[1:],
@@ -94,6 +87,8 @@ def fetch_styles():
             "width": img.width,
             "height": img.height,
             "file_path": img.file_path,
+            "price": style["price"],
+            "unlocked": style["unlocked"],
             "quotes": img_quotes,
             "img_base64": img.base_64.decode("utf-8")
         })
@@ -109,10 +104,9 @@ def save_image():
     {
       img_base64: base64 representation of image to save
     }
-
-    :return: json response
+    :return: json response:
     {
-      "status": "ok or fail"
+      "status": "ok or cancel"
     }
     """
 
@@ -121,7 +115,7 @@ def save_image():
     file_name = webview.create_file_dialog(webview.SAVE_DIALOG, allow_multiple=False, file_filter=None, save_filename="file.png")
 
     response = {
-      "status": "cancel"
+        "status": "cancel"
     }
 
 
@@ -141,15 +135,16 @@ def stylize_preview():
     """
     Route to stylize image.
     Returns base_64 of styled image
+    {
+      "styled_base_64": "base_64 of styled image"
+    }
     """
     data = request.get_json(cache=True)
     style_id = data["style_id"]
     file_path = data["file_path"]
     width = data["width"]
     height = data["height"]
-
-    style_name = STYLES[style_id][3]
-
+    style_name = JSON_DATA["styles"][style_id]["checkpoint_dir_name"]
     orig_img = im.open(file_path)
     img = orig_img.resize((width, height), resample=im.NEAREST)
     styled_base64 = util.get_styled_image(img, style_name, preview=True)
@@ -169,17 +164,16 @@ def stylize():
     """
     Route to stylize image.
     Returns base_64 of styled image
+    :return: json response:
+    {
+      "styled_base_64": "base_64 of styled image"
+    }
     """
     data = request.get_json(cache=True)
-    print(data)
 
     # get variables from request
     style_id = data["style_id"]
-    height = data["height"]
-    width = data["width"]
-
-    style_name = STYLES[style_id][3]
-
+    style_name = JSON_DATA["styles"][style_id]["checkpoint_dir_name"]
     opacity = float(str(data["opacity"]))
     img_file_path = data["file_path"]
     image_file = im.open(img_file_path)
@@ -188,17 +182,40 @@ def stylize():
     image_file = image_file.convert("RGBA")
     styled_image = styled_image.convert("RGBA")
 
-    # Apply the overlay on the background
-    # Where the overlay is the styled image
+    # apply the overlay on the background with defined opacity
+    # where the overlay is the styled image
     # and the background user selected image
     new_img = im.blend(image_file, styled_image, opacity/100)
 
-    # Send back as a base64 string
+    # send back as a base64 string
     response = {
         "styled_base_64": util.get_base64_from_image(new_img).decode("utf-8")
     }
 
     return jsonify(response)
+
+@server.route("/shop/purchase", methods=["POST"])
+def purchase_style():
+  """
+  Updates the JSON file when a purchase has been made
+  """
+
+  response = {
+    "status": "cancel"
+  }
+
+  data = request.get_json(cache=False)
+  style_purchased_index = data["id"]
+  JSON_DATA["styles"][style_purchased_index]["unlocked"] = True
+  with open(JSON_FILE_PATH, 'w') as outfile:
+        json.dump(JSON_DATA, outfile)
+        response = {
+            "status": "ok"
+        }
+
+  return jsonify(response)
+
+
 
 @server.route("/open/file")
 def open_file():

@@ -19,7 +19,10 @@ export class ImageModal extends Component  {
           },
           content: {
             backgroundImage: props.Image ? props.Image.getCSSImageUrl() : '',
+            backgroundPosition: 'center',
             backgroundSize: 'cover',
+            overflowX: 'auto',
+            overflowY: 'auto',
             zIndex: 5000,
           },
         }}
