@@ -11,8 +11,9 @@ def feed_network(img_in, str_path_out, style_name):
     shape_orig = img_in.shape
     print (shape_orig)
     # double check to make sure that the association is right
-    scale_x, scale_y = (MAX_WIDTH/shape_orig[1], MAX_WIDTH/shape_orig[0]) if shape_orig[0] < shape_orig[1] else (MAX_HEIGHT/shape_orig[1], MAX_WIDTH/shape_orig[0])
+    scale_x, scale_y = (MAX_HEIGHT/shape_orig[1], MAX_WIDTH/shape_orig[0]) if shape_orig[0] > shape_orig[1] else (MAX_WIDTH/shape_orig[1], MAX_HEIGHT/shape_orig[0])
     img_scale = min(scale_x, scale_y)
+    print (img_scale)
     img_in = imresize(img_in, (int(shape_orig[0]*img_scale), int(shape_orig[1]*img_scale), shape_orig[2]))
     print (img_in.shape)
     shape_in = (1,)+(img_in.shape)
