@@ -43,7 +43,10 @@ export class Shop extends React.Component {
   render() {
     return (
       <div className="shop">
-        <ShopItemList data={this.state.styles} />
+        <ShopItemList
+        displayNotificationWithMessage={this.props.displayNotificationWithMessage}
+        dismissNotification={this.props.dismissNotification}
+        data={this.state.styles} />
       </div>
     );
   }

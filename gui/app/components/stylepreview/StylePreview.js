@@ -9,24 +9,14 @@ require('./stylepreview.scss');
 export default class StylePreview extends Component {
   constructor(props) {
     super(props);
-    this.renderSpinner = this.renderSpinner.bind(this);
-    this.showControls = this.showControls.bind(this);
-    this.hideControls = this.hideControls.bind(this);
+
     this.state = {
       showControls: false,
     };
-  }
 
-  renderSpinner() {
-    if (this.props.loading) {
-      return (
-        <div className="stylepreview__loader">
-          <div className="loader"></div>
-        </div>
-      );
-    }
-
-    return '';
+    this.renderSpinner = this.renderSpinner.bind(this);
+    this.showControls = this.showControls.bind(this);
+    this.hideControls = this.hideControls.bind(this);
   }
 
   showControls() {
@@ -39,6 +29,18 @@ export default class StylePreview extends Component {
     this.setState({
       showControls: false,
     });
+  }
+
+  renderSpinner() {
+    if (this.props.loading) {
+      return (
+        <div className="stylepreview__loader">
+          <div className="loader"></div>
+        </div>
+      );
+    }
+
+    return '';
   }
 
   render() {

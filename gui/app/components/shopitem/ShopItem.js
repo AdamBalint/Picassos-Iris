@@ -6,21 +6,23 @@ require('./shopitem.scss');
 export class ShopItem extends Component {
   constructor(props, context) {
     super(props, context);
+
     this.state = {
       purchased: false,
     };
+
     this.onPurchaseClicked = this.onPurchaseClicked.bind(this);
   }
 
   getShopItemButtonStyle(state) {
-    let baseStyle = "shopItem__button grow dim ";
-    return state.purchased ? baseStyle+'shopItem__purchased' : baseStyle+'shopItem__buy';
+    let baseStyle = 'shopItem__button grow dim ';
+    return state.purchased ? baseStyle + 'shopItem__purchased' : baseStyle + 'shopItem__buy';
   }
 
   setPurchased() {
     this.setState({
       purchased: true,
-    })
+    });
   }
 
   onPurchaseClicked() {
@@ -28,11 +30,16 @@ export class ShopItem extends Component {
     axios.post('/shop/purchase', {
       id: this.props.id,
     })
-    .then((res) => {
-
+    .then(({data}) => {
+      if (data.status == 'ok') {
+        this.props.displayNotificationWithMessage('Try styling another image to use this style!');
+        setTimeout(() => {
+          this.props.dismissNotification();
+        }, 4000);
+      }
     })
     .catch((err) => {
-
+      this.props.displayNotificationWithMessage('Uh-oh, something bad happened when purchasing this style!');
     });
   }
 

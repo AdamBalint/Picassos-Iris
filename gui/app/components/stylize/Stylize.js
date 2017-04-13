@@ -47,6 +47,15 @@ export class Stylize extends Component {
     });
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.styledPreview != nextProps.styledPreview) {
+      this.props.displayNotificationWithMessage('Hover over the styled image to set the intensity of the style');
+      setTimeout(() => {
+        this.props.dismissNotification();
+      }, 4000);
+    }
+  }
+
   handleContinueButtonClick(e, props) {
     e.preventDefault();
     this.context.router.push('/loading-result');
