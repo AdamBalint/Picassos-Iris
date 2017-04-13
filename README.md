@@ -15,6 +15,7 @@ Depending on your OS, enter the following commands in your terminal once in the 
 $ pip install -r requirements.txt
 $ pip install -r requirements.osx.txt
 $ cd gui && npm install
+$ npm run build
 ```
 
 #### On Windows
@@ -22,6 +23,7 @@ $ cd gui && npm install
 $ pip install -r requirements.txt
 $ pip install -r requirements.windows.txt
 $ cd gui && npm install
+$ npm run build
 ```
 
 ### 2. Run the application locally
