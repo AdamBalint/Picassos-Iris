@@ -5,7 +5,9 @@ import Image from '../../../app/models/Image';
 
 const fakeImageProp = new Image('fake_base64', '.png');
 const stylize = shallow(
-  <Stylize imageFile={fakeImageProp}
+  <Stylize
+  imageFile={fakeImageProp}
+  styledPreview={fakeImageProp}
   currentPageIndex={1}
   setCurrentPageIndex={() => false}
   isBackButtonVisible={(fakeBool) => fakeBool}

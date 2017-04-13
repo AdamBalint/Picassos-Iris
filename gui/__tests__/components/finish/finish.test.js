@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import Image from '../../../app/models/Image';
 import { Finish } from '../../../app/components/finish/Finish';
 
 test('Finish renders without errors', () => {
@@ -7,11 +8,7 @@ test('Finish renders without errors', () => {
     <Finish isBackButtonVisible={() => false}
     setCurrentPageIndex={() => 1}
     setBackLink={() => false}
-    styledResult={{
-      getCSSImageUrl: () => {
-        return 'fakeCSSImageUrl';
-      },
-    }}/>
+    styledResult={new Image('fake', 'png', 100, 100)}/>
   );
 
   expect(finish.length).toEqual(1);

@@ -7,6 +7,8 @@ import StylePreview from '../stylepreview/StylePreview';
 import fetchStyles from '../../util/FetchStyles';
 import { resetFinish, stylizeResult } from '../../actions/finish';
 
+import Image from '../../models/Image';
+
 require('./stylize.scss');
 
 const CONTINUE_ICON = '>';
@@ -53,7 +55,8 @@ export class Stylize extends Component {
       props.imageFile, this.state.opacity);
   }
 
-  renderContinueButton({selectedStyle}) {
+  renderContinueButton() {
+    let { selectedStyle } = this.props;
     if (selectedStyle == -1) {
       return '';
     } else {
@@ -84,16 +87,20 @@ export class Stylize extends Component {
     });
   }
 
-  renderModal(state, props) {
+  renderModal() {
+    let { isModalOpen, opacity } = this.state;
+    let { styledPreview, imageFile } = this.props;
     return (
       <ImageModal
-        isModalOpen={state.isModalOpen}
+        isModalOpen={isModalOpen}
         onRequestClose={() => {
           this.setState({
             isModalOpen: false,
           });
         }}
-        Image={props.styledPreview}
+        styledImage={styledPreview}
+        baseImage={imageFile}
+        opacity={opacity}
         onCloseClick={() => {
           this.hideModal();
         }}
@@ -118,8 +125,8 @@ export class Stylize extends Component {
         loading={this.props.loading}
         showModal={this.showModal}
         styledPreview={this.props.styledPreview}/>
-        { this.props.styledPreview ? this.renderModal(this.state, this.props) : ''}
-        { this.renderContinueButton(this.props) }
+        { this.props.styledPreview ? this.renderModal() : ''}
+        { this.renderContinueButton() }
         <StyleList data={this.state.styles}/>
       </div>
     );
@@ -139,6 +146,6 @@ function mapStateToProps({filepicker, stylize}) {
 
 Stylize.contextTypes = {
   router: PropTypes.object,
-}
+};
 
 export default connect(mapStateToProps, { stylizeResult, resetFinish } )(Stylize);
