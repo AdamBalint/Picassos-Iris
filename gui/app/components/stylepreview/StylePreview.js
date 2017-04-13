@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import BlendedImage from '../blendedimage/BlendedImage';
 import { showModal } from '../../actions/stylize';
 import { zoomIcon } from '../../util/Icons';
 
@@ -8,31 +9,26 @@ require('./stylepreview.scss');
 export default class StylePreview extends Component {
   constructor(props) {
     super(props);
-    this.renderSpinner = this.renderSpinner.bind(this);
-    this.renderStylePreview = this.renderStylePreview.bind(this);
-    this.showControls = this.showControls.bind(this);
-    this.hideControls = this.hideControls.bind(this);
-    this.getStyledImage = this.getStyledImage.bind(this);
 
     this.state = {
-      hovering: false,
+      showControls: false,
     };
+
+    this.renderSpinner = this.renderSpinner.bind(this);
+    this.showControls = this.showControls.bind(this);
+    this.hideControls = this.hideControls.bind(this);
   }
 
-  getImage(image) {
-    return {
-      backgroundImage: image.getCSSImageUrl(),
-      backgroundSize: 'contain',
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'center',
-    };
+  showControls() {
+    this.setState({
+      showControls: true,
+    });
   }
 
-  getStyledImage(styledImage) {
-    let style = this.getImage(styledImage);
-    // Divide the slider value by 100 to get the CSS opacity value
-    style.opacity = this.props.opacity / 100;
-    return style;
+  hideControls() {
+    this.setState({
+      showControls: false,
+    });
   }
 
   renderSpinner() {
@@ -47,48 +43,21 @@ export default class StylePreview extends Component {
     return '';
   }
 
-  showControls() {
-    this.setState({
-      hovering: true,
-    });
-  }
-
-  hideControls() {
-    this.setState({
-      hovering: false,
-    });
-  }
-
-  renderStylePreview() {
-    if (this.props.styledPreview) {
-      return (
-        <div className="image--style"
-        style={this.getStyledImage(this.props.styledPreview)}
-        onMouseEnter={this.showControls}
-        onMouseLeave={this.hideControls}>
-        </div>
-      );
-    }
-
-    return '';
-  }
-
   render() {
     return (
-      <div className="stylepreview">
+      <div className="stylepreview" onMouseEnter={this.props.styledPreview ? this.showControls : ''} onMouseLeave={this.hideControls}>
         { this.renderSpinner() }
-        <div className="image--no-style" style={this.getImage(this.props.image)}></div>
-        <div className={this.state.hovering ? 'slider fade-in' : 'slider hide'}
+        <BlendedImage opacity={this.props.opacity} styledImage={this.props.styledPreview} baseImage={this.props.image}/>
+        <div className={this.state.showControls ? 'controls slider-controls fade-in' : 'controls slider-controls hide'}
           onMouseEnter={this.showControls}
           onMouseLeave={this.hideControls}>
           <input type="range" onMouseUp={this.props.setOpacity} onChange={this.props.setOpacity} value={this.props.opacity}></input>
         </div>
-        <div className={this.state.hovering ? 'zoom-controls fade-in' : 'zoom-controls hide'}
+        <div className={this.state.showControls ? 'controls zoom-controls fade-in' : 'controls zoom-controls hide'}
           onMouseEnter={this.showControls}
           onMouseLeave={this.hideControls}>
           <img className="zoom-icon grow dim" src={zoomIcon} onClick={(e) => { this.props.showModal(); }}/>
         </div>
-        { this.renderStylePreview() }
       </div>
     );
   }

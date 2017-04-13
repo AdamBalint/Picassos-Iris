@@ -12,7 +12,10 @@ export class ShopItemList extends Component {
     return data.map((style, index) => {
       return (
         <li>
-          <ShopItem id={style.id} preview={style.image.getCSSImageUrl()} price={style.price}/>
+          <ShopItem
+          displayNotificationWithMessage={this.props.displayNotificationWithMessage}
+          dismissNotification={this.props.dismissNotification}
+          id={style.id} preview={style.image.getCSSImageUrl()} price={style.price}/>
         </li>
       );
     });

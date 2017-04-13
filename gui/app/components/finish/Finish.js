@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Image from '../../models/Image';
 import { connect } from 'react-redux';
 import { zoomIcon } from '../../util/Icons';
 import { saveImage, clearState } from '../../actions/finish';
@@ -15,6 +16,7 @@ export class Finish extends Component {
     props.setBackLink('/stylize');
     this.handleSave = this.handleSave.bind(this);
     this.handleNewImage = this.handleNewImage.bind(this);
+    this.renderModal = this.renderModal.bind(this);
     this.renderSaveButton = this.renderSaveButton.bind(this);
     this.renderSaveCircle = this.renderSaveCircle.bind(this);
     this.hideControls = this.hideControls.bind(this);
@@ -50,16 +52,20 @@ export class Finish extends Component {
     });
   }
 
-  renderModal(state, props) {
+  renderModal() {
+    let { isModalOpen } = this.state;
+    let { styledResult } = this.props;
     return (
       <ImageModal
-        isModalOpen={state.isModalOpen}
+        isModalOpen={isModalOpen}
         onRequestClose={() => {
           this.setState({
             isModalOpen: false,
           });
         }}
-        Image={props.styledResult}
+        styledImage={styledResult}
+        baseImage={new Image('', '', 0, 0)}
+        opacity={100}
         onCloseClick={() => {
           this.hideModal();
         }}
@@ -134,7 +140,7 @@ export class Finish extends Component {
             <img className="zoom-icon grow dim" src={zoomIcon} onClick={(e) => { this.showModal(); }} />
           </div>
           {this.renderSaveCircle()}
-          {this.renderModal(this.state, this.props)}
+          {this.renderModal()}
         </div>
         <div className="finish__buttons-container">
           {this.renderNewImageButton()}

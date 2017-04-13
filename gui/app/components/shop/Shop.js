@@ -1,8 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import ShopItemList from '../shopitemlist/ShopItemList';
-import Image from '../../models/Image';
-import axios from 'axios';
 import fetchStyles from '../../util/FetchStyles';
 
 require('./shop.scss');
@@ -46,7 +43,10 @@ export class Shop extends React.Component {
   render() {
     return (
       <div className="shop">
-        <ShopItemList data={this.state.styles} />
+        <ShopItemList
+        displayNotificationWithMessage={this.props.displayNotificationWithMessage}
+        dismissNotification={this.props.dismissNotification}
+        data={this.state.styles} />
       </div>
     );
   }
