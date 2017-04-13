@@ -1,68 +1,68 @@
 {
     "styles": [
         {
-            "style_extension": ".png",
             "name": "persistence_of_memory",
-            "checkpoint_dir_name": "persistence",
+            "style_extension": ".png",
             "unlocked": true,
-            "price": "0.00",
             "quotes": [
                 "How time flows when you are having fun \u231b\ud83c\udf89",
                 "Curling Dali's mustache \ud83d\ude32"
-            ]
+            ],
+            "checkpoint_dir_name": "persistence",
+            "price": "0.00"
         },
         {
-            "style_extension": ".jpg",
             "name": "starry_night",
-            "checkpoint_dir_name": "starry_night",
+            "style_extension": ".jpg",
             "unlocked": true,
-            "price": "0.00",
             "quotes": [
                 "Gogh get some food - This might take a while \ud83c\udf54 \ud83c\udf55",
                 "Gogh-ing to get the artist \u270c \ud83d\udd1c"
-            ]
+            ],
+            "checkpoint_dir_name": "starry_night",
+            "price": "0.00"
         },
         {
-            "style_extension": ".jpg",
             "name": "wave",
-            "checkpoint_dir_name": "waves",
+            "style_extension": ".jpg",
             "unlocked": true,
-            "price": "0.00",
             "quotes": [
                 "Waving it up, dude \ud83c\udf0a\ud83c\udf0a\ud83c\udf0a",
                 "Note: Art generated is not suitable for surfing \ud83d\ude16\u2757\u2757",
                 "These waves are more dangerous than an iceberg! \u2744"
-            ]
+            ],
+            "checkpoint_dir_name": "waves",
+            "price": "0.00"
         },
         {
-            "style_extension": ".jpg",
             "name": "lisa",
+            "style_extension": ".jpg",
+            "unlocked": false,
+            "quotes": [
+                "Someone should make a quote for me."
+            ],
             "checkpoint_dir_name": "lisa",
-            "unlocked": false,
-            "price": "1.00",
-            "quotes": [
-                "Someone should make a quote for me."
-            ]
+            "price": "1.00"
         },
         {
-            "style_extension": ".jpg",
             "name": "kiss",
-            "checkpoint_dir_name": "kiss",
+            "style_extension": ".jpg",
             "unlocked": false,
-            "price": "1.00",
             "quotes": [
                 "Someone should make a quote for me."
-            ]
+            ],
+            "checkpoint_dir_name": "kiss",
+            "price": "1.00"
         },
         {
-            "style_extension": ".jpg",
             "name": "scream",
-            "checkpoint_dir_name": "scream",
+            "style_extension": ".jpg",
             "unlocked": false,
-            "price": "1.00",
             "quotes": [
                 "Someone should make a quote for me."
-            ]
+            ],
+            "checkpoint_dir_name": "scream",
+            "price": "1.00"
         }
     ]
 }

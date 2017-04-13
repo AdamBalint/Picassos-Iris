@@ -16,9 +16,9 @@ STYLES_DIR = os.path.join(os.getcwd(), "styles")
 if not os.path.exists(STYLES_DIR):
     STYLES_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "styles")
 
-JSON_FILE_PATH = os.path.join(os.getcwd(), "styles.json")
+JSON_FILE_PATH = os.path.join(os.getcwd(), "config")
 if not os.path.exists(JSON_FILE_PATH):
-    JSON_FILE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "styles.json")
+    JSON_FILE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config")
 
 
 server = Flask(__name__, static_folder=FRONTEND_DIR, template_folder=FRONTEND_DIR)
@@ -32,7 +32,7 @@ SUPPORTED_FILE_TYPES = [
 ]
 
 JSON_DATA = {}
-with open(JSON_FILE_PATH) as json_file:
+with open(JSON_FILE_PATH+'/styles.json') as json_file:
   JSON_DATA = json.load(json_file)
 
 
