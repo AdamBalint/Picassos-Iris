@@ -27,5 +27,5 @@ $ cd gui && npm install
 ### 2. Run the application locally
 
 ```sh
-$ cd src/UI/backend && python3 main.py
+$ cd src/backend && python3 main.py
 ```
