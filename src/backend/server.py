@@ -154,6 +154,7 @@ def stylize_preview():
     styled_image.save(buff, format="JPEG")
     styled_base64 = base64.b64encode(buff.getvalue()).decode("utf-8")
     response = {
+        "id": style_id,
         "styled_base_64": styled_base64
     }
 

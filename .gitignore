@@ -6,3 +6,4 @@ py3env
 .DS_Store
 *.pyc
 .coverage
+gui/coverage
