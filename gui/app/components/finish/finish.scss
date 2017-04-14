@@ -1,0 +1,61 @@
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0 }
+  50% { opacity: 1; }
+}
+
+.finish {
+  display: flex;
+  flex-direction: column;
+  height: 510px;
+  justify-content: center;
+  align-items: center;
+}
+
+.finish__result-container {
+  width: 416px;
+  height: 377px;
+  margin: 0 auto;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.btn--another-image {
+  margin-top: 25px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.finish__result-container {
+  display: flex;
+  position: relative;
+}
+
+.saved-circle {
+  width: 50px;
+  height: 50px;
+  fill: white;
+  align-self: center;
+  margin: auto;
+  animation: fadeInOut 2.5s ease-in-out forwards;
+}
+
+.btn--save {
+  background-color: #81C784;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-top: 25px;
+  margin-left: 30px;
+  color: white;
+  border: none;
+}
+
+.zoom-result {
+  position: absolute;
+  top: 0;
+  height: 92px;
+  width: 100%;
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.00) 15%, #000000 100%);
+  z-index: 3;
+}
+

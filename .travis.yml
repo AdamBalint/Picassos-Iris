@@ -1,11 +1,15 @@
-{
-  "language": "python",
-  "python": "3.5",
-  "install": "pip install -r requirements.txt",
-  "script": "py.test --cov=./",
-  "group": "stable",
-  "dist": "precise",
-  "os": "linux",
-  "slack":"snzY3aMQConrGEoxnOD1R066",
-  "after_success":"- bash <(curl -s https://codecov.io/bash) -t 0baa3306-4fd8-47e3-8bba-0fad3d1760c9"
-}
+language: python
+python: '3.5'
+before_install: wget https://raw.githubusercontent.com/creationix/nvm/v0.31.0/nvm.sh
+  -O ~/.nvm/nvm.sh && source ~/.nvm/nvm.sh && nvm install 5 && npm install --prefix
+  gui
+install: pip install -r requirements.txt
+script: cd gui/ && npm run test && cd .. && py.test --cov=src/backend/stylize/AI/ src/backend/stylize/AI/tests
+group: stable
+dist: precise
+os: linux
+slack: snzY3aMQConrGEoxnOD1R066
+after_success: "- bash <(curl -s https://codecov.io/bash) -t 0baa3306-4fd8-47e3-8bba-0fad3d1760c9"
+notifications:
+  slack:
+    secure: V2cqURVLcHUq6odDUs886cZFZCfpcn7PcqZUGSPp/xGYknEs8DKofGqOoY0gSitaEVk1qGnsrZxfb7CuTpi13sjNnnTmBIZOimuV7o3Iwk+8W0z1CIS0mcytQ5J0rhKJ4X0GYmIq3jPk12+r+NZMxNd90Pwr7qb+FZkH2MWIqSR7xXQaorABSfJCMcguTC1zl/phRnbjSi8rDhcY+UEzfUDkSXYK6kVpRZ2aDEzlKn8iTkaM/x18og2PP7avYbm+24nR4A7fHOL4/REii8xjx9GL2E4vZFvULBYBlI4j7AmUaVwdWvmHpaQKAE1AO7vFiqKBIlCxkgZpUTvbhUSAhWOYYhJVXFd692QbsbCg11fahEbwrIaC+re7BzkRDbAeqnwRjXdgYmVYJgf58EF4XXxoouBstdGx78K/lrqy7SLN9TwsYOPXLuTGFE3vMUIjp3jnImQyb3cTOqo0EHklk3RU2NDX2JwvAgg+iIIDrDvVyYhtfSJ8BTtM5ZJBUXTBhHb8eJDl8uzHvwLGeqoJP083fDoQZo9sYBOnntXs2cE+xZ6b6CN95vsh+lUh04hKT/iwJLbP1zwyzvORmSHOPC/nTGoRX4HNND7kQ+FBftlbYekC6NvYDPdaHUDojriRk5DMjRTNvva0oe9nFu/y0evNtv+VwdKCJnOxxRQlq7M=

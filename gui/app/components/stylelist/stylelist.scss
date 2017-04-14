@@ -1,0 +1,13 @@
+ul > li {
+    list-style-type: none;
+}
+
+.stylelist {
+    float: right;
+    height: 450px;
+    margin-top: 30px;
+    margin-right: 100px;
+    padding-right: 50px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}

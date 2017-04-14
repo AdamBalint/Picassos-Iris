@@ -1,0 +1,20 @@
+.blendedimage {
+  width: inherit;
+  height: inherit;
+}
+
+.image--no-style {
+  background-size: cover;
+  position: absolute;
+  margin-bottom: 57px;
+  width: inherit;
+  height: inherit;
+}
+
+.image--style {
+  background-size: cover;
+  position: absolute;
+  width: inherit;
+  height: inherit;
+  z-index: 2;
+}
