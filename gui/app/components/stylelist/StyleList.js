@@ -14,7 +14,7 @@ export default class StyleList extends Component {
     return data.map((style, index) => {
       return (
           <li>
-              <StyleItem id={index} style={style}/>
+              <StyleItem id={style.id} style={style}/>
           </li>
       );
     });
