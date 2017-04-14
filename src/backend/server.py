@@ -21,6 +21,8 @@ if not os.path.exists(JSON_FILE_PATH):
     JSON_FILE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config")
 
 
+JSON_FILE_PATH = JSON_FILE_PATH + '/styles.json'
+
 server = Flask(__name__, static_folder=FRONTEND_DIR, template_folder=FRONTEND_DIR)
 server.config["SEND_FILE_MAX_AGE_DEFAULT"] = 1  # disable caching
 
@@ -32,7 +34,7 @@ SUPPORTED_FILE_TYPES = [
 ]
 
 JSON_DATA = {}
-with open(JSON_FILE_PATH+'/styles.json') as json_file:
+with open(JSON_FILE_PATH) as json_file:
   JSON_DATA = json.load(json_file)
 
 
