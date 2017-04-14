@@ -1,68 +1,108 @@
 {
     "styles": [
         {
-            "name": "persistence_of_memory",
             "style_extension": ".png",
+            "name": "persistence_of_memory",
+            "checkpoint_dir_name": "persistence",
             "unlocked": true,
+            "price": "0.00",
             "quotes": [
                 "How time flows when you are having fun \u231b\ud83c\udf89",
                 "Curling Dali's mustache \ud83d\ude32"
-            ],
-            "checkpoint_dir_name": "persistence",
-            "price": "0.00"
+            ]
         },
         {
-            "name": "starry_night",
             "style_extension": ".jpg",
+            "name": "starry_night",
+            "checkpoint_dir_name": "starry_night",
             "unlocked": true,
+            "price": "0.00",
             "quotes": [
                 "Gogh get some food - This might take a while \ud83c\udf54 \ud83c\udf55",
                 "Gogh-ing to get the artist \u270c \ud83d\udd1c"
-            ],
-            "checkpoint_dir_name": "starry_night",
-            "price": "0.00"
+            ]
         },
         {
-            "name": "wave",
             "style_extension": ".jpg",
+            "name": "wave",
+            "checkpoint_dir_name": "waves",
             "unlocked": true,
+            "price": "0.00",
             "quotes": [
                 "Waving it up, dude \ud83c\udf0a\ud83c\udf0a\ud83c\udf0a",
                 "Note: Art generated is not suitable for surfing \ud83d\ude16\u2757\u2757",
                 "These waves are more dangerous than an iceberg! \u2744"
-            ],
-            "checkpoint_dir_name": "waves",
-            "price": "0.00"
+            ]
         },
         {
+            "style_extension": ".jpg",
             "name": "lisa",
-            "style_extension": ".jpg",
-            "unlocked": false,
-            "quotes": [
-                "Someone should make a quote for me."
-            ],
             "checkpoint_dir_name": "lisa",
-            "price": "1.00"
+            "unlocked": false,
+            "price": "1.00",
+            "quotes": [
+                "Turn that frown upside down. Waiting is fun!"
+            ]
         },
         {
+            "style_extension": ".jpg",
             "name": "kiss",
-            "style_extension": ".jpg",
+            "checkpoint_dir_name": "kiss",
             "unlocked": false,
+            "price": "0.01",
             "quotes": [
                 "Someone should make a quote for me."
-            ],
-            "checkpoint_dir_name": "kiss",
-            "price": "1.00"
+            ]
         },
         {
-            "name": "scream",
             "style_extension": ".jpg",
+            "name": "scream",
+            "checkpoint_dir_name": "scream",
             "unlocked": false,
+            "price": "1.00",
             "quotes": [
                 "Someone should make a quote for me."
-            ],
-            "checkpoint_dir_name": "scream",
-            "price": "1.00"
+            ]
+        },
+        {
+            "style_extension": ".jpg",
+            "name": "cafe_terrace",
+            "checkpoint_dir_name": "cafe_terrace",
+            "unlocked": false,
+            "price": "1.00",
+            "quotes": [
+                "Sip some coffee with me!"
+            ]
+        },
+        {
+            "style_extension": ".jpg",
+            "name": "la_grande_jatte",
+            "checkpoint_dir_name": "la_grande_jatte",
+            "unlocked": false,
+            "price": "1.00",
+            "quotes": [
+                "Enjoy the race."
+            ]
+        },
+        {
+            "style_extension": ".jpg",
+            "name": "water_lillies",
+            "checkpoint_dir_name": "water_lillies",
+            "unlocked": false,
+            "price": "1.00",
+            "quotes": [
+                "Just another frog enjoying the pond."
+            ]
+        },
+        {
+            "style_extension": ".jpg",
+            "name": "udnie",
+            "checkpoint_dir_name": "udnie",
+            "unlocked": false,
+            "price": "5.00",
+            "quotes": [
+                "Just a shape vortex."
+            ]
         }
     ]
 }
