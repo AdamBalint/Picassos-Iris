@@ -22,12 +22,12 @@ def feed_network(img_in, str_path_out, style_name, preview=False, base64=False):
     print (shape_orig)
     if not preview:
     # double check to make sure that the association is right
-        scale_x, scale_y = MAX_WIDTH/shape_orig[1], MAX_HEIGHT/shape_orig[0]
+        scale_x, scale_y = (MAX_HEIGHT/shape_orig[1], MAX_WIDTH/shape_orig[0]) if shape_orig[0] > shape_orig[1] else (MAX_WIDTH/shape_orig[1], MAX_HEIGHT/shape_orig[0])
         img_scale = min(scale_x, scale_y)
         img_in = imresize(img_in, (int(shape_orig[0]*img_scale), int(shape_orig[1]*img_scale), shape_orig[2]))
-
+        print (img_in.shape)
     shape_in = (1,)+(img_in.shape)
-    img_in = np.expand_dims(img_in.astype(np.float32),  axis = 0).astype(np.float32)
+    img_in = np.expand_dims(img_in.astype(np.float32), axis = 0).astype(np.float32)
     soft_config = tf.ConfigProto(allow_soft_placement=True)
     soft_config.gpu_options.allow_growth = True
     graph_main = tf.Graph()
