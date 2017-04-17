@@ -15,7 +15,7 @@ export class Nav extends Component {
 
   render() {
     return (
-      <nav className="nav">
+      <nav ref="navbar" className="nav">
           {this.props.isBackButtonVisible ? this.renderBackButton(this.props) : ''}
           <div className="nav__logo">
             <div className="nav__logo-container dim">
