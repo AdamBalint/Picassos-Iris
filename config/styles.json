@@ -5,22 +5,22 @@
                 "How time flows when you are having fun \u231b\ud83c\udf89",
                 "Curling Dali's mustache \ud83d\ude32"
             ],
-            "style_extension": ".png",
             "checkpoint_dir_name": "persistence",
+            "name": "persistence_of_memory",
             "unlocked": true,
-            "price": "0.00",
-            "name": "persistence_of_memory"
+            "style_extension": ".png",
+            "price": "0.00"
         },
         {
             "quotes": [
                 "Gogh get some food - This might take a while \ud83c\udf54 \ud83c\udf55",
                 "Gogh-ing to get the artist \u270c \ud83d\udd1c"
             ],
-            "style_extension": ".jpg",
             "checkpoint_dir_name": "starry_night",
+            "name": "starry_night",
             "unlocked": true,
-            "price": "0.00",
-            "name": "starry_night"
+            "style_extension": ".jpg",
+            "price": "0.00"
         },
         {
             "quotes": [
@@ -28,101 +28,113 @@
                 "Note: Art generated is not suitable for surfing \ud83d\ude16\u2757\u2757",
                 "These waves are more dangerous than an iceberg! \u2744"
             ],
-            "style_extension": ".jpg",
             "checkpoint_dir_name": "waves",
+            "name": "wave",
             "unlocked": true,
-            "price": "0.00",
-            "name": "wave"
+            "style_extension": ".jpg",
+            "price": "0.00"
         },
         {
             "quotes": [
-                "Turn that frown upside down. Waiting is fun!"
+                "Turn that frown upside down. Waiting is fun!",
+                "You may have heard of the DaVinci code but have you broken the Iris Code yet?"
             ],
-            "style_extension": ".jpg",
             "checkpoint_dir_name": "lisa",
-            "unlocked": false,
-            "price": "1.00",
-            "name": "lisa"
+            "name": "lisa",
+            "unlocked": true,
+            "style_extension": ".jpg",
+            "price": "1.00"
         },
         {
             "quotes": [
-                "Someone should make a quote for me."
+                "Someone should make a quote for me"
             ],
-            "style_extension": ".jpg",
             "checkpoint_dir_name": "kiss",
-            "unlocked": false,
-            "price": "0.01",
-            "name": "kiss"
+            "name": "kiss",
+            "unlocked": true,
+            "style_extension": ".jpg",
+            "price": "0.01"
         },
         {
             "quotes": [
-                "Someone should make a quote for me."
+                "Don\u2019t worry, things will get better soon",
+                "No need to scream, it\u2019s just a sunset"
             ],
-            "style_extension": ".jpg",
             "checkpoint_dir_name": "scream",
-            "unlocked": false,
-            "price": "1.00",
-            "name": "scream"
+            "name": "scream",
+            "unlocked": true,
+            "style_extension": ".jpg",
+            "price": "1.00"
         },
         {
             "quotes": [
-                "Sip some coffee with me!"
+                "Sip some coffee with me!",
+                "Nice time for a coffee break",
+                "The night doesn\u2019t seem so starry from this terrace"
             ],
-            "style_extension": ".jpg",
             "checkpoint_dir_name": "cafe_terrace",
-            "unlocked": false,
-            "price": "1.00",
-            "name": "cafe_terrace"
+            "name": "cafe_terrace",
+            "unlocked": true,
+            "style_extension": ".jpg",
+            "price": "1.00"
         },
         {
             "quotes": [
-                "Enjoy the race."
+                "Enjoy the race",
+                "While you wait, why not take your monkey for a walk?",
+                "On a sunny day, better stay in the shade",
+                "Fishing in a dress is a sure way to success"
             ],
-            "style_extension": ".jpg",
             "checkpoint_dir_name": "la_grande_jatte",
-            "unlocked": false,
-            "price": "1.00",
-            "name": "la_grande_jatte"
+            "name": "la_grande_jatte",
+            "unlocked": true,
+            "style_extension": ".jpg",
+            "price": "1.00"
         },
         {
             "quotes": [
-                "Just another frog enjoying the pond."
+                "Just another frog enjoying the pond",
+                "Free of swamp monsters since 1920"
             ],
-            "style_extension": ".jpg",
             "checkpoint_dir_name": "water_lillies",
-            "unlocked": false,
-            "price": "1.00",
-            "name": "water_lillies"
+            "name": "water_lillies",
+            "unlocked": true,
+            "style_extension": ".jpg",
+            "price": "1.00"
         },
         {
             "quotes": [
-                "Just a shape vortex."
+                "Just a shape vortex",
+                "We aren’t sure what this is a picture of either",
+                "Abstract is in the eye of the beholder"
             ],
-            "style_extension": ".jpg",
             "checkpoint_dir_name": "udnie",
-            "unlocked": false,
-            "price": "5.00",
-            "name": "udnie"
+            "name": "udnie",
+            "unlocked": true,
+            "style_extension": ".jpg",
+            "price": "5.00"
         },
         {
             "quotes": [
                 "Is it a dream or real life?"
             ],
-            "style_extension": ".jpg",
             "checkpoint_dir_name": "jaewoon",
-            "unlocked": false,
-            "price": "5.00",
-            "name": "jaewoon"
+            "name": "jaewoon",
+            "unlocked": true,
+            "style_extension": ".jpg",
+            "price": "5.00"
         },
         {
             "quotes": [
-                "Better waiting than stepping on one"
+                "Better waiting than stepping on one",
+                "We promise we aren’t bricking your computer",
+                "Piecing together your image"
             ],
-            "style_extension": ".jpg",
             "checkpoint_dir_name": "starry_night_lego",
+            "name": "starry_night_lego",
             "unlocked": true,
-            "price": "5.00",
-            "name": "starry_night_lego"
+            "style_extension": ".jpg",
+            "price": "5.00"
         }
     ]
 }
