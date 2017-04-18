@@ -15,7 +15,6 @@ export default function(state = INITIAL_STATE, action) {
         let { status } = action.payload.data;
         if (status === 'ok') {
           let { file_path, img_base64, ext, width, height } = action.payload.data;
-          clearCache();
           return {
             isFileSelected: true,
             selectedFilePath: file_path,

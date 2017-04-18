@@ -12,6 +12,7 @@ export class Shop extends React.Component {
       styles: [],
     };
 
+    this.renderShop = this.renderShop.bind(this);
   }
 
   componentWillMount() {
@@ -21,20 +22,22 @@ export class Shop extends React.Component {
     });
   }
 
-  changeNotificationStatus(status) {
-    this.setState({
-      shownNotification: status,
-    });
+  renderShop() {
+    if (this.state.styles.length > 0) {
+      return <ShopItemList data={this.state.styles} />;
+    } else {
+      return (
+        <div className="shop__styles-message">
+          <h1>We don't have any more styles for you! Thanks you for using Iris.</h1>
+        </div>
+      );
+    }
   }
 
   render() {
     return (
       <div className="shop">
-        <ShopItemList
-        haventShownPurchaseNotification={this.props.haventShownPurchaseNotification}
-        dismissPurchaseNotification={this.props.dismissPurchaseNotification}
-        displayPurchaseNotification={this.props.displayPurchaseNotification}
-        data={this.state.styles} />
+        { this.renderShop() }
       </div>
     );
   }

@@ -2,6 +2,12 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  overflow-y: auto;
   align-items: center;
+  overflow-y: auto;
+}
+
+.shop__styles-message {
+  width: 500px;
+  text-align: center;
+  margin-top: 10px;
 }

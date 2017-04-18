@@ -1,4 +1,4 @@
-import { cache, FINAL_STYLIZE, SAVE_IMAGE, RESET_LOADING } from '../actions/finish';
+import { FINAL_STYLIZE, SAVE_IMAGE, RESET_LOADING } from '../actions/finish';
 import Image from '../models/Image';
 
 export const INITIAL_STATE = {
@@ -11,8 +11,7 @@ export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
     case FINAL_STYLIZE: {
       if (action.payload.data.styled_base_64) {
-        let { id, styled_base_64 } = action.payload.data;
-        cache.put(id, styled_base_64);
+        let { styled_base_64 } = action.payload.data;
         return {
           styledResult: new Image(styled_base_64, 'png', 0, 0),
           loading: false,

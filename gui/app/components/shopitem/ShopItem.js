@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { displayPurchaseNotificaton } from '../../actions/app';
 import axios from 'axios';
 
 require('./shopitem.scss');
@@ -27,12 +29,8 @@ export class ShopItem extends Component {
     })
     .then(({data}) => {
       if (data.status == 'ok') {
-        if (this.props.haventShownPurchaseNotification) {
-          this.props.displayPurchaseNotification();
-          let _this = this;
-          setTimeout(() => {
-            _this.props.dismissPurchaseNotification();
-          }, 3000);
+        if (!this.props.haveShownPurchaseNotification) {
+          this.props.displayPurchaseNotificaton();
         }
       }
     })
@@ -64,4 +62,10 @@ export class ShopItem extends Component {
   }
 }
 
-export default ShopItem;
+function mapStateToProps(state) {
+  return {
+    haveShownPurchaseNotification: state.app.haveShownPurchaseNotification,
+  };
+}
+
+export default connect(mapStateToProps, { displayPurchaseNotificaton })(ShopItem);

@@ -8,15 +8,11 @@ export class ShopItemList extends Component {
     super(props, context);
   }
 
-  renderStyles({ data }) {
+  renderStyles(data) {
     return data.map((style, index) => {
       return (
-        <li>
-          <ShopItem
-          haventShownPurchaseNotification={this.props.haventShownPurchaseNotification}
-          dismissPurchaseNotification={this.props.dismissPurchaseNotification}
-          displayPurchaseNotification={this.props.displayPurchaseNotification}
-          id={style.id} preview={style.image.getCSSImageUrl()} price={style.price}/>
+        <li key={index}>
+          <ShopItem id={style.id} preview={style.image.getCSSImageUrl()} price={style.price}/>
         </li>
       );
     });
@@ -26,7 +22,7 @@ export class ShopItemList extends Component {
     return (
       <div className="shoplist">
         <ul>
-          {this.props.data ? this.renderStyles(this.props) : ''}
+          { this.renderStyles(this.props.data) }
         </ul>
       </div>
     );

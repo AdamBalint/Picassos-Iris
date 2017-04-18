@@ -20,9 +20,6 @@ export default function(state = INITIAL_STATE, action) {
     }
 
     case STYLIZE_IMAGE: {
-      // Cache the base64 string for the associated style
-      cache.put(action.payload.data.id, action.payload.data.styled_base_64);
-
       return {
         selectedStyle: state.selectedStyle,
         styledPreview: new Image(action.payload.data.styled_base_64, 'png'),

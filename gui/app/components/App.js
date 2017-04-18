@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { dismissSliderNotification, dismissPurchaseNotification } from '../actions/app';
 import IrisNotification from '../components/iris-notification/IrisNotification';
 import Nav from './nav/Nav';
 
@@ -7,34 +9,11 @@ require('./App.scss');
 export class App extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      shownPurchaseNotification: false,
-      showSliderNotification: false,
-      haventShownPurchaseNotification: true,
-      haventShownSliderNotification: true,
-    };
-
     this.renderSliderNotification = this.renderSliderNotification.bind(this);
-    this.dismissSliderNotification = this.dismissSliderNotification.bind(this);
-    this.displayPurchaseNotification = this.displayPurchaseNotification.bind(this);
-    this.dismissPurchaseNotification = this.dismissPurchaseNotification.bind(this);
-    this.displaySliderNotification = this.displaySliderNotification.bind(this);
     this.renderPurchaseNotification = this.renderPurchaseNotification.bind(this);
   }
 
-  dismissSliderNotification() {
-    this.setState({
-      showSliderNotification: false,
-    });
-  }
-
-  dismissPurchaseNotification() {
-    this.setState({
-      showPurchaseNotification: false,
-    });
-  }
-
+  // For navigation
   getChildContext() {
     return {
       location: this.props.location,
@@ -44,57 +23,29 @@ export class App extends Component {
   renderPurchaseNotification() {
     return (
       <IrisNotification
-      display={this.state.showPurchaseNotification}
-      onActionClick={this.dismissPurchaseNotification}
+      display={this.props.showPurchaseNotification}
+      onDismiss={this.props.dismissPurchaseNotification}
+      onActionClick={this.props.dismissPurchaseNotification}
       message="Try this new style out by styling another image!"/>
     );
   }
 
-    renderSliderNotification() {
+  renderSliderNotification() {
     return (
-      <IrisNotification display={this.state.showSliderNotification} 
-      onActionClick={this.dismissSliderNotification}
+      <IrisNotification display={this.props.showSliderNotification}
+      onDismiss={this.props.dismissSliderNotification}
+      onActionClick={this.props.dismissSliderNotification}
       message="You can set the intensity of the style by hovering over photo and adjusting the slider!"/>
     );
   }
-  
-  displaySliderNotification() {
-    this.setState({
-      showSliderNotification: true,
-      haventShownSliderNotification: false,
-    });
-  }
-
-  displayPurchaseNotification() {
-    this.setState({
-      showPurchaseNotification: true,
-      haventShownPurchaseNotification: false,
-    });
-  }
-
-  getChildrenWithProps(children) {
-    return children.map(this.props.children,
-      (child) => React.cloneElement(child, {
-        showPurchaseNotification: this.state.showPurchaseNotification,
-        showSliderNotification: this.state.showSliderNotification,
-        haventShownPurchaseNotification: this.state.haventShownPurchaseNotification,
-        haventShownSliderNotification: this.state.haventShownSliderNotification,
-        displayPurchaseNotification: this.displayPurchaseNotification,
-        displaySliderNotification: this.displaySliderNotification,
-        dismissPurchaseNotification: this.dismissPurchaseNotification,
-        dismissSliderNotification: this.dismissSliderNotification,
-      }));
-  }
 
   render() {
-    const childrenWithProps = this.getChildrenWithProps(React.Children);
-
     return (
       <div className="app">
-        <Nav isBackButtonVisible={this.state.isBackButtonVisible} backLink={this.state.backLink}/>
-        { childrenWithProps }
-        { this.renderPurchaseNotification() }
+        <Nav/>
+        { this.props.children }
         { this.renderSliderNotification() }
+        { this.renderPurchaseNotification() }
       </div>
     );
   }
@@ -104,4 +55,11 @@ App.childContextTypes = {
   location: React.PropTypes.object,
 };
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    showSliderNotification: state.app.showSliderNotification,
+    showPurchaseNotification: state.app.showPurchaseNotification,
+  };
+}
+
+export default connect(mapStateToProps, { dismissSliderNotification, dismissPurchaseNotification })(App);

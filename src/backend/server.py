@@ -23,6 +23,30 @@ if not os.path.exists(JSON_FILE_PATH):
 
 JSON_FILE_PATH = JSON_FILE_PATH + '/styles.json'
 
+"""
+Schema of the cache is as follows:
+
+Cache:
+  [file_path]: {
+    styled_previews: {
+      id: {
+        base64_result
+      }
+      ...
+    }
+    styled_results: {
+      style_name: {
+        base64_result:
+      }
+      ...
+    }
+  },
+  ...
+}
+"""
+
+CACHE = {}
+
 server = Flask(__name__, static_folder=FRONTEND_DIR, template_folder=FRONTEND_DIR)
 server.config["SEND_FILE_MAX_AGE_DEFAULT"] = 1  # disable caching
 
@@ -122,7 +146,7 @@ def save_image():
     """
 
     data = request.get_json(cache=False)
-    orig_file_name = SELECTED_FILE["selected_file_name"]    
+    orig_file_name = SELECTED_FILE["selected_file_name"]
     selected_style = SELECTED_STYLE["selected_style_name"]
     file_ext = SELECTED_FILE["selected_file_ext"]
     save_filename = orig_file_name + " - " + selected_style+file_ext
@@ -158,21 +182,35 @@ def stylize_preview():
     file_path = data["file_path"]
     width = data["width"]
     height = data["height"]
-    style_name = JSON_DATA["styles"][style_id]["checkpoint_dir_name"]
-    orig_img = im.open(file_path)
-    img = orig_img.resize((width, height), resample=im.NEAREST)
-    styled_base64 = util.get_styled_image(img, style_name, preview=True)
-    styled_image = im.open(BytesIO(base64.b64decode(styled_base64)))
-    styled_image = styled_image.resize((orig_img.width, orig_img.height), resample=im.NEAREST)
-    buff = BytesIO()
-    styled_image.save(buff, format="JPEG")
-    styled_base64 = base64.b64encode(buff.getvalue()).decode("utf-8")
-    response = {
-        "id": style_id,
-        "styled_base_64": styled_base64
-    }
 
-    return jsonify(response)
+    if style_id not in CACHE[file_path]["styled_previews"]:
+        style_name = JSON_DATA["styles"][style_id]["checkpoint_dir_name"]
+        orig_img = im.open(file_path)
+        img = orig_img.resize((width, height), resample=im.NEAREST)
+        styled_base64 = util.get_styled_image(img, style_name, preview=True)
+        styled_image = im.open(BytesIO(base64.b64decode(styled_base64)))
+        styled_image = styled_image.resize(
+            (orig_img.width, orig_img.height), resample=im.NEAREST)
+        buff = BytesIO()
+        styled_image.save(buff, format="JPEG")
+        styled_base64 = base64.b64encode(buff.getvalue()).decode("utf-8")
+
+        response = {
+            "id": style_id,
+            "styled_base_64": styled_base64
+        }
+
+        CACHE[file_path]["styled_previews"][style_id] = {
+            "styled_base_64": response["styled_base_64"]
+        }
+
+        return jsonify(response)
+    else:
+        response = {
+            "id": style_id,
+            "styled_base_64": CACHE[file_path]["styled_previews"][style_id]["styled_base_64"]
+        }
+        return jsonify(response)
 
 @server.route("/stylize-result", methods=['POST'])
 def stylize():
@@ -188,28 +226,41 @@ def stylize():
 
     # get variables from request
     style_id = data["style_id"]
-    style_name = JSON_DATA["styles"][style_id]["checkpoint_dir_name"]
-    SELECTED_STYLE["selected_style_name"] = style_name
+    style_name = JSON_DATA["styles"][style_id]["name"]
+    checkpoint_dir_name = JSON_DATA["styles"][style_id]["checkpoint_dir_name"]
+    SELECTED_STYLE["selected_style_name"] = checkpoint_dir_name
     opacity = float(str(data["opacity"]))
     img_file_path = data["file_path"]
-    image_file = im.open(img_file_path)
-    styled_base64 = util.get_styled_image(image_file, style_name, preview=False)
-    styled_image = im.open(BytesIO(base64.b64decode(styled_base64)))
-    image_file = image_file.convert("RGBA")
-    styled_image = styled_image.convert("RGBA")
 
-    # apply the overlay on the background with defined opacity
-    # where the overlay is the styled image
-    # and the background user selected image
-    new_img = im.blend(image_file, styled_image, opacity/100)
+    if style_name not in CACHE[img_file_path]["styled_results"]:
+        image_file = im.open(img_file_path)
+        styled_base64 = util.get_styled_image(
+            image_file, checkpoint_dir_name, preview=False)
+        styled_image = im.open(BytesIO(base64.b64decode(styled_base64)))
+        image_file = image_file.convert("RGBA")
+        styled_image = styled_image.convert("RGBA")
 
-    # send back as a base64 string
-    response = {
-        "id": style_id,
-        "styled_base_64": util.get_base64_from_image(new_img).decode("utf-8")
-    }
+        # apply the overlay on the background with defined opacity
+        # where the overlay is the styled image
+        # and the background user selected image
+        new_img = im.blend(image_file, styled_image, opacity / 100)
 
-    return jsonify(response)
+        response = {
+            "id": style_id,
+            "styled_base_64": util.get_base64_from_image(new_img).decode("utf-8")
+        }
+
+        CACHE[img_file_path]["styled_results"][style_name] = {
+            "styled_base_64": response["styled_base_64"]
+        }
+
+        return jsonify(response)
+    else:
+        response = {
+            "id": style_id,
+            "styled_base_64": CACHE[img_file_path]["styled_results"][style_name]["styled_base_64"]
+        }
+        return jsonify(response)
 
 @server.route("/shop/purchase", methods=["POST"])
 def purchase_style():
@@ -258,6 +309,13 @@ def open_file():
         img = Image(file_path)
         SELECTED_FILE["selected_file_name"] = img.file_name
         SELECTED_FILE["selected_file_ext"] = img.ext
+
+        if file_path not in CACHE:
+            CACHE[file_path] = {
+                "styled_previews": {},
+                "styled_results": {}
+            }
+
         response = {
             "status": "ok",
             "ext": "image/"+img.ext,

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import Filepicker from '../filepicker/Filepicker';
-import { resetStylize } from '../../actions/stylize';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+
+import Filepicker from '../filepicker/Filepicker';
+import { resetStylize } from '../../actions/stylize';
 
 require('./home.scss');
 
