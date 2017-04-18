@@ -13,8 +13,9 @@ export class ShopItemList extends Component {
       return (
         <li>
           <ShopItem
-          displayNotificationWithMessage={this.props.displayNotificationWithMessage}
-          dismissNotification={this.props.dismissNotification}
+          haventShownPurchaseNotification={this.props.haventShownPurchaseNotification}
+          dismissPurchaseNotification={this.props.dismissPurchaseNotification}
+          displayPurchaseNotification={this.props.displayPurchaseNotification}
           id={style.id} preview={style.image.getCSSImageUrl()} price={style.price}/>
         </li>
       );

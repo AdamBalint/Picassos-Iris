@@ -27,8 +27,7 @@ export function selectStyle(id, quotes) {
 export function resetStylize() {
   return {
     type: RESET_STYLIZE,
-    payload: {},
-  };
+  }
 }
 
 export function stylize(styleId, targetImagePath, width, height) {
