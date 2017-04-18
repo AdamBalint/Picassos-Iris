@@ -1,8 +1,6 @@
-language: python
-python: '3.5'
-before_install: wget https://raw.githubusercontent.com/creationix/nvm/v0.31.0/nvm.sh
-  -O ~/.nvm/nvm.sh && source ~/.nvm/nvm.sh && nvm install 5 && npm install --prefix
-  gui
+language: node_js
+node_js: '7'
+before_install: npm install --prefix gui
 script: cd gui/ && npm run test
 group: stable
 dist: precise
