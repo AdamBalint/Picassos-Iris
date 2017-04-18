@@ -49,13 +49,11 @@ export default class StylePreview extends Component {
         { this.renderSpinner() }
         <BlendedImage opacity={this.props.opacity} styledImage={this.props.styledPreview} baseImage={this.props.image}/>
         <div className={this.state.showControls ? 'controls slider-controls fade-in' : 'controls slider-controls hide'}
-          onMouseEnter={this.showControls}
-          onMouseLeave={this.hideControls}>
+          onMouseEnter={this.showControls}>
           <input type="range" onMouseUp={this.props.setOpacity} onChange={this.props.setOpacity} value={this.props.opacity}></input>
         </div>
         <div className={this.state.showControls ? 'controls zoom-controls fade-in' : 'controls zoom-controls hide'}
-          onMouseEnter={this.showControls}
-          onMouseLeave={this.hideControls}>
+          onMouseEnter={this.showControls}>
           <img className="zoom-icon grow dim" src={zoomIcon} onClick={(e) => { this.props.showModal(); }}/>
         </div>
       </div>

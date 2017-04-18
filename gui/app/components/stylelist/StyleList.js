@@ -10,15 +10,11 @@ export default class StyleList extends Component {
     super(props);
   }
 
-  renderStyles({data, shownNotification, haventShownSliderNotification, dismissSliderNotification, displaySliderNotification}) {
+  renderStyles({data}) {
     return data.map((style, index) => {
       return (
-        <li data-tip data-for={`${style.id}-style`}>
-          <StyleItem id={style.id} style={style}
-          shownNotification={shownNotification}
-          haventShownSliderNotification={haventShownSliderNotification}
-          dismissSliderNotification={dismissSliderNotification}
-          displaySliderNotification={displaySliderNotification}/>
+        <li data-tip data-for={`${style.id}-style`} key={index}>
+          <StyleItem id={style.id} style={style}/>
           <ReactTooltip id={`${style.id}-style`} place="top" type="dark" effect="float">
             {style.name}
           </ReactTooltip>

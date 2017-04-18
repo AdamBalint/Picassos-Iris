@@ -4,6 +4,8 @@ import ImageModal from '../imagemodal/ImageModal';
 import StyleList from '../stylelist/StyleList';
 import StylePreview from '../stylepreview/StylePreview';
 import fetchStyles from '../../util/FetchStyles';
+
+import { displaySliderNotification, dismissSliderNotification } from '../../actions/app';
 import { stylizeResult, resetLoading } from '../../actions/finish';
 
 
@@ -119,20 +121,19 @@ export class Stylize extends Component {
         loading={this.props.loading}
         showModal={this.showModal}
         styledPreview={this.props.styledPreview}/>
+
         { this.props.styledPreview ? this.renderModal() : ''}
+
         { this.renderContinueButton() }
-        <StyleList data={this.state.styles}
-        shownNotification={this.state.shownNotification}
-        haventShownSliderNotification={this.props.haventShownSliderNotification}
-        dismissSliderNotification={this.props.dismissSliderNotification}
-        displaySliderNotification={this.props.displaySliderNotification}/>
+
+        <StyleList data={this.state.styles}/>
       </div>
     );
   }
 
 }
 
-function mapStateToProps({filepicker, stylize}) {
+function mapStateToProps({filepicker, stylize, app }) {
   return {
     imageFile: filepicker.imageFile,
     selectedFilePath: filepicker.selectedFilePath,
@@ -146,4 +147,5 @@ Stylize.contextTypes = {
   router: PropTypes.object,
 };
 
-export default connect(mapStateToProps, { stylizeResult, resetLoading } )(Stylize);
+export default connect(mapStateToProps, { stylizeResult,
+  resetLoading, dismissSliderNotification, displaySliderNotification } )(Stylize);

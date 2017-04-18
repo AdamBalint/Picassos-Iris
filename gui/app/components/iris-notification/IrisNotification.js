@@ -13,6 +13,8 @@ export default class IrisNotification extends Component {
         isActive={this.props.display}
         action="Okay, got it"
         onClick={this.props.onActionClick}
+        dismissAfter={3000}
+        onDismiss={this.props.onDismiss}
         actionStyle={{
           color: 'white',
         }}
