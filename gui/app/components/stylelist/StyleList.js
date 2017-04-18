@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import StyleItem from '../styleitem/StyleItem';
 
 require('./stylelist.scss');
