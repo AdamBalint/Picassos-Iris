@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { selectStyle, stylize } from '../../actions/stylize';
+import ReactTooltip from 'react-tooltip';
 
 require('./styleitem.scss');
 
@@ -32,9 +33,14 @@ export class StyleItem extends Component {
 
   render() {
     return (
-      <div ref={`${this.props.id}-style`} className={this.getClassName(this.props)}
-      style={this.getStyle(this.props)}
-      onClick={this.selectStyle}>
+      <div>
+        <div ref={`${this.props.id}-style`} data-tip data-for={`${this.props.id}-style`} className={this.getClassName(this.props)}
+        style={this.getStyle(this.props)}
+        onClick={this.selectStyle}>
+        </div>
+        <ReactTooltip id={`${this.props.id}-style`} place="top" type="dark" effect="float">
+          {this.props.style.name}
+        </ReactTooltip>
       </div>
     );
   }

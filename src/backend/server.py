@@ -79,7 +79,8 @@ def fetch_styles():
         name = style["name"]
         ext = style["style_extension"]
         quotes = style["quotes"]
-        img = Image(STYLES_DIR+"/"+name+ext)
+        img_file_name=style["style_file_name"]
+        img = Image(STYLES_DIR+"/"+img_file_name+ext)
         img.name = name
         img_quotes = quotes
         response["styles"].append({
