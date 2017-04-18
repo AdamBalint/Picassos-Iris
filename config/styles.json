@@ -7,8 +7,9 @@
             ],
             "unlocked": true,
             "price": "0.00",
-            "name": "persistence_of_memory",
+            "name": "Persistence of Memory",
             "checkpoint_dir_name": "persistence",
+            "style_file_name": "persistence_of_memory",
             "style_extension": ".png"
         },
         {
@@ -18,8 +19,9 @@
             ],
             "unlocked": true,
             "price": "0.00",
-            "name": "starry_night",
+            "name": "Starry Night",
             "checkpoint_dir_name": "starry_night",
+            "style_file_name": "starry_night",
             "style_extension": ".jpg"
         },
         {
@@ -30,8 +32,9 @@
             ],
             "unlocked": true,
             "price": "0.00",
-            "name": "wave",
+            "name": "The Great Wave off Kanagawa",
             "checkpoint_dir_name": "waves",
+            "style_file_name": "wave",
             "style_extension": ".jpg"
         },
         {
@@ -40,8 +43,9 @@
             ],
             "unlocked": false,
             "price": "1.00",
-            "name": "lisa",
+            "name": "Mona Lisa",
             "checkpoint_dir_name": "lisa",
+            "style_file_name": "lisa",
             "style_extension": ".jpg"
         },
         {
@@ -50,8 +54,9 @@
             ],
             "unlocked": false,
             "price": "0.01",
-            "name": "kiss",
+            "name": "Kiss",
             "checkpoint_dir_name": "kiss",
+            "style_file_name": "kiss",
             "style_extension": ".jpg"
         },
         {
@@ -60,8 +65,9 @@
             ],
             "unlocked": false,
             "price": "1.00",
-            "name": "scream",
+            "name": "Scream",
             "checkpoint_dir_name": "scream",
+            "style_file_name": "scream",
             "style_extension": ".jpg"
         },
         {
@@ -70,8 +76,9 @@
             ],
             "unlocked": false,
             "price": "1.00",
-            "name": "cafe_terrace",
+            "name": "Cafe Terrace",
             "checkpoint_dir_name": "cafe_terrace",
+            "style_file_name": "cafe_terrace",
             "style_extension": ".jpg"
         },
         {
@@ -80,8 +87,9 @@
             ],
             "unlocked": false,
             "price": "1.00",
-            "name": "la_grande_jatte",
+            "name": "La Grande Jatte",
             "checkpoint_dir_name": "la_grande_jatte",
+            "style_file_name": "la_grande_jatte",
             "style_extension": ".jpg"
         },
         {
@@ -90,8 +98,9 @@
             ],
             "unlocked": false,
             "price": "1.00",
-            "name": "water_lillies",
+            "name": "Water Lillies",
             "checkpoint_dir_name": "water_lillies",
+            "style_file_name": "water_lillies",
             "style_extension": ".jpg"
         },
         {
@@ -100,8 +109,9 @@
             ],
             "unlocked": false,
             "price": "5.00",
-            "name": "udnie",
+            "name": "Udnie",
             "checkpoint_dir_name": "udnie",
+            "style_file_name": "udnie",
             "style_extension": ".jpg"
         },
         {
@@ -110,8 +120,9 @@
             ],
             "unlocked": false,
             "price": "5.00",
-            "name": "jaewoon",
+            "name": "Jaewoon",
             "checkpoint_dir_name": "jaewoon",
+            "style_file_name": "jaewoon",
             "style_extension": ".jpg"
         },
         {
@@ -120,8 +131,9 @@
             ],
             "unlocked": false,
             "price": "5.00",
-            "name": "starry_night_lego",
+            "name": "Starry Night Lego",
             "checkpoint_dir_name": "starry_night_lego",
+            "style_file_name": "starry_night_lego",
             "style_extension": ".jpg"
         }
     ]
