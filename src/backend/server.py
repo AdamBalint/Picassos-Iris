@@ -251,14 +251,21 @@ def stylize():
         }
 
         CACHE[img_file_path]["styled_results"][style_name] = {
-            "styled_base_64": response["styled_base_64"]
+            "styled_base_64": styled_base64
         }
 
         return jsonify(response)
     else:
+        image_file = im.open(img_file_path)
+        styled_base64 = CACHE[img_file_path]["styled_results"][style_name]["styled_base_64"]
+        styled_image = im.open(BytesIO(base64.b64decode(styled_base64)))
+        image_file = image_file.convert("RGBA")
+        styled_image = styled_image.convert("RGBA")
+        new_img = im.blend(image_file, styled_image, opacity / 100)
+
         response = {
             "id": style_id,
-            "styled_base_64": CACHE[img_file_path]["styled_results"][style_name]["styled_base_64"]
+            "styled_base_64": util.get_base64_from_image(new_img).decode("utf-8")
         }
         return jsonify(response)
 
