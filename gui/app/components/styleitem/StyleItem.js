@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { selectStyle, stylize } from '../../actions/stylize';
-import ReactTooltip from 'react-tooltip';
 
 require('./styleitem.scss');
 
@@ -28,19 +27,23 @@ export class StyleItem extends Component {
       this.props.stylize(this.props.id, this.props.imagePath, 415, 377);
       // Scroll to this styles position in the list
       this.refs[`${this.props.id}-style`].scrollIntoView({block: 'end', behavior:'smooth'});
+      if (this.props.haventShownSliderNotification) {
+        this.props.displaySliderNotification();
+        let _this = this;
+        setTimeout(function() {
+          _this.props.dismissSliderNotification();
+        }, 3000);
+      }
     }
   }
 
   render() {
     return (
       <div>
-        <div ref={`${this.props.id}-style`} data-tip data-for={`${this.props.id}-style`} className={this.getClassName(this.props)}
+        <div ref={`${this.props.id}-style`} className={this.getClassName(this.props)}
         style={this.getStyle(this.props)}
         onClick={this.selectStyle}>
         </div>
-        <ReactTooltip id={`${this.props.id}-style`} place="top" type="dark" effect="float">
-          {this.props.style.name}
-        </ReactTooltip>
       </div>
     );
   }

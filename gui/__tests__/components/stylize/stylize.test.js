@@ -16,7 +16,8 @@ const stylize = shallow(
 
 beforeAll(() => {
   stylize.setProps({
-    imageFile: fakeImageProp
+    imageFile: fakeImageProp,
+    resetLoading: () => false,
   });
 });
 

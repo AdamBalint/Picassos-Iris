@@ -37,6 +37,14 @@ JSON_DATA = {}
 with open(JSON_FILE_PATH) as json_file:
   JSON_DATA = json.load(json_file)
 
+SELECTED_FILE = {
+    "selected_file_name": '',
+    "selected_file_ext": '',
+}
+
+SELECTED_STYLE = {
+    "selected_style_name": '',
+}
 
 @server.after_request
 def add_header(response):
@@ -114,13 +122,15 @@ def save_image():
     """
 
     data = request.get_json(cache=False)
-
-    file_name = webview.create_file_dialog(webview.SAVE_DIALOG, allow_multiple=False, file_filter=None, save_filename="file.png")
+    orig_file_name = SELECTED_FILE["selected_file_name"]    
+    selected_style = SELECTED_STYLE["selected_style_name"]
+    file_ext = SELECTED_FILE["selected_file_ext"]
+    save_filename = orig_file_name + " - " + selected_style+file_ext
+    file_name = webview.create_file_dialog(webview.SAVE_DIALOG, allow_multiple=False, file_filter=None, save_filename=save_filename)
 
     response = {
         "status": "cancel"
     }
-
 
     if file_name and len(file_name) > 0:
         img_file = open(file_name[0], "wb")
@@ -143,6 +153,7 @@ def stylize_preview():
     }
     """
     data = request.get_json(cache=True)
+
     style_id = data["style_id"]
     file_path = data["file_path"]
     width = data["width"]
@@ -178,6 +189,7 @@ def stylize():
     # get variables from request
     style_id = data["style_id"]
     style_name = JSON_DATA["styles"][style_id]["checkpoint_dir_name"]
+    SELECTED_STYLE["selected_style_name"] = style_name
     opacity = float(str(data["opacity"]))
     img_file_path = data["file_path"]
     image_file = im.open(img_file_path)
@@ -193,6 +205,7 @@ def stylize():
 
     # send back as a base64 string
     response = {
+        "id": style_id,
         "styled_base_64": util.get_base64_from_image(new_img).decode("utf-8")
     }
 
@@ -241,8 +254,10 @@ def open_file():
                                       file_filter=image_file_filter)
 
     if dirs and len(dirs) > 0:
-        selected_file_path = dirs[0]
-        img = Image(selected_file_path)
+        file_path = dirs[0]
+        img = Image(file_path)
+        SELECTED_FILE["selected_file_name"] = img.file_name
+        SELECTED_FILE["selected_file_ext"] = img.ext
         response = {
             "status": "ok",
             "ext": "image/"+img.ext,

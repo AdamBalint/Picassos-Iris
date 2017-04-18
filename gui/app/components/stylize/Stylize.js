@@ -1,36 +1,27 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-
 import ImageModal from '../imagemodal/ImageModal';
 import StyleList from '../stylelist/StyleList';
 import StylePreview from '../stylepreview/StylePreview';
 import fetchStyles from '../../util/FetchStyles';
-import { resetFinish, stylizeResult } from '../../actions/finish';
+import { stylizeResult, resetLoading } from '../../actions/finish';
 
-import Image from '../../models/Image';
 
 require('./stylize.scss');
 
 const CONTINUE_ICON = '>';
 
-const OVERLAY_STYLES = {
-  backgroundColor: 'rgba(0, 0, 0, 0.55)',
-  zIndex: 5000,
-};
-
 export class Stylize extends Component {
 
   constructor(props) {
     super(props);
-    props.setCurrentPageIndex(1);
-    props.isBackButtonVisible(true);
-    props.setBackLink('/');
 
     this.state = {
       styles: [],
       fadeIn: ' fade-in-right',
       opacity: 100,
       isModalOpen: false,
+      shownNotification: props.showSliderNotification,
     };
 
     this.renderContinueButton = this.renderContinueButton.bind(this);
@@ -40,28 +31,22 @@ export class Stylize extends Component {
     this.handleContinueButtonClick = this.handleContinueButtonClick.bind(this);
   }
 
-  componentDidMount(props) {
+  componentWillReceiveProps(nextProps) {
+    nextProps.resetLoading();
+  }
+
+  componentDidMount() {
     fetchStyles((styles) => {
       let unlockedStyles = styles.filter((style) => style.unlocked);
       this.setState({ styles: unlockedStyles });
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.styledPreview != nextProps.styledPreview) {
-      this.props.displayNotificationWithMessage('Hover over the styled image to set the intensity of the style');
-      setTimeout(() => {
-        this.props.dismissNotification();
-      }, 4000);
-    }
-  }
-
   handleContinueButtonClick(e, props) {
     e.preventDefault();
     this.context.router.push('/loading-result');
-    props.resetFinish();
     props.stylizeResult(props.selectedStyle, props.selectedFilePath,
-      props.imageFile, this.state.opacity);
+    props.imageFile, this.state.opacity);
   }
 
   renderContinueButton() {
@@ -136,7 +121,11 @@ export class Stylize extends Component {
         styledPreview={this.props.styledPreview}/>
         { this.props.styledPreview ? this.renderModal() : ''}
         { this.renderContinueButton() }
-        <StyleList data={this.state.styles}/>
+        <StyleList data={this.state.styles}
+        shownNotification={this.state.shownNotification}
+        haventShownSliderNotification={this.props.haventShownSliderNotification}
+        dismissSliderNotification={this.props.dismissSliderNotification}
+        displaySliderNotification={this.props.displaySliderNotification}/>
       </div>
     );
   }
@@ -157,4 +146,4 @@ Stylize.contextTypes = {
   router: PropTypes.object,
 };
 
-export default connect(mapStateToProps, { stylizeResult, resetFinish } )(Stylize);
+export default connect(mapStateToProps, { stylizeResult, resetLoading } )(Stylize);
