@@ -1,82 +1,88 @@
 import React, { Component } from 'react';
-import { Notification } from 'react-notification';
+import IrisNotification from '../components/iris-notification/IrisNotification';
 import Nav from './nav/Nav';
 
 require('./App.scss');
 
-export default class App extends Component {
+export class App extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      currentPageIndex: 0,
-      isBackButtonVisible: false,
-      backLink: '',
-      displayNotification: false,
-      notificationMessage: '',
+      shownPurchaseNotification: false,
+      showSliderNotification: false,
+      haventShownPurchaseNotification: true,
+      haventShownSliderNotification: true,
     };
 
-    this.isBackButtonVisible = this.isBackButtonVisible.bind(this);
-    this.setCurrentPageIndex = this.setCurrentPageIndex.bind(this);
-    this.renderNotification = this.renderNotification.bind(this);
-    this.dismissNotification = this.dismissNotification.bind(this);
-    this.displayNotificationWithMessage = this.displayNotificationWithMessage.bind(this);
-    this.setBackLink = this.setBackLink.bind(this);
+    this.renderSliderNotification = this.renderSliderNotification.bind(this);
+    this.dismissSliderNotification = this.dismissSliderNotification.bind(this);
+    this.displayPurchaseNotification = this.displayPurchaseNotification.bind(this);
+    this.dismissPurchaseNotification = this.dismissPurchaseNotification.bind(this);
+    this.displaySliderNotification = this.displaySliderNotification.bind(this);
+    this.renderPurchaseNotification = this.renderPurchaseNotification.bind(this);
   }
 
-  isBackButtonVisible(visible) {
+  dismissSliderNotification() {
     this.setState({
-      isBackButtonVisible: visible,
+      showSliderNotification: false,
     });
   }
 
-  setBackLink(link) {
+  dismissPurchaseNotification() {
     this.setState({
-      backLink: link,
+      showPurchaseNotification: false,
     });
   }
 
-  setCurrentPageIndex(index) {
-    this.setState({
-      currentPageIndex: index,
-    });
+  getChildContext() {
+    return {
+      location: this.props.location,
+    };
   }
 
-  displayNotificationWithMessage(message) {
-    this.setState({
-      displayNotification: true,
-      notificationMessage: message,
-    });
-  }
-
-  dismissNotification() {
-    this.setState({
-      displayNotification: false,
-    });
-  }
-
-  renderNotification() {
+  renderPurchaseNotification() {
     return (
-      <Notification
-        isActive={this.state.displayNotification}
-        action="Okay, got it"
-        onClick={this.dismissNotification}
-        actionStyle={{
-          color: 'white',
-        }}
-        message={this.state.notificationMessage}
-      />
+      <IrisNotification
+      display={this.state.showPurchaseNotification}
+      onActionClick={this.dismissPurchaseNotification}
+      message="Try this new style out by styling another image!"/>
     );
+  }
+
+    renderSliderNotification() {
+    return (
+      <IrisNotification display={this.state.showSliderNotification} 
+      onActionClick={this.dismissSliderNotification}
+      message="You can set the intensity of the style by hovering over photo and adjusting the slider!"/>
+    );
+  }
+  
+  displaySliderNotification() {
+    this.setState({
+      showSliderNotification: true,
+      haventShownSliderNotification: false,
+    });
+  }
+
+  displayPurchaseNotification() {
+    this.setState({
+      showPurchaseNotification: true,
+      haventShownPurchaseNotification: false,
+    });
   }
 
   getChildrenWithProps(children) {
     return children.map(this.props.children,
       (child) => React.cloneElement(child, {
-        setCurrentPageIndex: this.setCurrentPageIndex,
-        currentPageIndex: this.state.currentPageIndex,
-        isBackButtonVisible: this.isBackButtonVisible,
-        displayNotificationWithMessage: this.displayNotificationWithMessage,
-        dismissNotification: this.dismissNotification,
-        setBackLink: this.setBackLink,
+        showPurchaseNotification: this.state.showPurchaseNotification,
+        showSliderNotification: this.state.showSliderNotification,
+        haventShownPurchaseNotification: this.state.haventShownPurchaseNotification,
+        haventShownSliderNotification: this.state.haventShownSliderNotification,
+        displayPurchaseNotification: this.displayPurchaseNotification,
+        displaySliderNotification: this.displaySliderNotification,
+        dismissPurchaseNotification: this.dismissPurchaseNotification,
+        dismissSliderNotification: this.dismissSliderNotification,
       }));
   }
 
@@ -87,8 +93,15 @@ export default class App extends Component {
       <div className="app">
         <Nav isBackButtonVisible={this.state.isBackButtonVisible} backLink={this.state.backLink}/>
         { childrenWithProps }
-        { this.renderNotification() }
+        { this.renderPurchaseNotification() }
+        { this.renderSliderNotification() }
       </div>
     );
   }
 }
+
+App.childContextTypes = {
+  location: React.PropTypes.object,
+};
+
+export default App;
