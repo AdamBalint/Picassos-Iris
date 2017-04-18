@@ -7,6 +7,8 @@ class Image:
         self.file_path = path
         self.name, self.base_64, self.ext = ["", "", ""]
         self.height, self.width = [0, 0]
+        base = os.path.basename(self.file_path)
+        self.file_name = os.path.splitext(base)[0]
         self.ext = os.path.splitext(self.file_path)[1:][0]
         with Im.open(self.file_path) as image:
             self.height, self.width = image.size

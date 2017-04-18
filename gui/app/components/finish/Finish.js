@@ -11,9 +11,7 @@ require('./finish.scss');
 export class Finish extends Component {
   constructor(props, context) {
     super(props, context);
-    props.isBackButtonVisible(true);
-    props.setCurrentPageIndex(2);
-    props.setBackLink('/stylize');
+    
     this.handleSave = this.handleSave.bind(this);
     this.handleNewImage = this.handleNewImage.bind(this);
     this.renderModal = this.renderModal.bind(this);
@@ -90,23 +88,23 @@ export class Finish extends Component {
           onClick={(e) => { this.handleSave(e); }}>
             { this.props.saved ? 'Save again' : 'Save' }
         </button>
-      );
+    );
   }
 
   renderNewImageButton() {
     return (
-        <button
-          className="btn btn--another-image bg-animate hover-bg-black hover-white grow"
-          onClick={this.handleNewImage}>
-          Another Image
-        </button>
-      );
+      <button
+        className="btn btn--another-image bg-animate hover-bg-black hover-white grow"
+        onClick={this.handleNewImage}>
+        Another Image
+      </button>
+    );
   }
 
   hideControls() {
     this.setState({
       hovering: false,
-    })
+    });
   }
 
   showControls() {

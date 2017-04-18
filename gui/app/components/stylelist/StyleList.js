@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import ReactTooltip from 'react-tooltip';
 import StyleItem from '../styleitem/StyleItem';
 
 require('./stylelist.scss');
@@ -10,12 +10,19 @@ export default class StyleList extends Component {
     super(props);
   }
 
-  renderStyles({data}) {
+  renderStyles({data, shownNotification, haventShownSliderNotification, dismissSliderNotification, displaySliderNotification}) {
     return data.map((style, index) => {
       return (
-          <li>
-              <StyleItem id={style.id} style={style}/>
-          </li>
+        <li data-tip data-for={`${style.id}-style`}>
+          <StyleItem id={style.id} style={style}
+          shownNotification={shownNotification}
+          haventShownSliderNotification={haventShownSliderNotification}
+          dismissSliderNotification={dismissSliderNotification}
+          displaySliderNotification={displaySliderNotification}/>
+          <ReactTooltip id={`${style.id}-style`} place="top" type="dark" effect="float">
+            {style.name}
+          </ReactTooltip>
+        </li>
       );
     });
   }

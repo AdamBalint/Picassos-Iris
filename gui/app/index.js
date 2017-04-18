@@ -10,7 +10,7 @@ require('../assets/fonts/font-Gotham/gotham.scss');
 
 
 // For IE11
-import Promise from 'promise-polyfill'; 
+import Promise from 'promise-polyfill';
 
 // To add to window
 if (!window.Promise) {

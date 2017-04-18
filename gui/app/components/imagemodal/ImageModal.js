@@ -26,11 +26,16 @@ export class ImageModal extends Component  {
           },
         }}
       >
-        <div className="closeIcon-container dim grow" style={{zIndex: 6000,}} onClick={(e) => { this.props.onCloseClick(); }}>
+        <div className="closeIcon-container dim grow"
+        style={{ zIndex: 6000 }}
+        onClick={(e) => { this.props.onCloseClick(); }}>
           <img src={closeIcon} alt="Close Modal" onClick={(e) => { this.props.onCloseClick(); }}/>
         </div>
-        <div style={{position: 'relative', width: '100%', height: "100%"}}>
-          <BlendedImage styledImage={this.props.styledImage} baseImage={this.props.baseImage} opacity={this.props.opacity}/>
+        <div style={{position: 'relative', width: '100%', height: '100%'}}>
+          <BlendedImage
+          styledImage={this.props.styledImage}
+          baseImage={this.props.baseImage}
+          opacity={this.props.opacity}/>
         </div>
       </ReactModal>
     );
@@ -45,7 +50,7 @@ ImageModal.defaultProps = {
   styledImage: new Image('not_valid_base64', 'png', '450', '450'),
   baseImage: new Image('not_valid_base64', '450', '450'),
   opacity: 0,
-}
+};
 
 ImageModal.propTypes = {
   styledImage: PropTypes.instanceOf(Image).isRequired,
@@ -54,6 +59,6 @@ ImageModal.propTypes = {
   onCloseClick: PropTypes.func.isRequired,
   onRequestClose: PropTypes.func.isRequired,
   isModalOpen: PropTypes.bool.isRequired,
-}
+};
 
 export default ImageModal;

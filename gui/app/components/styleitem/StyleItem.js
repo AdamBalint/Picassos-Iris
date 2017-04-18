@@ -27,14 +27,23 @@ export class StyleItem extends Component {
       this.props.stylize(this.props.id, this.props.imagePath, 415, 377);
       // Scroll to this styles position in the list
       this.refs[`${this.props.id}-style`].scrollIntoView({block: 'end', behavior:'smooth'});
+      if (this.props.haventShownSliderNotification) {
+        this.props.displaySliderNotification();
+        let _this = this;
+        setTimeout(function() {
+          _this.props.dismissSliderNotification();
+        }, 3000);
+      }
     }
   }
 
   render() {
     return (
-      <div ref={`${this.props.id}-style`} className={this.getClassName(this.props)}
-      style={this.getStyle(this.props)}
-      onClick={this.selectStyle}>
+      <div>
+        <div ref={`${this.props.id}-style`} className={this.getClassName(this.props)}
+        style={this.getStyle(this.props)}
+        onClick={this.selectStyle}>
+        </div>
       </div>
     );
   }
