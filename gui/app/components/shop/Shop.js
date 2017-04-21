@@ -8,45 +8,41 @@ export class Shop extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    let backLink = '';
-
-    switch (props.currentPageIndex) {
-      case 0: {
-        backLink = '/';
-        break;
-      }
-      case 1: {
-        backLink = '/stylize';
-        break;
-      }
-      case 2: {
-        backLink = '/finish';
-        break;
-      }
-    }
-
     this.state = {
       styles: [],
+      loaded: false,
     };
 
-    props.isBackButtonVisible(true);
-    props.setBackLink(backLink);
+    this.renderShop = this.renderShop.bind(this);
   }
 
-  componentDidMount(props) {
+  componentWillMount() {
     fetchStyles((styles) => {
       let unlockedStyles = styles.filter((style) => style.unlocked == false);
-      this.setState({ styles: unlockedStyles });
+      this.setState({ styles: unlockedStyles, loaded: true});
     });
+  }
+
+  renderShop() {
+    if (this.state.styles.length > 0) {
+      return <ShopItemList data={this.state.styles} />;
+    } else {
+      if (this.state.loaded) {
+        return (
+          <div className="shop__styles-message">
+            <h1>We don't have any more styles for you! Thanks you for using Iris.</h1>
+          </div>
+        );
+      } else {
+        return '';
+      }
+    }
   }
 
   render() {
     return (
       <div className="shop">
-        <ShopItemList
-        displayNotificationWithMessage={this.props.displayNotificationWithMessage}
-        dismissNotification={this.props.dismissNotification}
-        data={this.state.styles} />
+        { this.renderShop() }
       </div>
     );
   }

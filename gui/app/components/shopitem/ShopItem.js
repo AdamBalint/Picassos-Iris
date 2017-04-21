@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { displayPurchaseNotificaton } from '../../actions/app';
 import axios from 'axios';
 
 require('./shopitem.scss');
@@ -14,11 +16,6 @@ export class ShopItem extends Component {
     this.onPurchaseClicked = this.onPurchaseClicked.bind(this);
   }
 
-  getShopItemButtonStyle(state) {
-    let baseStyle = 'shopItem__button grow dim ';
-    return state.purchased ? baseStyle + 'shopItem__purchased' : baseStyle + 'shopItem__buy';
-  }
-
   setPurchased() {
     this.setState({
       purchased: true,
@@ -32,27 +29,32 @@ export class ShopItem extends Component {
     })
     .then(({data}) => {
       if (data.status == 'ok') {
-        this.props.displayNotificationWithMessage('Try styling another image to use this style!');
-        setTimeout(() => {
-          this.props.dismissNotification();
-        }, 4000);
+        if (!this.props.haveShownPurchaseNotification) {
+          this.props.displayPurchaseNotificaton();
+        }
       }
     })
     .catch((err) => {
-      this.props.displayNotificationWithMessage('Uh-oh, something bad happened when purchasing this style!');
+      console.error(err);
     });
   }
 
   render() {
+    let purchaseBtnBaseStyle = 'shopItem__button grow dim ';
     return (
       <div className="shopItem">
+
         <img className="shopItem__image" style={{
           backgroundImage: this.props.preview,
         }}/>
+
         <div className="shopItem__price" style={{
           color: this.state.purchased ? 'white' : 'black',
         }}>{`$${this.props.price} CAD`}</div>
-        <button onClick={this.onPurchaseClicked} className={this.getShopItemButtonStyle(this.state)}>
+
+        <button onClick={this.onPurchaseClicked}
+        className={this.state.purchased ? purchaseBtnBaseStyle + 'shopItem__purchased'
+        : purchaseBtnBaseStyle + 'shopItem__buy'}>
           {this.state.purchased ? 'Purchased' : 'Buy'}
         </button>
       </div>
@@ -60,4 +62,10 @@ export class ShopItem extends Component {
   }
 }
 
-export default ShopItem;
+function mapStateToProps(state) {
+  return {
+    haveShownPurchaseNotification: state.app.haveShownPurchaseNotification,
+  };
+}
+
+export default connect(mapStateToProps, { displayPurchaseNotificaton })(ShopItem);

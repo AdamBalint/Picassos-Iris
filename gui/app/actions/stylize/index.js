@@ -1,8 +1,4 @@
 import axios from 'axios';
-import felix from 'felix';
-
-// Cache is a key value store.
-export const cache = felix.create('cache');
 
 export const SELECT_STYLE = 'SELECT_STYLE';
 export const STYLIZE_IMAGE = 'STYLIZE_IMAGE';
@@ -10,12 +6,6 @@ export const RESET_STYLIZE = 'RESET_STYLIZE';
 export const FINAL_STYLIZE = 'FINAL_STYLIZE';
 
 const API = '/stylize-preview';
-
-export function clearCache() {
-  if (cache) {
-    cache.clear();
-  }
-}
 
 export function selectStyle(id, quotes) {
   return {
@@ -27,23 +17,10 @@ export function selectStyle(id, quotes) {
 export function resetStylize() {
   return {
     type: RESET_STYLIZE,
-    payload: {},
   };
 }
 
 export function stylize(styleId, targetImagePath, width, height) {
-  // If it exists in the cache, just return the cached payload
-  if (cache.get(styleId)) {
-    return {
-      type: STYLIZE_IMAGE,
-      payload: {
-        data: {
-          styled_base_64: cache.get(styleId),
-        },
-      },
-    };
-  }
-
   let response = axios.post(`${API}`, {
     style_id: styleId,
     file_path: targetImagePath,

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { displaySliderNotification } from '../../actions/app';
 import { selectStyle, stylize } from '../../actions/stylize';
 
 require('./styleitem.scss');
@@ -9,6 +10,8 @@ export class StyleItem extends Component {
   constructor(props) {
     super(props);
     this.selectStyle = this.selectStyle.bind(this);
+    this.scrollToPosition = this.scrollToPosition.bind(this);
+    this.displayNotification = this.displayNotification.bind(this);
   }
 
   getClassName(props) {
@@ -21,20 +24,32 @@ export class StyleItem extends Component {
     };
   }
 
+  scrollToPosition() {
+    this.refs[`${this.props.id}-style`].scrollIntoView({ block: 'end', behavior: 'smooth' });
+  }
+
+  displayNotification() {
+    if (!this.props.haveShownSliderNotification) {
+      this.props.displaySliderNotification();
+    }
+  }
+
   selectStyle(e) {
     if (this.props.selectedStyle != this.props.id) {
       this.props.selectStyle(this.props.id, this.props.style.quotes);
       this.props.stylize(this.props.id, this.props.imagePath, 415, 377);
-      // Scroll to this styles position in the list
-      this.refs[`${this.props.id}-style`].scrollIntoView({block: 'end', behavior:'smooth'});
+      this.scrollToPosition();
+      this.displayNotification();
     }
   }
 
   render() {
     return (
-      <div ref={`${this.props.id}-style`} className={this.getClassName(this.props)}
-      style={this.getStyle(this.props)}
-      onClick={this.selectStyle}>
+      <div>
+        <div ref={`${this.props.id}-style`} className={this.getClassName(this.props)}
+        style={this.getStyle(this.props)}
+        onClick={(e) => { this.selectStyle(e); }}>
+        </div>
       </div>
     );
   }
@@ -45,7 +60,10 @@ function mapStateToProps(state) {
   return {
     imagePath: state.filepicker.selectedFilePath,
     selectedStyle: state.stylize.selectedStyle,
+    haveShownSliderNotification: state.app.haveShownSliderNotification,
+    showSliderNotification: state.app.showSliderNotification,
   };
 }
 
-export default connect(mapStateToProps, { selectStyle, stylize })(StyleItem);
+export default connect(mapStateToProps, {
+  selectStyle, stylize, displaySliderNotification })(StyleItem);

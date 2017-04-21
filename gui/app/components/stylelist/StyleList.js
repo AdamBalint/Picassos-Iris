@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import ReactTooltip from 'react-tooltip';
 import StyleItem from '../styleitem/StyleItem';
 
 require('./stylelist.scss');
@@ -13,9 +13,12 @@ export default class StyleList extends Component {
   renderStyles({data}) {
     return data.map((style, index) => {
       return (
-          <li>
-              <StyleItem id={style.id} style={style}/>
-          </li>
+        <li data-tip data-for={`${style.id}-style`} key={index}>
+          <StyleItem id={style.id} style={style}/>
+          <ReactTooltip id={`${style.id}-style`} place="top" type="dark" effect="float">
+            {style.name}
+          </ReactTooltip>
+        </li>
       );
     });
   }

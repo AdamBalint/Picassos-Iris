@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import Filepicker from '../filepicker/Filepicker';
-import { resetStylize } from '../../actions/stylize';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+
+import Filepicker from '../filepicker/Filepicker';
+import { resetStylize } from '../../actions/stylize';
 
 require('./home.scss');
 
@@ -11,18 +12,16 @@ export class Home extends Component {
   constructor(props) {
     super(props);
     this.renderContinueButton = this.renderContinueButton.bind(this);
-    props.isBackButtonVisible(false);
-    props.setCurrentPageIndex(0);
   }
 
   renderContinueButton() {
     if (this.props.isFileSelected) {
       return (
-          <Link to='/stylize'>
+          <Link to="/stylize">
             <button className="btn btn--continue bg-animate hover-bg-black hover-white grow" onClick={(e) => {
-                if (this.props.styledPreview) {
-                  this.props.resetStylize();
-                }
+              if (this.props.styledPreview) {
+                this.props.resetStylize();
+              }
             }}>
               Continue
             </button>
