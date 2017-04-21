@@ -16,3 +16,7 @@
 - You must include the path of the destination you wish to use for your output.
 - You must include the name of the trained style you wish to apply.
 - `$ python3 transfer_style.py --in-path "yourInputImage.(png|jpg|tiff) --out-path "result.(png|jpg|tiff)" --style yourStyleName`
+
+## Using TensorBoard
+- Only implemented in the training process so far
+- Use the command `tensorboard --logdir=path/to/log-directory` to start tensorboard on localhost
