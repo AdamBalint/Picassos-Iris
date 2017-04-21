@@ -10,6 +10,7 @@ export class Shop extends React.Component {
 
     this.state = {
       styles: [],
+      loaded: false,
     };
 
     this.renderShop = this.renderShop.bind(this);
@@ -18,7 +19,7 @@ export class Shop extends React.Component {
   componentWillMount() {
     fetchStyles((styles) => {
       let unlockedStyles = styles.filter((style) => style.unlocked == false);
-      this.setState({ styles: unlockedStyles, shownNotification: false });
+      this.setState({ styles: unlockedStyles, loaded: true});
     });
   }
 
@@ -26,11 +27,15 @@ export class Shop extends React.Component {
     if (this.state.styles.length > 0) {
       return <ShopItemList data={this.state.styles} />;
     } else {
-      return (
-        <div className="shop__styles-message">
-          <h1>We don't have any more styles for you! Thanks you for using Iris.</h1>
-        </div>
-      );
+      if (this.state.loaded) {
+        return (
+          <div className="shop__styles-message">
+            <h1>We don't have any more styles for you! Thanks you for using Iris.</h1>
+          </div>
+        );
+      } else {
+        return '';
+      }
     }
   }
 

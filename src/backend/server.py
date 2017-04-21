@@ -1,7 +1,7 @@
 import os
 import base64
-import webview
 import json
+import webview
 import util
 from PIL import Image as im
 from io import BytesIO
@@ -19,7 +19,6 @@ if not os.path.exists(STYLES_DIR):
 JSON_FILE_PATH = os.path.join(os.getcwd(), "config")
 if not os.path.exists(JSON_FILE_PATH):
     JSON_FILE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config")
-
 
 JSON_FILE_PATH = JSON_FILE_PATH + '/styles.json'
 
@@ -45,8 +44,6 @@ Cache:
 }
 """
 
-CACHE = {}
-
 server = Flask(__name__, static_folder=FRONTEND_DIR, template_folder=FRONTEND_DIR)
 server.config["SEND_FILE_MAX_AGE_DEFAULT"] = 1  # disable caching
 
@@ -58,8 +55,12 @@ SUPPORTED_FILE_TYPES = [
 ]
 
 JSON_DATA = {}
+
+CACHE = {}
+
 with open(JSON_FILE_PATH) as json_file:
-  JSON_DATA = json.load(json_file)
+    JSON_DATA = json.load(json_file)
+
 
 SELECTED_FILE = {
     "selected_file_name": '',
@@ -109,10 +110,10 @@ def fetch_styles():
 
     for style in JSON_DATA["styles"]:
         name = style["name"]
+        style_file_name = style["style_file_name"]
         ext = style["style_extension"]
         quotes = style["quotes"]
-        img_file_name=style["style_file_name"]
-        img = Image(STYLES_DIR+"/"+img_file_name+ext)
+        img = Image(STYLES_DIR+"/"+style_file_name+ext)
         img.name = name
         img_quotes = quotes
         response["styles"].append({

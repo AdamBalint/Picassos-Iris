@@ -1,152 +1,142 @@
 {
-    "styles": [
-        {
-            "quotes": [
-                "How time flows when you are having fun \u231b\ud83c\udf89",
-                "Curling Dali's mustache \ud83d\ude32"
-            ],
-            "unlocked": true,
-            "price": "0.00",
-            "name": "Persistence of Memory",
-            "checkpoint_dir_name": "persistence",
-            "style_file_name": "persistence_of_memory",
-            "style_extension": ".png"
-        },
-        {
-            "quotes": [
-                "Gogh get some food - This might take a while \ud83c\udf54 \ud83c\udf55",
-                "Gogh-ing to get the artist \u270c \ud83d\udd1c"
-            ],
-            "unlocked": true,
-            "price": "0.00",
-            "name": "Starry Night",
-            "checkpoint_dir_name": "starry_night",
-            "style_file_name": "starry_night",
-            "style_extension": ".jpg"
-        },
-        {
-            "quotes": [
-                "Waving it up, dude \ud83c\udf0a\ud83c\udf0a\ud83c\udf0a",
-                "Note: Art generated is not suitable for surfing \ud83d\ude16\u2757\u2757",
-                "These waves are more dangerous than an iceberg! \u2744"
-            ],
-            "unlocked": true,
-            "price": "0.00",
-            "name": "The Great Wave off Kanagawa",
-            "checkpoint_dir_name": "waves",
-            "style_file_name": "wave",
-            "style_extension": ".jpg"
-        },
-        {
-            "quotes": [
-                "Turn that frown upside down. Waiting is fun!",
-                "You may have heard of the DaVinci code but have you broken the Iris Code yet?"
-            ],
-            "unlocked": false,
-            "price": "1.00",
-            "name": "Mona Lisa",
-            "checkpoint_dir_name": "lisa",
-            "style_file_name": "lisa",
-            "style_extension": ".jpg"
-        },
-        {
-            "quotes": [
-                "Someone should make a quote for me"
-            ],
-            "unlocked": false,
-            "price": "0.01",
-            "name": "Kiss",
-            "checkpoint_dir_name": "kiss",
-            "style_file_name": "kiss",
-            "style_extension": ".jpg"
-        },
-        {
-            "quotes": [
-                "Don\u2019t worry, things will get better soon",
-                "No need to scream, it\u2019s just a sunset"
-            ],
-            "unlocked": false,
-            "price": "1.00",
-            "name": "Scream",
-            "checkpoint_dir_name": "scream",
-            "style_file_name": "scream",
-            "style_extension": ".jpg"
-        },
-        {
-            "quotes": [
-                "Sip some coffee with me!",
-                "Nice time for a coffee break",
-                "The night doesn\u2019t seem so starry from this terrace"
-            ],
-            "unlocked": false,
-            "price": "1.00",
-            "name": "Cafe Terrace",
-            "checkpoint_dir_name": "cafe_terrace",
-            "style_file_name": "cafe_terrace",
-            "style_extension": ".jpg"
-        },
-        {
-            "quotes": [
-                "Enjoy the race",
-                "While you wait, why not take your monkey for a walk?",
-                "On a sunny day, better stay in the shade",
-                "Fishing in a dress is a sure way to success"
-            ],
-            "unlocked": false,
-            "price": "1.00",
-            "name": "La Grande Jatte",
-            "checkpoint_dir_name": "la_grande_jatte",
-            "style_file_name": "la_grande_jatte",
-            "style_extension": ".jpg"
-        },
-        {
-            "quotes": [
-                "Just another frog enjoying the pond",
-                "Free of swamp monsters since 1920"
-            ],
-            "unlocked": false,
-            "price": "1.00",
-            "name": "Water Lillies",
-            "checkpoint_dir_name": "water_lillies",
-            "style_file_name": "water_lillies",
-            "style_extension": ".jpg"
-        },
-        {
-            "quotes": [
-                "Just a shape vortex",
-                "We aren’t sure what this is a picture of either",
-                "Abstract is in the eye of the beholder"
-            ],
-            "unlocked": false,
-            "price": "5.00",
-            "name": "Udnie",
-            "checkpoint_dir_name": "udnie",
-            "style_file_name": "udnie",
-            "style_extension": ".jpg"
-        },
-        {
-            "quotes": [
-                "Is it a dream or real life?"
-            ],
-            "unlocked": false,
-            "price": "5.00",
-            "name": "Jaewoon",
-            "checkpoint_dir_name": "jaewoon",
-            "style_file_name": "jaewoon",
-            "style_extension": ".jpg"
-        },
-        {
-            "quotes": [
-                "Better waiting than stepping on one",
-                "We promise we aren’t bricking your computer",
-                "Piecing together your image"
-            ],
-            "unlocked": false,
-            "price": "5.00",
-            "name": "Starry Night Lego",
-            "checkpoint_dir_name": "starry_night_lego",
-            "style_file_name": "starry_night_lego",
-            "style_extension": ".jpg"
-        }
-    ]
+  "styles": [
+    {
+      "style_extension": ".png",
+      "name": "Persistence Of Memory",
+      "style_file_name": "persistence_of_memory",
+      "checkpoint_dir_name": "persistence",
+      "unlocked": true,
+      "price": "0.00",
+      "quotes": [
+        "How time flows when you are having fun \u231b\ud83c\udf89",
+        "Curling Dali's mustache \ud83d\ude32"
+      ]
+    },
+    {
+      "style_extension": ".jpg",
+      "name": "Starry Night",
+      "style_file_name": "starry_night",
+      "checkpoint_dir_name": "starry_night",
+      "unlocked": true,
+      "price": "0.00",
+      "quotes": [
+        "Gogh get some food - This might take a while \ud83c\udf54 \ud83c\udf55",
+        "Gogh-ing to get the artist \u270c \ud83d\udd1c"
+      ]
+    },
+    {
+      "style_extension": ".jpg",
+      "name": "Waves",
+      "style_file_name": "wave",
+      "checkpoint_dir_name": "waves",
+      "unlocked": true,
+      "price": "0.00",
+      "quotes": [
+        "Waving it up, dude \ud83c\udf0a\ud83c\udf0a\ud83c\udf0a",
+        "Note: Art generated is not suitable for surfing \ud83d\ude16\u2757\u2757",
+        "These waves are more dangerous than an iceberg! \u2744"
+      ]
+    },
+    {
+      "style_extension": ".jpg",
+      "name": "Mona Lisa",
+      "style_file_name": "lisa",
+      "checkpoint_dir_name": "lisa",
+      "unlocked": false,
+      "price": "1.00",
+      "quotes": [
+        "Turn that frown upside down. Waiting is fun!"
+      ]
+    },
+    {
+      "style_extension": ".jpg",
+      "name": "Kiss",
+      "style_file_name": "kiss",
+      "checkpoint_dir_name": "kiss",
+      "unlocked": false,
+      "price": "0.01",
+      "quotes": [
+        "Someone should make a quote for me."
+      ]
+    },
+    {
+      "style_extension": ".jpg",
+      "name": "Scream",
+      "style_file_name": "scream",
+      "checkpoint_dir_name": "scream",
+      "unlocked": false,
+      "price": "1.00",
+      "quotes": [
+        "Someone should make a quote for me."
+      ]
+    },
+    {
+      "style_extension": ".jpg",
+      "name": "Caffe Terrace",
+      "style_file_name": "cafe_terrace",
+      "checkpoint_dir_name": "cafe_terrace",
+      "unlocked": false,
+      "price": "1.00",
+      "quotes": [
+        "Sip some coffee with me!"
+      ]
+    },
+    {
+      "style_extension": ".jpg",
+      "name": "La Grande Jatte",
+      "style_file_name": "la_grande_jatte",
+      "checkpoint_dir_name": "la_grande_jatte",
+      "unlocked": false,
+      "price": "1.00",
+      "quotes": [
+        "Enjoy the race."
+      ]
+    },
+    {
+      "style_extension": ".jpg",
+      "name": "Water Lillies",
+      "style_file_name": "water_lillies",
+      "checkpoint_dir_name": "water_lillies",
+      "unlocked": false,
+      "price": "1.00",
+      "quotes": [
+        "Just another frog enjoying the pond."
+      ]
+    },
+    {
+      "style_extension": ".jpg",
+      "name": "Udnie",
+      "style_file_name": "udnie",
+      "checkpoint_dir_name": "udnie",
+      "unlocked": false,
+      "price": "5.00",
+      "quotes": [
+        "Just a shape vortex."
+      ]
+    },
+    {
+      "style_extension": ".jpg",
+      "name": "Jaewoon",
+      "style_file_name": "jaewoon",
+      "checkpoint_dir_name": "jaewoon",
+      "unlocked": false,
+      "price": "5.00",
+      "quotes": [
+        "Is it a dream or real life?"
+      ]
+    },
+    {
+      "style_extension": ".jpg",
+      "name": "Starry Night Lego",
+      "style_file_name": "starry_night_lego",
+      "checkpoint_dir_name": "starry_night_lego",
+      "unlocked": false,
+      "price": "5.00",
+      "quotes": [
+        "Better waiting than stepping on one",
+        "We promise we aren't bricking your computer",
+        "Piecing together your image!"
+      ]
+    }
+  ]
 }
