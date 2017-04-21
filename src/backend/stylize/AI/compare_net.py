@@ -51,25 +51,25 @@ def create_network(tf_placeholder_input):
     # enumerate through layers
     net = tf_placeholder_input
     for int_id, str_layer in enumerate(arr_str_layers):
-        #print (str_layer)
-        # set up the network
-        if "conv" in str_layer:
-            # get kernels and biases for the current layer
-            kernels, bias = all_layers[int_id][0][0][0][0]
-            # reduces dimensionality of array to the minimum size required
-            bias = bias.reshape(-1)
-            # swap the ordering of the first 2 elements to fit tensorflows ordering
-            kernels = np.transpose(kernels, (1,0,2,3))
-            # create
-            conv = tf.nn.conv2d(net, tf.constant(kernels), strides=(1,1,1,1), padding="SAME")
-            net = tf.nn.bias_add(conv, bias)
-        elif "relu" in str_layer:
-            net = tf.nn.relu(net)
-        elif "pool" in str_layer:
-            # max, average
-            net = tf.nn.max_pool(net, ksize=(1, 2, 2, 1), strides=(1, 2, 2, 1), padding="SAME")
-        network[str_layer] = net
-
+        with tf.name_scope(str_layer):
+            #print (str_layer)
+            # set up the network
+            if "conv" in str_layer:
+                # get kernels and biases for the current layer
+                kernels, bias = all_layers[int_id][0][0][0][0]
+                # reduces dimensionality of array to the minimum size required
+                bias = bias.reshape(-1)
+                # swap the ordering of the first 2 elements to fit tensorflows ordering
+                kernels = np.transpose(kernels, (1,0,2,3))
+                # create
+                conv = tf.nn.conv2d(net, tf.constant(kernels), strides=(1,1,1,1), padding="SAME")
+                net = tf.nn.bias_add(conv, bias)
+            elif "relu" in str_layer:
+                net = tf.nn.relu(net)
+            elif "pool" in str_layer:
+                # max, average
+                net = tf.nn.max_pool(net, ksize=(1, 2, 2, 1), strides=(1, 2, 2, 1), padding="SAME")
+            network[str_layer] = net
     #assert len(network) == len(arr_str_layers)
     return network
 
@@ -189,16 +189,21 @@ def train_nn(str_style_name, img_style, int_epoch, str_content_img_dir):
         total_loss = cont_loss + style_loss + totvar_loss
 
 
+        
         # auto defaults to 0.001 as the learning rate
-        train_step = tf.train.AdamOptimizer().minimize(total_loss)
-
+        with tf.name_scope('train'):
+            train_step = tf.train.AdamOptimizer().minimize(total_loss)
+        # specifying the tensorboard variables
+        merged = tf.summary.merge_all()
+        train_writer = tf.summary.FileWriter('train', sess.graph)
+        
         sess.run(tf.global_variables_initializer())
         train_time = time.time()
 
         saver = tf.train.Saver(tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES))#, write_version=tf.train.SaverDef.V1)
         for epoch in range(int_epoch):
             print("Epoch ", epoch)
-
+            count = 0
             epoch_time = time.time()
 
             num_examples = len(cont_img_name_list)
@@ -220,6 +225,10 @@ def train_nn(str_style_name, img_style, int_epoch, str_content_img_dir):
 
                 feed_dict = {x_content:X}
                 train_step.run(feed_dict=feed_dict)
+                # summary, _ = sess.run([merged, train_step], feed_dict=feed_dict)
+                train_writer.add_summary(summary, count)
+                count += 1
+                
 
                 #  if (epoch == 100000-1 and iteration >= num_examples) or (epoch % 10000 == 0 and iteration >= num_examples):
                 if  (epoch >= 0 and iteration >= num_examples):
