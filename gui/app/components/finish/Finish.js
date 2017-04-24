@@ -11,7 +11,7 @@ require('./finish.scss');
 export class Finish extends Component {
   constructor(props, context) {
     super(props, context);
-    
+
     this.handleSave = this.handleSave.bind(this);
     this.handleNewImage = this.handleNewImage.bind(this);
     this.renderModal = this.renderModal.bind(this);

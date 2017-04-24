@@ -4,10 +4,8 @@ import ImageModal from '../imagemodal/ImageModal';
 import StyleList from '../stylelist/StyleList';
 import StylePreview from '../stylepreview/StylePreview';
 import fetchStyles from '../../util/FetchStyles';
-
 import { displaySliderNotification, dismissSliderNotification } from '../../actions/app';
 import { stylizeResult, resetLoading } from '../../actions/finish';
-
 
 require('./stylize.scss');
 

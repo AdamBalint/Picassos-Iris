@@ -4,6 +4,18 @@ import { closeIcon } from '../../util/Icons';
 import BlendedImage from '../blendedimage/BlendedImage';
 import Image from '../../models/Image';
 
+const OVERLAY_STYLES = {
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.55)',
+    zIndex: 5000,
+  },
+  content: {
+    zIndex: 5000,
+    height: '80%',
+    width: '80%',
+  },
+};
+
 export class ImageModal extends Component  {
   renderImageModal(props) {
     return (
@@ -14,18 +26,7 @@ export class ImageModal extends Component  {
           props.onRequestClose();
         }}
         shouldCloseOnOverlayClick={true}
-        style={{
-          overlay: {
-            backgroundColor: 'rgba(0, 0, 0, 0.55)',
-            zIndex: 5000,
-          },
-          content: {
-            zIndex: 5000,
-            height: '80%',
-            width: '80%',
-          },
-        }}
-      >
+        style={OVERLAY_STYLES}>
         <div className="closeIcon-container dim grow"
         style={{ zIndex: 6000 }}
         onClick={(e) => { this.props.onCloseClick(); }}>
