@@ -67,7 +67,8 @@
       "unlocked": false,
       "price": "1.00",
       "quotes": [
-        "Someone should make a quote for me."
+        "Don\u2019t worry, things will get better soon",
+        "No need to scream, it\u2019s just a sunset"
       ]
     },
     {
@@ -78,7 +79,9 @@
       "unlocked": false,
       "price": "1.00",
       "quotes": [
-        "Sip some coffee with me!"
+        "Sip some coffee with me!",
+        "Nice time for a coffee break",
+        "The night doesn\u2019t seem so starry from this terrace"
       ]
     },
     {
@@ -100,7 +103,8 @@
       "unlocked": false,
       "price": "1.00",
       "quotes": [
-        "Just another frog enjoying the pond."
+        "Just another frog enjoying the pond.",
+        "Free of swamp monsters since 1920"
       ]
     },
     {
@@ -111,7 +115,9 @@
       "unlocked": false,
       "price": "5.00",
       "quotes": [
-        "Just a shape vortex."
+        "Just a shape vortex.",
+        "We aren’t sure what this is a picture of either",
+        "Abstract is in the eye of the beholder"
       ]
     },
     {
