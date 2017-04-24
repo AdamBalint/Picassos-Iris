@@ -133,8 +133,7 @@ export class Finish extends Component {
           onMouseEnter={this.showControls}
         >
           <div className={this.state.hovering ? 'zoom-result fade-in' : 'zoom-result hide'}
-            onMouseEnter={this.showControls}
-            onMouseLeave={this.hideControls}>
+            onMouseEnter={this.showControls}>
             <img className="zoom-icon grow dim" src={zoomIcon} onClick={(e) => { this.showModal(); }} />
           </div>
           {this.renderSaveCircle()}
