@@ -20,8 +20,8 @@ if not os.path.exists(CHECKPOINT_DIR):  # dev executable path
 def feed_network(img_in, str_path_out, style_name, preview=False, base64=False):
     shape_orig = img_in.shape
     print (shape_orig)
+    # If preview, then it passes the passed in image, otherwise it scales it to 1080p
     if not preview:
-    # double check to make sure that the association is right
         scale_x, scale_y = (MAX_HEIGHT/shape_orig[1], MAX_WIDTH/shape_orig[0]) if shape_orig[0] > shape_orig[1] else (MAX_WIDTH/shape_orig[1], MAX_HEIGHT/shape_orig[0])
         img_scale = min(scale_x, scale_y)
         img_in = imresize(img_in, (int(shape_orig[0]*img_scale), int(shape_orig[1]*img_scale), shape_orig[2]))
@@ -31,18 +31,24 @@ def feed_network(img_in, str_path_out, style_name, preview=False, base64=False):
     soft_config = tf.ConfigProto(allow_soft_placement=True)
     soft_config.gpu_options.allow_growth = True
     graph_main = tf.Graph()
+
+    # Loads the graph and returns the output
     with graph_main.as_default() , tf.Session(config=soft_config) as sess_main:
         img_placeholder = tf.placeholder(tf.float32, shape=shape_in, name='img_placeholder')
         pred_main = transform_net.create_network(img_placeholder)
         saver = tf.train.Saver(tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES))
-        saver.restore(sess_main, tf.train.latest_checkpoint(CHECKPOINT_DIR+style_name) )
+        saver.restore(sess_main, tf.train.latest_checkpoint(CHECKPOINT_DIR+style_name))
+        # Gets the result and resizes it to the original size
         _preds = sess_main.run(pred_main, feed_dict={img_placeholder:img_in})[0]
         _preds = imresize(_preds, shape_orig)
+        # Converts to base 64 to pass the image back
         if (base64):
             return img_utils.save_img_base64(_preds)
+        # Runs saves the image if run through command line 
         imsave(str_path_out, _preds.astype(np.uint8))
 
 
+# Defines parser to gat inputs for command line parameters
 def build_parser():
     par_main = ArgumentParser()
     par_main.add_argument('--in-path', type=str,
@@ -56,6 +62,7 @@ def build_parser():
                         metavar='STYLE_NAME', required=True)
     return par_main
 
+# Main method for command line
 def main():
     par_main = build_parser()
     args_main = par_main.parse_args()

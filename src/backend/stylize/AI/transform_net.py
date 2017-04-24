@@ -1,5 +1,8 @@
 #preprocess  transform of acontent image
 import tensorflow as tf
+
+# Creates the network that stylizes the image.
+# This is the network that is trained
 def create_network(img_content):
     net = conv_layer(img_content, 32, 9, 1, True)
     net = conv_layer(net, 64, 3, 2, True)
@@ -13,6 +16,7 @@ def create_network(img_content):
     net = tf.nn.sigmoid(net) * 255.0
     return net
 
+# Creates the convolution layer
 def conv_layer(net, int_filters, int_filter_size, int_strides, bool_relu):
     weights = init_weights(net, int_filters, int_filter_size, False)
     strides = [1, int_strides, int_strides, 1]
@@ -22,6 +26,7 @@ def conv_layer(net, int_filters, int_filter_size, int_strides, bool_relu):
         net = tf.nn.relu(net)
     return net
 
+# Creates transposed convolution layer
 def conv_tr(net, int_filters, int_filter_size, int_strides):
     weights = init_weights(net, int_filters, int_filter_size, True)
     int_batch_size, int_rows, int_cols, int_channels = [i.value for i in net.get_shape()]
@@ -32,6 +37,7 @@ def conv_tr(net, int_filters, int_filter_size, int_strides):
     net = normalize(net)
     return tf.nn.relu(net)
 
+# normalizes the layer
 def normalize(net):
     int_batch_size, int_rows, int_cols, int_channels = [i.value for i in net.get_shape()]
     shape = [int_channels]
@@ -43,7 +49,7 @@ def normalize(net):
     print("scale", scale)
     return scale * normalized #+ shift
 
-
+# Initializes the weights
 def init_weights(net, int_out_channels, int_filter_size, bool_transpose):
     int_in_channels = [i.value for i in net.get_shape()][3]
     if bool_transpose:

@@ -30,21 +30,10 @@ arr_str_layers = (
 str_weights_path = "imagenet-vgg-verydeep-19.mat"
 
 def create_network(tf_placeholder_input):
-    # make the compare network. -> vgg
-    #print ("tmp")
     # load weights from file
     data = scipy.io.loadmat(str_weights_path)
     # returns all of the layer information for all layers
     all_layers = data["layers"][0]
-    # returns the list of means
-    #normalization = data["normalization"][0][0][0]
-    #mean_pixel = np.mean(normalization, axis=(0, 1))
-
-
-    #print(data.keys())
-    #data["layers"][1][each part of the network][1][1][5][1][kernels,biases][3][3][3][64]
-    # weights hold: weights, biases, kernels
-    #print(data["layers"][0][0][0][0][0][0][0])
 
     # define network dictionary
     network = {}
@@ -83,8 +72,6 @@ TOTVAR_WEIGHT = 2e2
 
 def get_style_loss(img_style):
     style_features = {}
-    #with tf.Graph().as_default(), tf.device("/cpu:0"), tf.Session() as sess:
-    ######img_style = scipy.misc.imresize(img_style,(256,256))
     tf_placeholder_img = preprocess(tf.placeholder(tf.float32, shape=(1,)+img_style.shape, name="style_image"))
     # pre-process may be added here
     net = create_network(preprocess(tf_placeholder_img))
@@ -111,9 +98,6 @@ def get_content_loss():
 
     cont_net = create_network(preprocess(tf_placeholder_img))
     cont_features["relu4_2"] = cont_net["relu4_2"]
-    # May have to do tf_placeholder_img/255 for img representation
-    # int_content_size = _tensor_size(cont_features["relu4_2"])
-    # TODO: Find appropriate content weight
 
     pred = preprocess(tn.create_network(tf_placeholder_img/255.0))
     net = create_network(pred)
@@ -123,23 +107,17 @@ def get_content_loss():
 
     cont_loss = CONTENT_WEIGHT * 2 * tf.nn.l2_loss(net["relu4_2"] - cont_features["relu4_2"])/cont_size
     # "relu4_2" represents the content layer of net
-
-
     return pred, cont_loss, tf_placeholder_img, net
 
 
-
-
-
-
-
-
+# Returns the list of files
 def get_images_list(loc):
     from os import listdir
     from os.path import isfile, join
     all_files = [join(loc, f) for f in listdir(loc) if isfile(join(loc, f))]
     return all_files
 
+# Reads the image
 def get_img(loc):
     img = scipy.misc.imread(loc, mode="RGB")
     if len(img.shape) != 3 or img.shape[2] != 3:
@@ -148,6 +126,7 @@ def get_img(loc):
 
     return img
 
+# Trains the neural network
 def train_nn(str_style_name, img_style, int_epoch, str_content_img_dir):
     cont_img_name_list = get_images_list(str_content_img_dir)
     if not os.path.exists("checks/"+str_style_name):
@@ -156,17 +135,12 @@ def train_nn(str_style_name, img_style, int_epoch, str_content_img_dir):
     # get style and content features
     # build network per Session
 
-    #yield(0,1,2,3,4,False)
-    #builder = tf.saved_model.builder.SavedModelBuilder("checks")
-
     with tf.Graph().as_default(), tf.Session() as sess:
         style_features = get_style_loss(img_style)
 
     with tf.Graph().as_default(), tf.Session() as sess:
 
         preds, cont_loss, x_content, net = get_content_loss()
-
-
 
         style_loss = []
         for layer in ("relu1_1", "relu2_1", "relu3_1", "relu4_1", "relu5_1"):
